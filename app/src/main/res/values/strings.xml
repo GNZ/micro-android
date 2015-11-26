@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Micro</string>
     <string name="action_settings">Settings</string>
+
+    <!-- PictureActivity -->
+    <string name="save_button">Guardar y analizar</string>
+    <string name="discard_button">Descartar</string>
+
 </resources>

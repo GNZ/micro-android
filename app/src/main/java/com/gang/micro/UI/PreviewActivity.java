@@ -1,31 +1,53 @@
-package com.gang.micro;
+package com.gang.micro.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.VideoView;
+
+import com.gang.micro.R;
+import com.gang.micro.UI.PictureActivity;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PreviewActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.micro_video) VideoView microVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        setSupportActionBar(toolbar);
+    }
+
+    @OnClick(R.id.fab) void selectFrame() {
+        String picture = takeAndAnalize();
+        seeTakenPicture(picture);
+    }
+
+    private void seeTakenPicture(String picture) {
+        Intent pictureActivity = new Intent(PreviewActivity.this,PictureActivity.class);
+        pictureActivity.putExtra("picture",picture);
+        startActivity(pictureActivity);
+
+    }
+
+
+
+    private String takeAndAnalize() {
+        //TODO action take and analize picture
+
+        //TODO return the image url
+        return null;
     }
 
     @Override
