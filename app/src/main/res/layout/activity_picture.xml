@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id="@+id/micro_picture"
-        android:src="@drawable/test"
         android:adjustViewBounds="true"
         android:layout_alignParentTop="true" />
 
