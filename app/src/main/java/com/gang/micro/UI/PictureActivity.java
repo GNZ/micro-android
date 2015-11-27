@@ -2,6 +2,7 @@ package com.gang.micro.UI;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.widget.ImageView;
@@ -55,6 +56,13 @@ public class PictureActivity extends Activity {
 
     @OnClick(R.id.discard_button) void discardPicture() {
         //TODO do something before close the activity
+        finish();
+    }
+
+    @OnClick(R.id.save_button) void savePicture () {
+        Intent analysisActivity = new Intent(PictureActivity.this,AnalysisActivity.class);
+        //TODO put something in the intent?
+        startActivity(analysisActivity);
         finish();
     }
 }
