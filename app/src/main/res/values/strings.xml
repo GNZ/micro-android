@@ -2,11 +2,25 @@
     <string name="app_name">Micro</string>
     <string name="action_settings">Settings</string>
 
+    <!-- PreviewActivity  -->
+    <string name="default_url">rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</string>
+
     <!-- PictureActivity -->
     <string name="save_button">Guardar y analizar</string>
     <string name="discard_button">Descartar</string>
 
     <!-- AnalysisActivity -->
     <string name="ok_button">OK</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="settings_url_category">Configuraciones de URL</string>
+    <string name="settings_url_tittle">URL</string>
+    <string name="settings_url_summary">Ingrese la url del video rtsp</string>
+    <string name="settings_start_url">rtsp://</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
