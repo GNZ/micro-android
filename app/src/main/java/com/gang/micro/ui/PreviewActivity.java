@@ -1,15 +1,19 @@
-package com.gang.micro.UI;
+package com.gang.micro.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.gang.micro.R;
-import com.gang.micro.UI.PictureActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,6 +23,10 @@ public class PreviewActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.micro_video) VideoView microVideo;
+    private MediaController microController;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor prefEditor;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +35,54 @@ public class PreviewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        //
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String defaultURL = getResources().getString(R.string.default_url);
+        url = settings.getString("url","");
+        if (url.equals("") || url==null){
+            prefEditor = settings.edit();
+            url = defaultURL;
+            prefEditor.putString("url",url);
+        }
+
+        microController = new MediaController(this);
+
+        microVideo.setMediaController(microController);
+        microVideo.setVideoURI(Uri.parse(url));
+
+        microVideo.start();
+
+
+
     }
+
+    protected void onRestart(){
+        super.onRestart();
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String newUrl = settings.getString("url",url);
+        Log.d("PreviewActivity", newUrl);
+
+        if (!newUrl.equals(url) && !newUrl.equals("")) {
+            url = newUrl;
+            microVideo.setVideoURI(Uri.parse(url));
+            microVideo.start();
+        } else
+        if (newUrl.equals("")||newUrl == null) {
+            url = getResources().getString(R.string.default_url);
+            microVideo.setVideoURI(Uri.parse(url));
+            microVideo.start();
+        } else {
+            microVideo.resume();
+        }
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+
 
     @OnClick(R.id.fab) void selectFrame() {
         String picture = takeAndAnalize();
@@ -66,6 +121,8 @@ public class PreviewActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settingsActivity = new Intent(PreviewActivity.this, SettingsActivity.class);
+            startActivity(settingsActivity);
             return true;
         }
 

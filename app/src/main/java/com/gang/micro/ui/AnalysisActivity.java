@@ -1,4 +1,4 @@
-package com.gang.micro.UI;
+package com.gang.micro.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
