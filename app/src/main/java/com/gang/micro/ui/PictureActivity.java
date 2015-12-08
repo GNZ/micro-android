@@ -3,8 +3,13 @@ package com.gang.micro.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,9 +25,17 @@ import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
 public class PictureActivity extends Activity {
 
-    @Bind(R.id.micro_picture) ImageView microPicture;
+    private static final String TAG = "PictureActivity";
+    static final String FOLDER = "micro";
+    @Bind(R.id.micro_picture)
+    ImageView microPicture;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +53,7 @@ public class PictureActivity extends Activity {
             @Override
             public void onResponse(Response<Image> response, Retrofit retrofit) {
 
-                String id = response.body().getId().toString();
+                id = response.body().getId().toString();
 
                 Picasso.with(getBaseContext())
                         .load("http://192.168.0.116/images/output/" + id + ".jpg")
@@ -53,15 +66,54 @@ public class PictureActivity extends Activity {
         });
     }
 
-    @OnClick(R.id.discard_button) void discardPicture() {
+    @OnClick(R.id.discard_button)
+    void discardPicture() {
         //TODO do something before close the activity
         finish();
     }
 
-    @OnClick(R.id.save_button) void savePicture () {
-        Intent analysisActivity = new Intent(PictureActivity.this,AnalysisActivity.class);
+    @OnClick(R.id.save_button)
+    void savePicture() {
+        File directory = createFolder();
+        saveImage(id,directory);
+        Intent analysisActivity = new Intent(PictureActivity.this, AnalysisActivity.class);
         //TODO put something in the intent?
         startActivity(analysisActivity);
         finish();
     }
+
+    private File createFolder() {
+        String folderPath = Environment.getExternalStorageDirectory() + File.separator + FOLDER;
+        File exportDir = new File(folderPath);
+        if (!exportDir.exists()) {
+            exportDir.mkdirs();
+        }
+        return exportDir;
+    }
+
+    private void saveImage(String name,File directory) {
+        //Get the image from the ImageView
+        microPicture.buildDrawingCache();
+        Bitmap bm = microPicture.getDrawingCache();
+        //Save the picture
+        OutputStream fOut = null;
+        Uri outputFileUri;
+        try {
+            File sdImageMainDirectory = new File(directory, name+".jpg");
+            outputFileUri = Uri.fromFile(sdImageMainDirectory);
+            fOut = new FileOutputStream(sdImageMainDirectory);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error occured. Please try again later.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            Log.d(TAG,e.getMessage() );
+        }
+    }
+
 }
