@@ -2,7 +2,9 @@ package com.gang.micro.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.gang.micro.R;
@@ -21,10 +27,13 @@ import butterknife.OnClick;
 
 public class PreviewActivity extends AppCompatActivity {
 
+    private static final String TAG = "PreviewActivity";
+
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.micro_video) VideoView microVideo;
     private MediaController microController;
     private SharedPreferences settings;
+    private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
     private String url;
 
@@ -80,6 +89,38 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
+        {
+            paramsNotFullscreen=(LinearLayout.LayoutParams) microVideo.getLayoutParams();
+            LinearLayout.LayoutParams params= null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                params = new LinearLayout.LayoutParams(paramsNotFullscreen);
+            } else {
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+            }
+            params.setMargins(0, 0, 0, 0);
+            params.height= ViewGroup.LayoutParams.MATCH_PARENT;
+            params.width=ViewGroup.LayoutParams.MATCH_PARENT;
+            microVideo.setLayoutParams(params);
+            getSupportActionBar().hide();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            microVideo.setLayoutParams(paramsNotFullscreen);
+            getSupportActionBar().show();
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 
 
