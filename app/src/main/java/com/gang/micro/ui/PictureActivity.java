@@ -32,7 +32,7 @@ import java.io.OutputStream;
 public class PictureActivity extends Activity {
 
     private static final String TAG = "PictureActivity";
-    static final String FOLDER = "micro";
+    static final String FOLDER = Environment.getExternalStorageDirectory()+File.separator+"micro";
     @Bind(R.id.micro_picture)
     ImageView microPicture;
     String id;
@@ -78,13 +78,13 @@ public class PictureActivity extends Activity {
         saveImage(id,directory);
         Intent analysisActivity = new Intent(PictureActivity.this, AnalysisActivity.class);
         //TODO put something in the intent?
+        analysisActivity.putExtra("imageId",id);
         startActivity(analysisActivity);
         finish();
     }
 
     private File createFolder() {
-        String folderPath = Environment.getExternalStorageDirectory() + File.separator + FOLDER;
-        File exportDir = new File(folderPath);
+        File exportDir = new File(FOLDER);
         if (!exportDir.exists()) {
             exportDir.mkdirs();
         }
