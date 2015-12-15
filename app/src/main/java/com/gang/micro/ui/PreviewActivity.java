@@ -31,17 +31,15 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     private static final String TAG = "PreviewActivity";
     private static final long TIME_TO_WAIT = 5000;
-    private String IP;
+    private static final String FIX_URL = "/Something";
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.micro_video) VideoView microVideo;
-    ProgressDialog waitDialog;
     NSDConnection nsdConnection;
     private MediaController microController;
     private SharedPreferences settings;
     private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
-    private String url;
     private ChooseMicroscopeDialogFragment chooseDialog;
 
     @Override
@@ -57,7 +55,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         chooseDialog = new ChooseMicroscopeDialogFragment();
 
         nsdConnection.discover();
-        //
+        /*
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         String defaultURL = getResources().getString(R.string.default_url);
         url = settings.getString("url","");
@@ -66,11 +64,11 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             url = defaultURL;
             prefEditor.putString("url",url);
         }
-
+        */
         microController = new MediaController(this);
 
         microVideo.setMediaController(microController);
-        microVideo.setVideoURI(Uri.parse(url));
+        //microVideo.setVideoURI(Uri.parse(url));
 
         //microVideo.start();
 
@@ -82,10 +80,11 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     protected void onRestart(){
         super.onRestart();
-        settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String newUrl = settings.getString("url",url);
-        Log.d("PreviewActivity", newUrl);
-
+        //settings = PreferenceManager.getDefaultSharedPreferences(this);
+        //String newUrl = settings.getString("url",url);
+        //Log.d("PreviewActivity", newUrl);
+        //TODO what does it do here?
+        /*
         if (!newUrl.equals(url) && !newUrl.equals("")) {
             url = newUrl;
             microVideo.setVideoURI(Uri.parse(url));
@@ -97,7 +96,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             microVideo.start();
         } else {
             microVideo.resume();
-        }
+        }*/
     }
 
     @Override
@@ -205,8 +204,11 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     @Override
     public void onComplete(String IP) {
-        this.IP = IP;
+        startVideo(IP+FIX_URL);//TODO do it together?
+    }
 
-        Log.d(TAG,this.IP);
+    private void startVideo(String url){
+        microVideo.setVideoURI(Uri.parse(url));
+        microVideo.start();
     }
 }
