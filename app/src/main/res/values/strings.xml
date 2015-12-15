@@ -4,6 +4,8 @@
 
     <!-- PreviewActivity  -->
     <string name="default_url">rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</string>
+    <string name="wait_dialog_title">Espere por favor...</string>
+    <string name="wait_dialog_text">Buscando microscopios...</string>
 
     <!-- PictureActivity -->
     <string name="save_button">Guardar y analizar</string>

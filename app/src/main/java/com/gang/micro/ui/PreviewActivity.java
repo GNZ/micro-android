@@ -1,5 +1,6 @@
 package com.gang.micro.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,22 +21,28 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.NSD.NSDConnection;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PreviewActivity extends AppCompatActivity {
+public class PreviewActivity extends AppCompatActivity implements ChooseMicroscopeDialogFragment.OnCompleteListener {
 
     private static final String TAG = "PreviewActivity";
+    private static final long TIME_TO_WAIT = 5000;
+    private String IP;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.micro_video) VideoView microVideo;
+    ProgressDialog waitDialog;
+    NSDConnection nsdConnection;
     private MediaController microController;
     private SharedPreferences settings;
     private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
     private String url;
+    private ChooseMicroscopeDialogFragment chooseDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,11 @@ public class PreviewActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        nsdConnection = new NSDConnection(this);
+
+        chooseDialog = new ChooseMicroscopeDialogFragment();
+
+        nsdConnection.discover();
         //
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         String defaultURL = getResources().getString(R.string.default_url);
@@ -60,7 +72,9 @@ public class PreviewActivity extends AppCompatActivity {
         microVideo.setMediaController(microController);
         microVideo.setVideoURI(Uri.parse(url));
 
-        microVideo.start();
+        //microVideo.start();
+
+        waitDialog();
 
 
 
@@ -168,5 +182,31 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void waitDialog(){
+        final ProgressDialog waitDialog = ProgressDialog.show(this,getResources().getString(R.string.wait_dialog_title),
+                getResources().getString(R.string.wait_dialog_text),true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(TIME_TO_WAIT);
+                }catch (Exception e){
+                    Log.d(TAG,e.getMessage());
+                }
+                //TODO show microscopes dialog
+                chooseDialog.setMicroscopes(nsdConnection.getMicroscopes());
+                waitDialog.dismiss();
+                chooseDialog.show(getFragmentManager(),"ChooseMicroscopeDialogFragment");
+            }
+        }).start();
+    }
+
+    @Override
+    public void onComplete(String IP) {
+        this.IP = IP;
+
+        Log.d(TAG,this.IP);
     }
 }
