@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.NSD.NSDConnection;
 
 import butterknife.Bind;
@@ -41,6 +41,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
     private ChooseMicroscopeDialogFragment chooseDialog;
+    private String videoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,9 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     }
 
     protected void onRestart(){
-        super.onRestart();
+        super.onRestart() ;
+        if ( videoURL != null && !!videoURL.equals("") )
+            microVideo.resume();
         //settings = PreferenceManager.getDefaultSharedPreferences(this);
         //String newUrl = settings.getString("url",url);
         //Log.d("PreviewActivity", newUrl);
@@ -203,8 +206,10 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     }
 
     @Override
-    public void onComplete(String IP) {
-        startVideo(IP+FIX_URL);//TODO do it together?
+    public void onComplete(String serverIP) {
+        ((MicroApplication)getApplication()).setServerIP(serverIP);
+        videoURL = "rtsp://" + serverIP + FIX_URL;
+        startVideo(videoURL);//TODO do it together?
     }
 
     private void startVideo(String url){

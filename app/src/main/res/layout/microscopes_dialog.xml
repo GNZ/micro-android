@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -12,4 +12,13 @@
         card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
         style="@style/list_card.thumbnail"/>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/no_microscope"
+        android:id="@+id/no_microscope_textView"
+        android:layout_below="@+id/microscopes_list"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

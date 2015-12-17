@@ -21,6 +21,7 @@ import retrofit.Retrofit;
 
 
 import com.gang.micro.R;
+import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
@@ -33,6 +34,7 @@ public class PictureActivity extends Activity {
 
     private static final String TAG = "PictureActivity";
     static final String FOLDER = Environment.getExternalStorageDirectory()+File.separator+"micro";
+    static final String FIX_URL = "/images/output/";
     @Bind(R.id.micro_picture)
     ImageView microPicture;
     String id;
@@ -54,9 +56,10 @@ public class PictureActivity extends Activity {
             public void onResponse(Response<Image> response, Retrofit retrofit) {
 
                 id = response.body().getId().toString();
+                String serverIP = ((MicroApplication)getApplication()).getServerIP();
 
                 Picasso.with(getBaseContext())
-                        .load("http://192.168.0.116/images/output/" + id + ".jpg")
+                        .load("http://"+ serverIP + FIX_URL + id + ".jpg")
                         .into(microPicture);
             }
 

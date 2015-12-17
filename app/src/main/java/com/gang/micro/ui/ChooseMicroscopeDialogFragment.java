@@ -1,8 +1,10 @@
 package com.gang.micro.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.NSD.Microscope;
@@ -25,24 +28,35 @@ import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-/**
- * Created by Gonza on 14/12/2015.
- */
+
 public class ChooseMicroscopeDialogFragment extends DialogFragment {
 
 
     private static final String TAG = "ChooseMicroscopeDialog";
     @Bind(R.id.microscopes_list) CardListView microscopesList;
+    @Bind(R.id.no_microscope_textView) TextView noMicroscopeTextView;
     HashMap<String,Microscope> microscopes;
     private OnCompleteListener mListener;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.microscopes_dialog, container);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
+                .setTitle(getResources().getString(R.string.select_microscope))
+                .setNegativeButton(getResources().getString(R.string.exit),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                               getActivity().finish();
+                            }
+                        }
+                );
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View rootView = inflater.inflate(R.layout.microscopes_dialog, null);
         ButterKnife.bind(this, rootView);
         ArrayList<Card> cards = new ArrayList<Card>();
         if (!microscopes.isEmpty()){
+            noMicroscopeTextView.setVisibility(View.GONE);
             for(Microscope e: microscopes.values()){
 
                 Card card = new Card(rootView.getContext());
@@ -71,18 +85,18 @@ public class ChooseMicroscopeDialogFragment extends DialogFragment {
 
                 CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
 
-                CardListView listView = (CardListView) rootView.findViewById(R.id.microscopes_list);
-                if (listView != null) {
-                    listView.setAdapter(mCardArrayAdapter);
+                if (microscopesList != null) {
+                    microscopesList.setAdapter(mCardArrayAdapter);
                 }
             }
-        } else
+        } else {
             Log.d(TAG, "Dictionary empty");
-
-
-        return rootView;
+        }
+        builder.setView(rootView);
+        return builder.create();
     }
 
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
