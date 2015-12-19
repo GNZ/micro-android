@@ -32,11 +32,6 @@ public class SettingsActivity extends PreferenceActivity {
 
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String currentURL = settings.getString("url","N/A");
-
-        urlEditText = (EditTextPreference) findPreference("url");
-
-        urlEditText.setText(currentURL);
 
     }
 }

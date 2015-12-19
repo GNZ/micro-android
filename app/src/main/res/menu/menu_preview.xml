@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.PreviewActivity">
     <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,7 +32,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     private static final String TAG = "PreviewActivity";
     private static final long TIME_TO_WAIT = 5000;
-    private static final String FIX_URL = "/Something";
+    private static final String FIX_URL = ":8554/unicast";
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.micro_video) VideoView microVideo;
@@ -41,6 +42,10 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
     private ChooseMicroscopeDialogFragment chooseDialog;
+    private String serviceName;
+    private String protocol;
+    private String port;
+    private String folderName;
     private String videoURL;
 
     @Override
@@ -51,21 +56,14 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
         setSupportActionBar(toolbar);
 
-        nsdConnection = new NSDConnection(this);
+        getParameters();
+
+        nsdConnection = new NSDConnection(this,serviceName);
 
         chooseDialog = new ChooseMicroscopeDialogFragment();
 
         nsdConnection.discover();
-        /*
-        settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultURL = getResources().getString(R.string.default_url);
-        url = settings.getString("url","");
-        if (url.equals("") || url==null){
-            prefEditor = settings.edit();
-            url = defaultURL;
-            prefEditor.putString("url",url);
-        }
-        */
+
         microController = new MediaController(this);
 
         microVideo.setMediaController(microController);
@@ -81,8 +79,8 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     protected void onRestart(){
         super.onRestart() ;
-        if ( videoURL != null && !!videoURL.equals("") )
-            microVideo.resume();
+        //if ( videoURL != null && !!videoURL.equals("") )
+            //microVideo.resume();
         //settings = PreferenceManager.getDefaultSharedPreferences(this);
         //String newUrl = settings.getString("url",url);
         //Log.d("PreviewActivity", newUrl);
@@ -139,6 +137,23 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         }
     }
 
+    private void getParameters(){
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        serviceName = settings.getString("service_name", "");
+        Log.d(TAG,serviceName);
+        protocol = settings.getString("protocol", "");
+        port = settings.getString("port", "");
+        folderName = settings.getString("folder", "");
+
+        ((MicroApplication)getApplication()).setServiceName(serviceName);
+        ((MicroApplication)getApplication()).setProtocol(protocol);
+        ((MicroApplication)getApplication()).setPort(port);
+        ((MicroApplication)getApplication()).setFolderName(folderName);
+
+
+    }
+
 
 
     @OnClick(R.id.fab) void selectFrame() {
@@ -182,6 +197,17 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             startActivity(settingsActivity);
             return true;
         }
+        if (id == R.id.action_refresh){
+            getParameters();
+            //nsdConnection.setServiceName(serviceName);
+            //nsdConnection.stopDiscover();
+            //nsdConnection.discover();
+            //nsdConnection.stopDiscover();
+            //nsdConnection.setServiceName(serviceName);
+            //nsdConnection.discover();
+            waitDialog();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -200,7 +226,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
                 //TODO show microscopes dialog
                 chooseDialog.setMicroscopes(nsdConnection.getMicroscopes());
                 waitDialog.dismiss();
-                chooseDialog.show(getFragmentManager(),"ChooseMicroscopeDialogFragment");
+                chooseDialog.show(getFragmentManager(), "ChooseMicroscopeDialogFragment");
             }
         }).start();
     }
@@ -208,12 +234,14 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     @Override
     public void onComplete(String serverIP) {
         ((MicroApplication)getApplication()).setServerIP(serverIP);
-        videoURL = "rtsp://" + serverIP + FIX_URL;
-        startVideo(videoURL);//TODO do it together?
+        startVideo();//TODO do it together?
     }
 
-    private void startVideo(String url){
-        microVideo.setVideoURI(Uri.parse(url));
+    private void startVideo(){
+        String serverIP = ((MicroApplication)getApplication()).getServerIP();
+        videoURL = protocol + serverIP + "/" + folderName;
+        Log.d(TAG,videoURL);
+        microVideo.setVideoURI(Uri.parse(videoURL));
         microVideo.start();
     }
 }

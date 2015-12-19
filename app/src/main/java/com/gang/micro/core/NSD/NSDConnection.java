@@ -6,6 +6,8 @@ import android.net.nsd.NsdManager.DiscoveryListener;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
+import com.gang.micro.core.MicroApplication;
+
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +17,9 @@ public class NSDConnection {
 
     private static final String TAG = "NSDConnection";
     private static final String SERVICE_TYPE = "_workstation._tcp."; //TODO
-    private static final String SERVICE_NAME = "micro";
+    //private static String serviceName;
+    private static final String serviceName = "ubuntu";
+    private Context context;
     private NsdManager nsdManager;
     private NsdManager.ResolveListener resolveListener;
     private DiscoveryListener discoveryListener;
@@ -50,7 +54,7 @@ public class NSDConnection {
                 String type = serviceInfo.getServiceType();
                 Log.d(TAG, "Service name: " + name);
                 Log.d(TAG, "Service type: " + type);
-                if (type.equals(SERVICE_TYPE) && name.contains(SERVICE_NAME)) {
+                if (type.equals(SERVICE_TYPE) && name.contains(serviceName)) {
                     Log.d(TAG, "Service found @'" + name + "'");
                     nsdManager.resolveService(serviceInfo, resolveListener);
                 }
@@ -85,19 +89,31 @@ public class NSDConnection {
         };
     }
 
-    public NSDConnection(Context context){
+    public NSDConnection(Context context, String serviceName) {
         microscopes = new HashMap<>();
+        //this.serviceName = serviceName;
         nsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
         initializeResolveListener();
         initializeDiscoveryListener();
-
     }
 
     public void discover(){
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+        //nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+    }
+
+    public void stopDiscover(){
+        microscopes = new HashMap<>();
+        //discoveryListener.onDiscoveryStopped(SERVICE_TYPE);
+        //nsdManager = null;
+        //discoveryListener = null;
+        //resolveListener = null;
     }
 
     public HashMap<String,Microscope> getMicroscopes(){
         return microscopes;
     }
+
+   // public void setServiceName(String serviceName){ this.serviceName = serviceName; }
+
 }

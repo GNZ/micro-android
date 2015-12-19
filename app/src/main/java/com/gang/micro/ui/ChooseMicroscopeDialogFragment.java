@@ -5,17 +5,22 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.NSD.Microscope;
+import com.squareup.okhttp.internal.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,20 +38,30 @@ public class ChooseMicroscopeDialogFragment extends DialogFragment {
 
 
     private static final String TAG = "ChooseMicroscopeDialog";
-    @Bind(R.id.microscopes_list) CardListView microscopesList;
-    @Bind(R.id.no_microscope_textView) TextView noMicroscopeTextView;
-    HashMap<String,Microscope> microscopes;
+    private static int IP = 1;
+    @Bind(R.id.container)
+    ViewGroup microscopesList;
+    @Bind(R.id.no_microscope_textView)
+    TextView noMicroscopeTextView;
+    HashMap<String, Microscope> microscopes;
     private OnCompleteListener mListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.select_microscope))
+                .setPositiveButton(getResources().getString(R.string.settings), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent settingsActivity = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(settingsActivity);
+                        dismiss();
+                    }
+                })
                 .setNegativeButton(getResources().getString(R.string.exit),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                               getActivity().finish();
+                                getActivity().finish();
                             }
                         }
                 );
@@ -55,39 +70,30 @@ public class ChooseMicroscopeDialogFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.microscopes_dialog, null);
         ButterKnife.bind(this, rootView);
         ArrayList<Card> cards = new ArrayList<Card>();
-        if (!microscopes.isEmpty()){
+        if (!microscopes.isEmpty()) {
             noMicroscopeTextView.setVisibility(View.GONE);
-            for(Microscope e: microscopes.values()){
 
-                Card card = new Card(rootView.getContext());
+            for (Microscope e : microscopes.values()) {
 
-                CardHeader header = new CardHeader(rootView.getContext());
+                ViewGroup newMicroscope = (ViewGroup) LayoutInflater.from(getActivity()).inflate(
+                        R.layout.microscope_button, microscopesList, false
+                );
 
-                header.setTitle(e.getName());
-                card.setTitle(e.getIp());
-                card.addCardHeader(header);
 
-                CardThumbnail thumb = new CardThumbnail(rootView.getContext());
-                thumb.setDrawableResource(R.drawable.microscope);
+                ((TextView) newMicroscope.findViewById(R.id.name_textView)).setText(e.getName());
+                ((TextView) newMicroscope.findViewById(R.id.name_textView)).setTag(e.getIp());
 
-                card.addCardThumbnail(thumb);
-
-                card.setOnClickListener(new Card.OnCardClickListener() {
+                newMicroscope.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(Card card, View view) {
-                        //TODO save the ip in some place
-                        mListener.onComplete(card.getTitle());
+                    public void onClick(View v) {
+                        String ip = (String) ((TextView) v.findViewById(R.id.name_textView)).getTag();
+                        mListener.onComplete(ip);
                         dismiss();
                     }
                 });
+
                 Log.d(TAG, e.getIp());
-                cards.add(card);
-
-                CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
-
-                if (microscopesList != null) {
-                    microscopesList.setAdapter(mCardArrayAdapter);
-                }
+                microscopesList.addView(newMicroscope);
             }
         } else {
             Log.d(TAG, "Dictionary empty");
@@ -100,14 +106,20 @@ public class ChooseMicroscopeDialogFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.mListener = (OnCompleteListener)activity;
-        }
-        catch (final ClassCastException e) {
+            this.mListener = (OnCompleteListener) activity;
+        } catch (final ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnCompleteListener");
         }
     }
 
-    public void setMicroscopes(HashMap<String,Microscope> microscopes){
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Button positive_button =  ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+        //positive_button.setBackground(getResources().getDrawable(android.R.drawable.ic_menu_manage));
+    }
+
+    public void setMicroscopes(HashMap<String, Microscope> microscopes) {
         this.microscopes = microscopes;
     }
 

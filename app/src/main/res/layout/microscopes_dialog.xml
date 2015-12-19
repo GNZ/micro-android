@@ -5,20 +5,20 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     tools:context="com.gang.micro.ui.ChooseMicroscopeDialogFragment">
 
-    <it.gmariotti.cardslib.library.view.CardListView
-        android:id="@+id/microscopes_list"
+    <LinearLayout
+        android:id="@+id/container"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
         style="@style/list_card.thumbnail"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"
         android:text="@string/no_microscope"
         android:id="@+id/no_microscope_textView"
-        android:layout_below="@+id/microscopes_list"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/container" />
 
 </RelativeLayout>
