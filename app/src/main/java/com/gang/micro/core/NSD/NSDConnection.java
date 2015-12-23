@@ -17,8 +17,8 @@ public class NSDConnection {
 
     private static final String TAG = "NSDConnection";
     private static final String SERVICE_TYPE = "_workstation._tcp."; //TODO
-    //private static String serviceName;
-    private static final String serviceName = "ubuntu";
+    private static String serviceName = "ubuntu";
+    //private static final String serviceName = "ubuntu";
     private Context context;
     private NsdManager nsdManager;
     private NsdManager.ResolveListener resolveListener;
@@ -45,7 +45,8 @@ public class NSDConnection {
 
             @Override
             public void onDiscoveryStopped(String serviceType) {
-                nsdManager.stopServiceDiscovery(this);
+                //nsdManager.stopServiceDiscovery(this);
+                nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
             }
 
             @Override
@@ -99,12 +100,18 @@ public class NSDConnection {
 
     public void discover(){
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+        Log.d(TAG, "discovery");
         //nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+    }
+
+    public void startDiscovery() {
+
     }
 
     public void stopDiscover(){
         microscopes = new HashMap<>();
         //discoveryListener.onDiscoveryStopped(SERVICE_TYPE);
+        nsdManager.stopServiceDiscovery(discoveryListener);
         //nsdManager = null;
         //discoveryListener = null;
         //resolveListener = null;
@@ -114,6 +121,6 @@ public class NSDConnection {
         return microscopes;
     }
 
-   // public void setServiceName(String serviceName){ this.serviceName = serviceName; }
+    public void setServiceName(String serviceName){ this.serviceName = serviceName; }
 
 }
