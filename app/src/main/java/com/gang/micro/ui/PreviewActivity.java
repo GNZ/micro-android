@@ -32,7 +32,6 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     private static final String TAG = "PreviewActivity";
     private static final long TIME_TO_WAIT = 5000;
-    private static final String FIX_URL = ":8554/unicast";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;

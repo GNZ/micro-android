@@ -35,6 +35,7 @@ public class PictureActivity extends Activity {
     private static final String TAG = "PictureActivity";
     static final String FOLDER = Environment.getExternalStorageDirectory()+File.separator+"micro";
     static final String FIX_URL = "/images/output/";
+    MicroApi microApi;
     @Bind(R.id.micro_picture)
     ImageView microPicture;
     String id;
@@ -45,11 +46,12 @@ public class PictureActivity extends Activity {
         setContentView(R.layout.activity_picture);
         ButterKnife.bind(this);
 
+        microApi = new MicroApi(this);
         loadImage();
     }
 
     private void loadImage() {
-        Call<Image> call = MicroApi.getInstance().takePicture();
+        Call<Image> call = microApi.getApi().takePicture();
 
         call.enqueue(new Callback<Image>() {
             @Override
