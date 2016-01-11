@@ -10,7 +10,7 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <VideoView
+    <com.gang.micro.core.mjpeg.MjpegView
         android:layout_width="wrap_content"
         android:layout_height="274dp"
         android:id="@+id/micro_video"
