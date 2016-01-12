@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -23,6 +26,16 @@ import android.widget.VideoView;
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.NSD.NSDConnection;
+import com.gang.micro.core.mjpeg.MjpegInputStream;
+import com.gang.micro.core.mjpeg.MjpegView;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.net.URI;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,9 +49,8 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.micro_video)
-    VideoView microVideo;
+    MjpegView microVideo;
     NSDConnection nsdConnection;
-    private MediaController microController;
     private SharedPreferences settings;
     private LinearLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
@@ -48,6 +60,11 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     private String port;
     private String folderName;
     private String videoURL;
+    AsyncTask video;
+
+
+    private int width = 640;
+    private int height = 480;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,49 +73,39 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        // TODO discover microscopes
+        //nsdConnection = new NSDConnection(this, serviceName);
+        //getParameters();
+        //chooseDialog = new ChooseMicroscopeDialogFragment();
+        //nsdConnection.discover();
+        //waitDialog();
 
-        nsdConnection = new NSDConnection(this, serviceName);
+        videoURL = "http://88.96.248.198/mjpg/video.mjpg?camera=1";
 
-        getParameters();
 
-        chooseDialog = new ChooseMicroscopeDialogFragment();
-
-        nsdConnection.discover();
-
-        microController = new MediaController(this);
-
-        microVideo.setMediaController(microController);
-        //microVideo.setVideoURI(Uri.parse(url));
-
-        //microVideo.start();
-
-        waitDialog();
-
+        video =  new DoRead().execute(videoURL);
 
     }
 
     protected void onRestart() {
         super.onRestart();
-        //if ( videoURL != null && !!videoURL.equals("") )
-        //microVideo.resume();
-        //settings = PreferenceManager.getDefaultSharedPreferences(this);
-        //String newUrl = settings.getString("url",url);
-        //Log.d("PreviewActivity", newUrl);
-        //TODO what does it do here?
-        /*
-        if (!newUrl.equals(url) && !newUrl.equals("")) {
-            url = newUrl;
-            microVideo.setVideoURI(Uri.parse(url));
-            microVideo.start();
-        } else
-        if (newUrl.equals("")||newUrl == null) {
-            url = getResources().getString(R.string.default_url);
-            microVideo.setVideoURI(Uri.parse(url));
-            microVideo.start();
-        } else {
-            microVideo.resume();
-        }*/
+        //microVideo.startPlayback();
+        //video = new DoRead().execute(videoURL);
+
+        //microVideo = (MjpegView) findViewById(R.id.micro_video);
+        //new DoRead().execute(videoURL);
     }
+
+
+    public void onPause() {
+        super.onPause();
+
+        microVideo.stopPlayback();
+        //microVideo = null;
+        //video.cancel(true);
+        //video = null;
+    }
+
 
     @Override
     protected void onStart() {
@@ -157,6 +164,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     void selectFrame() {
         String picture = takeAndAnalize();
         seeTakenPicture(picture);
+        finish();
     }
 
     private void seeTakenPicture(String picture) {
@@ -192,6 +200,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         if (id == R.id.action_settings) {
             Intent settingsActivity = new Intent(PreviewActivity.this, SettingsActivity.class);
             startActivity(settingsActivity);
+            finish();
             return true;
         }
         if (id == R.id.action_refresh) {
@@ -235,11 +244,51 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     }
 
     private void startVideo() {
+        /*
         String serverIP = ((MicroApplication) getApplication()).getServerIP();
         String port = ((MicroApplication) getApplication()).getPort();
         videoURL = protocol + serverIP + ":" + port + "/" + folderName;
         Log.d(TAG, videoURL);
         microVideo.setVideoURI(Uri.parse(videoURL));
         microVideo.start();
+        */
+    }
+
+    public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
+
+        HttpResponse res = null;
+        MjpegInputStream inputStream;
+
+        protected MjpegInputStream doInBackground(String... url) {
+            //TODO: if camera has authentication deal with it and don't just not work
+            DefaultHttpClient httpclient = new DefaultHttpClient();
+            Log.d(TAG, "1. Sending http request");
+            try {
+                res = httpclient.execute(new HttpGet(URI.create(url[0])));
+                Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
+                if(res.getStatusLine().getStatusCode()==401){
+                    //You must turn off camera User Access Control before this will work
+                    return null;
+                }
+                inputStream = new MjpegInputStream(res.getEntity().getContent());
+                return inputStream;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Request failed-ClientProtocolException", e);
+                //Error connecting to camera
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Request failed-IOException", e);
+                //Error connecting to camera
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(MjpegInputStream result) {
+            microVideo.setSource(result);
+            microVideo.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+            microVideo.showFps(true);
+        }
     }
 }

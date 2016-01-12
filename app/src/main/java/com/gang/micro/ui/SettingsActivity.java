@@ -1,6 +1,7 @@
 package com.gang.micro.ui;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -33,5 +34,11 @@ public class SettingsActivity extends PreferenceActivity {
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
+    }
+
+    public void onBackPressed() {
+        Intent previewActivity = new Intent(SettingsActivity.this,PreviewActivity.class);
+        startActivity(previewActivity);
+        finish();
     }
 }

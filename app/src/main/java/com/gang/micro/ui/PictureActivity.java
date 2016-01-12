@@ -74,6 +74,8 @@ public class PictureActivity extends Activity {
     @OnClick(R.id.discard_button)
     void discardPicture() {
         //TODO do something before close the activity
+        Intent previewActivity = new Intent(PictureActivity.this,PreviewActivity.class);
+        startActivity(previewActivity);
         finish();
     }
 
