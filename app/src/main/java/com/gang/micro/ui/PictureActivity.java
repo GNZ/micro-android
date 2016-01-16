@@ -50,6 +50,11 @@ public class PictureActivity extends Activity {
         loadImage();
     }
 
+    public void onBackPressed() {
+        startPreviewActivity();
+        super.onBackPressed();
+    }
+
     private void loadImage() {
         Call<Image> call = microApi.getApi().takePicture();
 
@@ -58,10 +63,10 @@ public class PictureActivity extends Activity {
             public void onResponse(Response<Image> response, Retrofit retrofit) {
 
                 id = response.body().getId().toString();
-                String serverIP = ((MicroApplication)getApplication()).getServerIP();
+                String serverIP = ((MicroApplication) getApplication()).getServerIP();
 
                 Picasso.with(getBaseContext())
-                        .load("http://"+ serverIP + FIX_URL + id + ".jpg")
+                        .load("http://" + serverIP + FIX_URL + id + ".jpg")
                         .into(microPicture);
             }
 
@@ -74,9 +79,13 @@ public class PictureActivity extends Activity {
     @OnClick(R.id.discard_button)
     void discardPicture() {
         //TODO do something before close the activity
+        //startPreviewActivity();
+        finish();
+    }
+
+    private void startPreviewActivity() {
         Intent previewActivity = new Intent(PictureActivity.this,PreviewActivity.class);
         startActivity(previewActivity);
-        finish();
     }
 
     @OnClick(R.id.save_button)

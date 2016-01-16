@@ -39,6 +39,6 @@ public class SettingsActivity extends PreferenceActivity {
     public void onBackPressed() {
         Intent previewActivity = new Intent(SettingsActivity.this,PreviewActivity.class);
         startActivity(previewActivity);
-        finish();
+        super.onBackPressed();
     }
 }

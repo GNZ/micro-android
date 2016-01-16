@@ -5,46 +5,71 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class MjpegInputStream extends DataInputStream {
-    private final byte[] SOI_MARKER = { (byte) 0xFF, (byte) 0xD8 };
-    private final byte[] EOF_MARKER = { (byte) 0xFF, (byte) 0xD9 };
+    private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
+    private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
     private final String CONTENT_LENGTH = "Content-Length";
+    private final String CONTENT_END = "\r\n";
     private final static int HEADER_MAX_LENGTH = 100;
-    private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
+    private final static int FRAME_MAX_LENGTH = 600000 + HEADER_MAX_LENGTH;
     private int mContentLength = -1;
+    private static final byte[] gHeader = new byte[HEADER_MAX_LENGTH];
+    private static final byte[] gFrameData = new byte[FRAME_MAX_LENGTH];
+    private BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
-    public static MjpegInputStream read(String url) {
-        HttpResponse res;
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        try {
-            res = httpclient.execute(new HttpGet(URI.create(url)));
-            return new MjpegInputStream(res.getEntity().getContent());
-        } catch (ClientProtocolException e) {
-        } catch (IOException e) {}
-        return null;
+    byte[] CONTENT_LENGTH_BYTES;
+    byte[] CONTENT_END_BYTES;
+
+    public MjpegInputStream(InputStream in) {
+        super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
+
+        bitmapOptions.inSampleSize = 1;
+        bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+        bitmapOptions.inPreferQualityOverSpeed = false;
+
+        try
+        {
+            CONTENT_LENGTH_BYTES = CONTENT_LENGTH.getBytes("UTF-8");
+            CONTENT_END_BYTES = CONTENT_END.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public MjpegInputStream(InputStream in) { super(new BufferedInputStream(in, FRAME_MAX_LENGTH)); }
+    public static MjpegInputStream read(String url) {
+        try {
+            URL url2 = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
+
+            connection.setRequestMethod("GET");
+
+            return new MjpegInputStream(connection.getInputStream());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+        }
+        return null;
+    }
 
     private int getEndOfSeqeunce(DataInputStream in, byte[] sequence) throws IOException {
         int seqIndex = 0;
         byte c;
-        for(int i=0; i < FRAME_MAX_LENGTH; i++) {
+        for (int i = 0; i < FRAME_MAX_LENGTH; i++) {
             c = (byte) in.readUnsignedByte();
-            if(c == sequence[seqIndex]) {
+            if (c == sequence[seqIndex]) {
                 seqIndex++;
-                if(seqIndex == sequence.length) return i + 1;
+                if (seqIndex == sequence.length) return i + 1;
             } else seqIndex = 0;
         }
         return -1;
@@ -55,31 +80,71 @@ public class MjpegInputStream extends DataInputStream {
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
-    private int parseContentLength(byte[] headerBytes) throws IOException, NumberFormatException {
-        ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
-        Properties props = new Properties();
-        props.load(headerIn);
-        return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
-    }
-
     public Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
 
-
+        if(headerLen < 0)
+            return null;
 
         reset();
-        byte[] header = new byte[headerLen];
-        readFully(header);
+
+        readFully(gHeader, 0, headerLen);
+
         try {
-            mContentLength = parseContentLength(header);
+            mContentLength = parseContentLength(gHeader, headerLen);
         } catch (NumberFormatException nfe) {
             mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
         }
-        reset();
-        byte[] frameData = new byte[mContentLength];
-        skipBytes(headerLen);
-        readFully(frameData);
-        return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
+
+        readFully(gFrameData, 0, mContentLength);
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(gFrameData, 0, mContentLength, bitmapOptions);
+
+        bitmapOptions.inBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
+
+        return bitmap;
     }
+
+    private int findPattern(byte[] buffer, int bufferLen, byte[] pattern, int offset)
+    {
+        int seqIndex = 0;
+        for(int i=offset; i < bufferLen; ++i)
+        {
+            if(buffer[i] == pattern[seqIndex])
+            {
+                ++seqIndex;
+                if(seqIndex == pattern.length)
+                {
+                    return i + 1;
+                }
+            } else
+            {
+                seqIndex = 0;
+            }
+        }
+
+        return -1;
+    }
+
+    private int parseContentLength(byte[] headerBytes, int length) throws IOException, NumberFormatException
+    {
+        int begin = findPattern(headerBytes, length, CONTENT_LENGTH_BYTES, 0);
+        int end = findPattern(headerBytes, length, CONTENT_END_BYTES, begin) - CONTENT_END_BYTES.length;
+
+        // converting string to int
+        int number = 0;
+        int radix = 1;
+        for(int i = end - 1; i >= begin; --i)
+        {
+            if(headerBytes[i] > 47 && headerBytes[i] < 58)
+            {
+                number += (headerBytes[i] - 48) * radix;
+                radix *= 10;
+            }
+        }
+
+        return number;
+    }
+
 }

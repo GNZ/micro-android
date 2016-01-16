@@ -48,8 +48,10 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     @Bind(R.id.micro_video)
     MjpegView microVideo;
+
     NSDConnection nsdConnection;
     private SharedPreferences settings;
     private LinearLayout.LayoutParams paramsNotFullscreen;
@@ -80,16 +82,16 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         //nsdConnection.discover();
         //waitDialog();
 
-        videoURL = "http://88.96.248.198/mjpg/video.mjpg?camera=1";
+        //videoURL = "http://88.96.248.198/mjpg/video.mjpg?camera=1";
+        videoURL = "http://192.168.0.105:8080/?action=stream";
 
-
-        video =  new DoRead().execute(videoURL);
+        video = new DoRead().execute(videoURL);
 
     }
 
     protected void onRestart() {
         super.onRestart();
-        //microVideo.startPlayback();
+        microVideo.startPlayback();
         //video = new DoRead().execute(videoURL);
 
         //microVideo = (MjpegView) findViewById(R.id.micro_video);
@@ -164,7 +166,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     void selectFrame() {
         String picture = takeAndAnalize();
         seeTakenPicture(picture);
-        finish();
+        //finish();
     }
 
     private void seeTakenPicture(String picture) {
@@ -256,33 +258,12 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
 
-        HttpResponse res = null;
         MjpegInputStream inputStream;
 
         protected MjpegInputStream doInBackground(String... url) {
-            //TODO: if camera has authentication deal with it and don't just not work
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-            Log.d(TAG, "1. Sending http request");
-            try {
-                res = httpclient.execute(new HttpGet(URI.create(url[0])));
-                Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
-                if(res.getStatusLine().getStatusCode()==401){
-                    //You must turn off camera User Access Control before this will work
-                    return null;
-                }
-                inputStream = new MjpegInputStream(res.getEntity().getContent());
-                return inputStream;
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-                Log.d(TAG, "Request failed-ClientProtocolException", e);
-                //Error connecting to camera
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(TAG, "Request failed-IOException", e);
-                //Error connecting to camera
-            }
+            inputStream = MjpegInputStream.read(videoURL);
 
-            return null;
+            return inputStream;
         }
 
         protected void onPostExecute(MjpegInputStream result) {
