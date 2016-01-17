@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#CEDF39</color>
+    <color name="colorPrimaryDark">#ADB629</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- PictureActivity -->
     <color name="container_background">#3399ff</color>
+    <color name="general_background">#E1E1E1</color>
 </resources>

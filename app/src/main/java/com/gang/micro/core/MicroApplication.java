@@ -10,6 +10,7 @@ public class MicroApplication extends Application {
     private String protocol;
     private String port;
     private String folderName;
+    private boolean changes;
 
     public void setServerIP(String serverIP) {
         this.serverIP = serverIP;
@@ -31,6 +32,10 @@ public class MicroApplication extends Application {
         this.port = port;
     }
 
+    public void setChanges(boolean changes){
+        this.changes = changes;
+    }
+
     public String getServerIP() {
         return serverIP;
     }
@@ -49,5 +54,9 @@ public class MicroApplication extends Application {
 
     public String getFolderName() {
         return folderName;
+    }
+
+    public boolean getChanges() {
+        return changes;
     }
 }

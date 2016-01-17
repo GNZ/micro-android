@@ -1,6 +1,7 @@
 package com.gang.micro.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,20 +9,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
-import android.widget.VideoView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
@@ -29,13 +26,6 @@ import com.gang.micro.core.NSD.NSDConnection;
 import com.gang.micro.core.mjpeg.MjpegInputStream;
 import com.gang.micro.core.mjpeg.MjpegView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.IOException;
-import java.net.URI;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +44,7 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     NSDConnection nsdConnection;
     private SharedPreferences settings;
-    private LinearLayout.LayoutParams paramsNotFullscreen;
+    private RelativeLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
     private ChooseMicroscopeDialogFragment chooseDialog;
     private String serviceName;
@@ -65,8 +55,8 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     AsyncTask video;
 
 
-    private int width = 640;
-    private int height = 480;
+    private int width = 800;
+    private int height = 600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,27 +65,31 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        // No changes were made on settings
+        ((MicroApplication)getApplication()).setChanges(false);
+        // Avoid screen lock
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // TODO discover microscopes
-        //nsdConnection = new NSDConnection(this, serviceName);
-        //getParameters();
-        //chooseDialog = new ChooseMicroscopeDialogFragment();
-        //nsdConnection.discover();
-        //waitDialog();
+        nsdConnection = new NSDConnection(this, serviceName);
+        getParameters();
+        chooseDialog = new ChooseMicroscopeDialogFragment();
+        nsdConnection.discover();
+        waitDialog();
 
         //videoURL = "http://88.96.248.198/mjpg/video.mjpg?camera=1";
-        videoURL = "http://192.168.0.105:8080/?action=stream";
-
-        video = new DoRead().execute(videoURL);
+        //videoURL = "http://192.168.0.105:8080/?action=stream";
 
     }
 
     protected void onRestart() {
         super.onRestart();
-        microVideo.startPlayback();
-        //video = new DoRead().execute(videoURL);
-
-        //microVideo = (MjpegView) findViewById(R.id.micro_video);
-        //new DoRead().execute(videoURL);
+        if (((MicroApplication)getApplication()).getChanges())
+            new Restart().execute();
+        else {
+            if (video != null)
+                microVideo.startPlayback();
+        }
     }
 
 
@@ -121,13 +115,13 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
         {
-            paramsNotFullscreen = (LinearLayout.LayoutParams) microVideo.getLayoutParams();
-            LinearLayout.LayoutParams params = null;
+            paramsNotFullscreen = (RelativeLayout.LayoutParams) microVideo.getLayoutParams();
+            RelativeLayout.LayoutParams params = null;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                params = new LinearLayout.LayoutParams(paramsNotFullscreen);
+                params = new RelativeLayout.LayoutParams(paramsNotFullscreen);
             } else {
-                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
+                params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
             }
             params.setMargins(0, 0, 0, 0);
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -202,10 +196,10 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         if (id == R.id.action_settings) {
             Intent settingsActivity = new Intent(PreviewActivity.this, SettingsActivity.class);
             startActivity(settingsActivity);
-            finish();
             return true;
         }
         if (id == R.id.action_refresh) {
+            /*
             getParameters();
             //nsdConnection.setServiceName(serviceName);
             //nsdConnection.stopDiscover();
@@ -215,6 +209,8 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             //nsdConnection.discover();
             waitDialog();
             return true;
+            */
+            new Restart().execute();
         }
 
         return super.onOptionsItemSelected(item);
@@ -242,18 +238,16 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     @Override
     public void onComplete(String serverIP) {
         ((MicroApplication) getApplication()).setServerIP(serverIP);
-        startVideo();//TODO do it together?
+        startVideo();
     }
 
     private void startVideo() {
-        /*
+
         String serverIP = ((MicroApplication) getApplication()).getServerIP();
         String port = ((MicroApplication) getApplication()).getPort();
-        videoURL = protocol + serverIP + ":" + port + "/" + folderName;
+        videoURL = "http://" + serverIP + ":" + port + "/?" + folderName;
         Log.d(TAG, videoURL);
-        microVideo.setVideoURI(Uri.parse(videoURL));
-        microVideo.start();
-        */
+        video = new DoRead().execute(videoURL);
     }
 
     public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
@@ -270,6 +264,18 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             microVideo.setSource(result);
             microVideo.setDisplayMode(MjpegView.SIZE_BEST_FIT);
             microVideo.showFps(true);
+        }
+    }
+
+    public class Restart extends AsyncTask<Void,Void,Void> {
+
+        protected Void doInBackground(Void... v) {
+            PreviewActivity.this.finish();
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            startActivity((new Intent(PreviewActivity.this, PreviewActivity.class)));
         }
     }
 }

@@ -9,6 +9,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.gang.micro.R;
+import com.gang.micro.core.MicroApplication;
+import com.gang.micro.core.api.MicroApi;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -21,7 +23,7 @@ import com.gang.micro.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private EditTextPreference urlEditText;
     private SharedPreferences settings;
@@ -31,14 +33,20 @@ public class SettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
 
-
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
     }
-
+    /*
     public void onBackPressed() {
         Intent previewActivity = new Intent(SettingsActivity.this,PreviewActivity.class);
         startActivity(previewActivity);
         super.onBackPressed();
+    }
+    */
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        ((MicroApplication)getApplication()).setChanges(true);
     }
 }

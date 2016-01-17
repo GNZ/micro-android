@@ -20,7 +20,7 @@ public class MjpegInputStream extends DataInputStream {
     private final String CONTENT_LENGTH = "Content-Length";
     private final String CONTENT_END = "\r\n";
     private final static int HEADER_MAX_LENGTH = 100;
-    private final static int FRAME_MAX_LENGTH = 600000 + HEADER_MAX_LENGTH;
+    private final static int FRAME_MAX_LENGTH = 400000 + HEADER_MAX_LENGTH;
     private int mContentLength = -1;
     private static final byte[] gHeader = new byte[HEADER_MAX_LENGTH];
     private static final byte[] gFrameData = new byte[FRAME_MAX_LENGTH];
@@ -81,7 +81,7 @@ public class MjpegInputStream extends DataInputStream {
     }
 
     public Bitmap readMjpegFrame() throws IOException {
-        mark(FRAME_MAX_LENGTH);
+        mark(HEADER_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
 
         if(headerLen < 0)

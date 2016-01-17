@@ -8,22 +8,15 @@
             android:summary="@string/settings_service_summary"
             android:defaultValue="micro"
             android:key="service_name"/>
-        <ListPreference
-            android:title="@string/settings_protocol_title"
-            android:summary="@string/settings_protocol_summary"
-            android:defaultValue="rtsp://"
-            android:entries="@array/protocols_array"
-            android:entryValues="@array/protocols_array"
-            android:key="protocol"/>
         <EditTextPreference
             android:title="@string/settings_port_title"
             android:summary="@string/settings_port_summary"
-            android:defaultValue="8554"
+            android:defaultValue="8080"
             android:key="port"/>
         <EditTextPreference
             android:title="@string/settings_folder_title"
-            android:summary="@string/settings_port_summary"
-            android:defaultValue="unicast"
+            android:summary="@string/settings_folder_summary"
+            android:defaultValue="action=stream"
             android:key="folder"/>
     </PreferenceCategory>
 

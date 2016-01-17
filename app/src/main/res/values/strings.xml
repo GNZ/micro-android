@@ -21,11 +21,11 @@
     <string name="settings_service_title">Servicio</string>
     <string name="settings_protocol_title">Protocolo</string>
     <string name="settings_port_title">Puerto</string>
-    <string name="settings_folder_title">Direccion</string>
+    <string name="settings_folder_title">Comando</string>
     <string name="settings_service_summary">Ingresa el nombre del servicio</string>
     <string name="settings_protocol_summary">Ingresa el protocolo a usar</string>
     <string name="settings_port_summary">Ingeresa el puerto a utilizar</string>
-    <string name="settings_folder_summary">Ingresa la direccion dentro del servidor</string>
+    <string name="settings_folder_summary">Ingresa comando a utilizar</string>
 
     <string-array name="protocols_array">
         <item>rtsp://</item>
