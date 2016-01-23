@@ -8,7 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -22,22 +25,32 @@ import retrofit.Retrofit;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
+import com.gang.micro.core.Utils.FileManager;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 public class PictureActivity extends Activity {
 
     private static final String TAG = "PictureActivity";
-    static final String FOLDER = Environment.getExternalStorageDirectory()+File.separator+"micro";
+    static final String FOLDER = Environment.getExternalStorageDirectory() +
+            File.separator + "micro" + File.separator;
+
     static final String FIX_URL = "/images/output/";
+
     MicroApi microApi;
+    // UI
     @Bind(R.id.micro_picture)
     ImageView microPicture;
+    @Bind(R.id.loading_image)
+    ProgressBar loadingImage;
+    @Bind(R.id.discard_button)
+    Button discardButton;
+    @Bind(R.id.save_button)
+    Button saveButton;
+
     String id;
 
     @Override
@@ -45,13 +58,13 @@ public class PictureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
         ButterKnife.bind(this);
-
+        FileManager.createFolder(FOLDER);
         microApi = new MicroApi(this);
+        setButtonsClickeable(false);
         loadImage();
     }
 
     public void onBackPressed() {
-        startPreviewActivity();
         super.onBackPressed();
     }
 
@@ -61,6 +74,9 @@ public class PictureActivity extends Activity {
         call.enqueue(new Callback<Image>() {
             @Override
             public void onResponse(Response<Image> response, Retrofit retrofit) {
+
+                loadingImage.setVisibility(View.GONE);
+                setButtonsClickeable(true);
 
                 id = response.body().getId().toString();
                 String serverIP = ((MicroApplication) getApplication()).getServerIP();
@@ -74,62 +90,37 @@ public class PictureActivity extends Activity {
             public void onFailure(Throwable t) {
             }
         });
+
+        // TODO download and save the analysis also
     }
 
     @OnClick(R.id.discard_button)
     void discardPicture() {
-        //TODO do something before close the activity
-        //startPreviewActivity();
+
         finish();
     }
 
     private void startPreviewActivity() {
-        Intent previewActivity = new Intent(PictureActivity.this,PreviewActivity.class);
+        Intent previewActivity = new Intent(PictureActivity.this, PreviewActivity.class);
         startActivity(previewActivity);
     }
 
     @OnClick(R.id.save_button)
     void savePicture() {
-        File directory = createFolder();
-        saveImage(id,directory);
-        Intent analysisActivity = new Intent(PictureActivity.this, AnalysisActivity.class);
-        //TODO put something in the intent?
-        analysisActivity.putExtra("imageId",id);
-        startActivity(analysisActivity);
-        finish();
+        if (!FileManager.saveJpegImageFromBitmap(FOLDER, id, microPicture.getDrawingCache()))
+            Log.d(TAG, "Couldn't save the image");
+        else {
+            Intent analysisActivity = new Intent(PictureActivity.this, AnalysisActivity.class);
+            //TODO put something in the intent?
+            analysisActivity.putExtra("imageId", id);
+            startActivity(analysisActivity);
+            finish();
+        }
     }
 
-    private File createFolder() {
-        File exportDir = new File(FOLDER);
-        if (!exportDir.exists()) {
-            exportDir.mkdirs();
-        }
-        return exportDir;
-    }
-
-    private void saveImage(String name,File directory) {
-        //Get the image from the ImageView
-        microPicture.buildDrawingCache();
-        Bitmap bm = microPicture.getDrawingCache();
-        //Save the picture
-        OutputStream fOut = null;
-        Uri outputFileUri;
-        try {
-            File sdImageMainDirectory = new File(directory, name+".jpg");
-            outputFileUri = Uri.fromFile(sdImageMainDirectory);
-            fOut = new FileOutputStream(sdImageMainDirectory);
-        } catch (Exception e) {
-            Toast.makeText(this, "Error occured. Please try again later.",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        try {
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-        } catch (Exception e) {
-            Log.d(TAG,e.getMessage() );
-        }
+    private void setButtonsClickeable(boolean clickeable) {
+        discardButton.setClickable(clickeable);
+        saveButton.setClickable(clickeable);
     }
 
 }

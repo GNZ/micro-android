@@ -26,9 +26,9 @@ public class AnalysisActivity extends Activity {
         setContentView(R.layout.activity_analysis);
         ButterKnife.bind(this);
         imageId = getIntent().getStringExtra("imageId");
-        //String path = PictureActivity.FOLDER +  File.separator + imageId + ".jpg";
-        //setPic(path,image);
-
+        String path = PictureActivity.FOLDER +  File.separator + imageId + ".jpg";
+        setPic(path,image);
+        // TODO put the analysis also
     }
 
     @OnClick(R.id.ok_button) void backToPreview(){
