@@ -28,17 +28,19 @@ public class MicroApi {
 
     private MicroApiSpecification api;
 
-    public MicroApi (Context context){
-        String ip = ((MicroApplication)context.getApplicationContext()).getServerIP();
+    public MicroApi(Context context) {
+        String ip = ((MicroApplication) context.getApplicationContext()).getServerIP();
+        String baseUrl = "http://" + ip + ":5000";
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://"+ip+":5000")
+                .baseUrl(baseUrl)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
-        api =  retrofit.create(MicroApiSpecification.class);
+        api = retrofit.create(MicroApiSpecification.class);
     }
 
-    public MicroApiSpecification getApi (){
+    public MicroApiSpecification getApi() {
         return api;
     }
 }

@@ -3,8 +3,6 @@ package com.gang.micro.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -12,25 +10,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.Utils.FileManager;
+import com.gang.micro.core.Utils.api.ErrorLoggingCallback;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class PictureActivity extends Activity {
 
@@ -71,9 +67,9 @@ public class PictureActivity extends Activity {
     private void loadImage() {
         Call<Image> call = microApi.getApi().takePicture();
 
-        call.enqueue(new Callback<Image>() {
+        call.enqueue(new ErrorLoggingCallback<Image>() {
             @Override
-            public void onResponse(Response<Image> response, Retrofit retrofit) {
+            public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
 
                 loadingImage.setVisibility(View.GONE);
                 setButtonsClickeable(true);
@@ -81,13 +77,11 @@ public class PictureActivity extends Activity {
                 id = response.body().getId().toString();
                 String serverIP = ((MicroApplication) getApplication()).getServerIP();
 
-                Picasso.with(getBaseContext())
-                        .load("http://" + serverIP + FIX_URL + id + ".jpg")
-                        .into(microPicture);
-            }
+                String imageUrl = "http://" + serverIP + FIX_URL + id + ".jpg";
 
-            @Override
-            public void onFailure(Throwable t) {
+                Picasso.with(getBaseContext())
+                        .load(imageUrl)
+                        .into(microPicture);
             }
         });
 
