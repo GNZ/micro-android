@@ -1,4 +1,4 @@
-package com.gang.micro.core.NSD;
+package com.gang.micro.core.nsd;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
@@ -6,10 +6,7 @@ import android.net.nsd.NsdManager.DiscoveryListener;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
-import com.gang.micro.core.MicroApplication;
-
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 

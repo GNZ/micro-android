@@ -1,4 +1,4 @@
-package com.gang.micro.core.NSD;
+package com.gang.micro.core.nsd;
 
 /**
  * Created by Gonza on 08/12/2015.

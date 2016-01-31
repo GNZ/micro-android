@@ -1,8 +1,6 @@
-package com.gang.micro.core.Utils;
+package com.gang.micro.core.utils;
 
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;

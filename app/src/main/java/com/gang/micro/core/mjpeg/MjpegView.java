@@ -1,7 +1,5 @@
 package com.gang.micro.core.mjpeg;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,9 +10,10 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.io.IOException;
 
 public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
     public final static int POSITION_UPPER_LEFT = 9;

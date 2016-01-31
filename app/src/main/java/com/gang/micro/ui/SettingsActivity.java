@@ -1,7 +1,6 @@
 package com.gang.micro.ui;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -10,7 +9,6 @@ import android.preference.PreferenceManager;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
-import com.gang.micro.core.api.MicroApi;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

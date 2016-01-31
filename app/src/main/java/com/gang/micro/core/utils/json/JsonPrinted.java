@@ -1,4 +1,4 @@
-package com.gang.micro.core.Utils.json;
+package com.gang.micro.core.utils.json;
 
 public interface JsonPrinted {
 

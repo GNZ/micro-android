@@ -1,7 +1,7 @@
 package com.gang.micro.core.image;
 
-import com.gang.micro.core.Utils.json.JsonPrintedImpl;
 import com.gang.micro.core.analysis.Analysis;
+import com.gang.micro.core.utils.json.JsonPrintedImpl;
 
 import java.util.Date;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.gang.micro.core.analysis;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gang.micro.core.Utils.json.JsonPrintedImpl;
+import com.gang.micro.core.utils.json.JsonPrintedImpl;
 
 public class Analysis extends JsonPrintedImpl {
 

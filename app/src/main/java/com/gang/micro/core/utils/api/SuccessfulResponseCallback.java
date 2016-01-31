@@ -1,4 +1,4 @@
-package com.gang.micro.core.Utils.api;
+package com.gang.micro.core.utils.api;
 
 import retrofit.Callback;
 import retrofit.Response;

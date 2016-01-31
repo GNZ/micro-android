@@ -13,10 +13,10 @@ import android.widget.ProgressBar;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
-import com.gang.micro.core.Utils.FileManager;
-import com.gang.micro.core.Utils.api.ErrorLoggingCallback;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.FileManager;
+import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
