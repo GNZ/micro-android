@@ -1,15 +1,10 @@
 package com.gang.micro.ui;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,19 +17,30 @@ import android.widget.RelativeLayout;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
-import com.gang.micro.core.NSD.NSDConnection;
-import com.gang.micro.core.mjpeg.MjpegInputStream;
+import com.gang.micro.core.api.MicroApi;
+import com.gang.micro.core.gallery.LocalGalleryFragment;
+import com.gang.micro.core.image.Image;
+import com.gang.micro.core.image.analysis.Analysis;
+import com.gang.micro.core.image.analysis.AnalysisType;
 import com.gang.micro.core.mjpeg.MjpegView;
+import com.gang.micro.core.mjpeg.MjpegViewInitializer;
+import com.gang.micro.core.settings.SettingsActivity;
+import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 
+import java.util.List;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Response;
+import retrofit.Retrofit;
 
-public class PreviewActivity extends AppCompatActivity implements ChooseMicroscopeDialogFragment.OnCompleteListener {
+public class PreviewActivity extends AppCompatActivity {
 
     private static final String TAG = "PreviewActivity";
-    private static final long TIME_TO_WAIT = 5000;
+    public static final String EXTRA_MICROSCOPE_IP = "micoscope_ip";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -42,21 +48,14 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
     @Bind(R.id.micro_video)
     MjpegView microVideo;
 
-    NSDConnection nsdConnection;
     private SharedPreferences settings;
     private RelativeLayout.LayoutParams paramsNotFullscreen;
     private SharedPreferences.Editor prefEditor;
-    private ChooseMicroscopeDialogFragment chooseDialog;
     private String serviceName;
     private String protocol;
     private String port;
     private String folderName;
     private String videoURL;
-    AsyncTask video;
-
-
-    private int width = 800;
-    private int height = 600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,46 +65,33 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
         setSupportActionBar(toolbar);
         // No changes were made on settings
-        ((MicroApplication)getApplication()).setChanges(false);
+        ((MicroApplication) getApplication()).setChanges(false);
         // Avoid screen lock
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // TODO discover microscopes
-        nsdConnection = new NSDConnection(this, serviceName);
-        getParameters();
-        chooseDialog = new ChooseMicroscopeDialogFragment();
-        nsdConnection.discover();
-        waitDialog();
+        String microscopeIP = getIntent().getStringExtra(EXTRA_MICROSCOPE_IP);
 
-        //videoURL = "http://88.96.248.198/mjpg/video.mjpg?camera=1";
-        //videoURL = "http://192.168.0.105:8080/?action=stream";
+        ((MicroApplication) getApplication()).setServerIP(microscopeIP);
+
+        getParameters();
 
     }
 
     protected void onRestart() {
         super.onRestart();
-        if (((MicroApplication)getApplication()).getChanges())
-            new Restart().execute();
-        else {
-            if (video != null)
-                microVideo.startPlayback();
-        }
     }
-
 
     public void onPause() {
         super.onPause();
 
         microVideo.stopPlayback();
-        //microVideo = null;
-        //video.cancel(true);
-        //video = null;
     }
-
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        startVideo();
     }
 
     @Override
@@ -141,26 +127,24 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         serviceName = settings.getString("service_name", "");
-        Log.d(TAG, serviceName);
         protocol = settings.getString("protocol", "");
         port = settings.getString("port", "");
         folderName = settings.getString("folder", "");
 
         ((MicroApplication) getApplication()).setServiceName(serviceName);
-        nsdConnection.setServiceName(serviceName);
         ((MicroApplication) getApplication()).setProtocol(protocol);
         ((MicroApplication) getApplication()).setPort(port);
         ((MicroApplication) getApplication()).setFolderName(folderName);
-
-
     }
-
 
     @OnClick(R.id.fab)
     void selectFrame() {
-        String picture = takeAndAnalize();
-        seeTakenPicture(picture);
-        //finish();
+        //String picture = takeAndAnalize();
+        //seeTakenPicture(picture);
+
+        Intent intent = new Intent(PreviewActivity.this, LocalGalleryFragment.class);
+
+        startActivity(intent);
     }
 
     private void seeTakenPicture(String picture) {
@@ -170,8 +154,36 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
 
     }
 
-
     private String takeAndAnalize() {
+
+        final MicroApi microApi = new MicroApi(getBaseContext());
+
+        Call<List<Image>> imagesCall = microApi.getApi().getImages();
+
+        imagesCall.enqueue(new ErrorLoggingCallback<List<Image>>() {
+
+            @Override
+            public void onSuccessfulResponse(Response<List<Image>> response, Retrofit retrofit) {
+                Log.d(TAG, response.body().toString());
+
+                UUID imageId = response.body().get(0).getId();
+                Analysis analysis = new Analysis();
+                analysis.setType(AnalysisType.BLOOD__RED_CELL_COUNT);
+
+                microApi.getApi().analyseImage(imageId, analysis).enqueue(new ErrorLoggingCallback<Analysis>() {
+
+                    @Override
+                    public void onSuccessfulResponse(Response<Analysis> response, Retrofit retrofit) {
+
+                        Log.d(TAG, String.valueOf(response.code()));
+
+                        if (response.isSuccess())
+                            Log.d(TAG, response.body().toString());
+                    }
+                });
+            }
+        });
+
         //TODO action take and analize picture
 
         //TODO return the image url
@@ -198,84 +210,18 @@ public class PreviewActivity extends AppCompatActivity implements ChooseMicrosco
             startActivity(settingsActivity);
             return true;
         }
-        if (id == R.id.action_refresh) {
-            /*
-            getParameters();
-            //nsdConnection.setServiceName(serviceName);
-            //nsdConnection.stopDiscover();
-            //nsdConnection.discover();
-            nsdConnection.stopDiscover();
-            //nsdConnection.setServiceName(serviceName);
-            //nsdConnection.discover();
-            waitDialog();
-            return true;
-            */
-            new Restart().execute();
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void waitDialog() {
-        final ProgressDialog waitDialog = ProgressDialog.show(this, getResources().getString(R.string.wait_dialog_title),
-                getResources().getString(R.string.wait_dialog_text), true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(TIME_TO_WAIT);
-                } catch (Exception e) {
-                    Log.d(TAG, e.getMessage());
-                }
-                //TODO show microscopes dialog
-                chooseDialog.setMicroscopes(nsdConnection.getMicroscopes());
-                waitDialog.dismiss();
-                chooseDialog.show(getFragmentManager(), "ChooseMicroscopeDialogFragment");
-            }
-        }).start();
-    }
-
-    @Override
-    public void onComplete(String serverIP) {
-        ((MicroApplication) getApplication()).setServerIP(serverIP);
-        startVideo();
-    }
-
     private void startVideo() {
-
         String serverIP = ((MicroApplication) getApplication()).getServerIP();
         String port = ((MicroApplication) getApplication()).getPort();
+
         videoURL = "http://" + serverIP + ":" + port + "/?" + folderName;
+
         Log.d(TAG, videoURL);
-        video = new DoRead().execute(videoURL);
-    }
 
-    public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
-
-        MjpegInputStream inputStream;
-
-        protected MjpegInputStream doInBackground(String... url) {
-            inputStream = MjpegInputStream.read(videoURL);
-
-            return inputStream;
-        }
-
-        protected void onPostExecute(MjpegInputStream result) {
-            microVideo.setSource(result);
-            microVideo.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-            microVideo.showFps(true);
-        }
-    }
-
-    public class Restart extends AsyncTask<Void,Void,Void> {
-
-        protected Void doInBackground(Void... v) {
-            PreviewActivity.this.finish();
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-            startActivity((new Intent(PreviewActivity.this, PreviewActivity.class)));
-        }
+        new MjpegViewInitializer(microVideo).execute(videoURL);
     }
 }

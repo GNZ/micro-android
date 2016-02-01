@@ -1,4 +1,4 @@
-package com.gang.micro.core.analysis;
+package com.gang.micro.core.image.analysis;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

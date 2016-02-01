@@ -1,4 +1,4 @@
-package com.gang.micro.ui;
+package com.gang.micro.core.settings;
 
 
 import android.content.SharedPreferences;

@@ -1,8 +1,5 @@
-package com.gang.micro.core.nsd;
+package com.gang.micro.core.microscope;
 
-/**
- * Created by Gonza on 08/12/2015.
- */
 public class Microscope {
 
     private String name;

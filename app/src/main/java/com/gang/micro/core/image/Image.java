@@ -1,19 +1,30 @@
 package com.gang.micro.core.image;
 
-import com.gang.micro.core.analysis.Analysis;
+import android.graphics.Bitmap;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gang.micro.core.image.analysis.Analysis;
 import com.gang.micro.core.utils.json.JsonPrintedImpl;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class Image extends JsonPrintedImpl {
+public class Image extends JsonPrintedImpl implements Serializable {
 
     private UUID id;
+
     private List<Analysis> analyses;
+
     private Date created_at;
+
     private String description;
+
     private String name;
+
+    @JsonIgnore
+    private Bitmap bitmap;
 
     public Image() {
     }
@@ -56,5 +67,13 @@ public class Image extends JsonPrintedImpl {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

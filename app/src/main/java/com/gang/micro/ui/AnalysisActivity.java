@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.gang.micro.R;
-
-import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,8 +24,10 @@ public class AnalysisActivity extends Activity {
         setContentView(R.layout.activity_analysis);
         ButterKnife.bind(this);
         imageId = getIntent().getStringExtra("imageId");
-        String path = PictureActivity.FOLDER +  File.separator + imageId + ".jpg";
-        setPic(path,image);
+        String path = PictureActivity.FOLDER + imageId + ".jpg";
+
+        Log.d("micro", path);
+        setPic(path, image);
         // TODO put the analysis also
     }
 
@@ -46,6 +46,9 @@ public class AnalysisActivity extends Activity {
         BitmapFactory.decodeFile(pathToImage, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
+
+        Log.d("micro", String.valueOf(view.getWidth()));
+        Log.d("micro", String.valueOf(view.getHeight()));
 
         // Determine how much to scale down the image
         int scaleFactor = Math.min(photoW/targetW, photoH/targetH);

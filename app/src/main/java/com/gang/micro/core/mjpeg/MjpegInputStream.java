@@ -8,9 +8,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class MjpegInputStream extends DataInputStream {
 
@@ -35,30 +32,12 @@ public class MjpegInputStream extends DataInputStream {
         bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
         bitmapOptions.inPreferQualityOverSpeed = false;
 
-        try
-        {
+        try {
             CONTENT_LENGTH_BYTES = CONTENT_LENGTH.getBytes("UTF-8");
             CONTENT_END_BYTES = CONTENT_END.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
-
-    public static MjpegInputStream read(String url) {
-        try {
-            URL url2 = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) url2.openConnection();
-
-            connection.setRequestMethod("GET");
-
-            return new MjpegInputStream(connection.getInputStream());
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-        }
-        return null;
     }
 
     private int getEndOfSeqeunce(DataInputStream in, byte[] sequence) throws IOException {
@@ -83,7 +62,7 @@ public class MjpegInputStream extends DataInputStream {
         mark(HEADER_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
 
-        if(headerLen < 0)
+        if (headerLen < 0)
             return null;
 
         reset();
@@ -105,20 +84,15 @@ public class MjpegInputStream extends DataInputStream {
         return bitmap;
     }
 
-    private int findPattern(byte[] buffer, int bufferLen, byte[] pattern, int offset)
-    {
+    private int findPattern(byte[] buffer, int bufferLen, byte[] pattern, int offset) {
         int seqIndex = 0;
-        for(int i=offset; i < bufferLen; ++i)
-        {
-            if(buffer[i] == pattern[seqIndex])
-            {
+        for (int i = offset; i < bufferLen; ++i) {
+            if (buffer[i] == pattern[seqIndex]) {
                 ++seqIndex;
-                if(seqIndex == pattern.length)
-                {
+                if (seqIndex == pattern.length) {
                     return i + 1;
                 }
-            } else
-            {
+            } else {
                 seqIndex = 0;
             }
         }
@@ -126,18 +100,15 @@ public class MjpegInputStream extends DataInputStream {
         return -1;
     }
 
-    private int parseContentLength(byte[] headerBytes, int length) throws IOException, NumberFormatException
-    {
+    private int parseContentLength(byte[] headerBytes, int length) throws IOException, NumberFormatException {
         int begin = findPattern(headerBytes, length, CONTENT_LENGTH_BYTES, 0);
         int end = findPattern(headerBytes, length, CONTENT_END_BYTES, begin) - CONTENT_END_BYTES.length;
 
         // converting string to int
         int number = 0;
         int radix = 1;
-        for(int i = end - 1; i >= begin; --i)
-        {
-            if(headerBytes[i] > 47 && headerBytes[i] < 58)
-            {
+        for (int i = end - 1; i >= begin; --i) {
+            if (headerBytes[i] > 47 && headerBytes[i] < 58) {
                 number += (headerBytes[i] - 48) * radix;
                 radix *= 10;
             }

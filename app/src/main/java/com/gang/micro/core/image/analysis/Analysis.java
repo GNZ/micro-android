@@ -1,4 +1,4 @@
-package com.gang.micro.core.analysis;
+package com.gang.micro.core.image.analysis;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
