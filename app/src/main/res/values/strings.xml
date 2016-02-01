@@ -33,14 +33,7 @@
         <item>https://</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- ChooseMicroscopeDialogFragment -->
-    <string name="select_microscope">Seleccionar microscopio</string>
-    <string name="no_microscope">No hay microscopios en la red</string>
-    <string name="settings">Configurar</string>
-    <string name="exit">Salir</string>
+    <string name="local_gallery_no_images">No hay imágenes guardadas</string>
 
     <!-- mucroscope_button -->
 
