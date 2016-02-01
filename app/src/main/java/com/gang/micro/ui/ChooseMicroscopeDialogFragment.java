@@ -16,12 +16,10 @@ import android.widget.TextView;
 import com.gang.micro.R;
 import com.gang.micro.core.nsd.Microscope;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import it.gmariotti.cardslib.library.internal.Card;
 
 
 public class ChooseMicroscopeDialogFragment extends DialogFragment {
@@ -59,7 +57,7 @@ public class ChooseMicroscopeDialogFragment extends DialogFragment {
 
         View rootView = inflater.inflate(R.layout.microscopes_dialog, null);
         ButterKnife.bind(this, rootView);
-        ArrayList<Card> cards = new ArrayList<Card>();
+
         if (!microscopes.isEmpty()) {
             noMicroscopeTextView.setVisibility(View.GONE);
 
