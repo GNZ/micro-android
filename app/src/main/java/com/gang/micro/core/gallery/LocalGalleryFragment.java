@@ -9,18 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.image.Image;
 import com.gang.micro.core.microscope.Microscope;
 import com.gang.micro.ui.ViewAnalysisActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LocalGalleryFragment extends Fragment {
+public class LocalGalleryFragment extends Fragment implements GalleryFragment {
 
-    @Bind(R.id.gridView)
+    @Bind(R.id.local_gallery_gridView)
     GridView gridView;
+
+    @Bind(R.id.local_gallery_empty)
+    TextView empty;
+
+    @Bind(R.id.local_gallery_loading_bar)
+    ProgressBar loadingBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,13 +41,14 @@ public class LocalGalleryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        GalleryAdapter galleryAdapter = new LocalGalleryAdapter(getActivity(), R.layout.gallery_grid_item);
+        GalleryAdapter galleryAdapter = new LocalGalleryAdapter(getActivity(), R.layout.gallery_grid_item, this);
 
         // Set adapter to grid
         gridView.setAdapter(galleryAdapter);
 
         // Set click listener
         gridView.setOnItemClickListener(new onImageListItemClick());
+
 
     }
 
@@ -55,6 +65,13 @@ public class LocalGalleryFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void updateUI() {
+        loadingBar.setVisibility(View.GONE);
+        if (gridView.getAdapter().isEmpty())
+            empty.setVisibility(View.VISIBLE);
+    }
+
     private class onImageListItemClick implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -62,14 +79,14 @@ public class LocalGalleryFragment extends Fragment {
             // Get context
             Context context = adapterView.getContext();
 
-            // Load clicked microscope
-            Microscope microscope = (Microscope) adapterView.getItemAtPosition(position);
+            // Load clicked Image
+            Image image = (Image) adapterView.getItemAtPosition(position);
 
             // Create PreviewActivity intent
             Intent intent = new Intent(context, ViewAnalysisActivity.class);
 
             // Put microscope_ip as extra
-            intent.putExtra(ViewAnalysisActivity.EXTRA_IMAGE_ID, microscope.getIp());
+            intent.putExtra(ViewAnalysisActivity.EXTRA_IMAGE_ID, image.getId().toString());
 
             // Start activity
             context.startActivity(intent);

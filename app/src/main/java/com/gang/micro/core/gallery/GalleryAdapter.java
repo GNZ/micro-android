@@ -17,11 +17,13 @@ import java.util.ArrayList;
 public abstract class GalleryAdapter extends ArrayAdapter<Image> implements GalleryService {
 
     private final int resource;
+    private GalleryFragment fragment;
 
-    public GalleryAdapter(Context context, int resource) {
+    public GalleryAdapter(Context context, int resource, GalleryFragment fragment) {
         super(context, resource, new ArrayList<Image>());
 
         this.resource = resource;
+        this.fragment = fragment;
 
         loadImages();
     }
@@ -30,7 +32,7 @@ public abstract class GalleryAdapter extends ArrayAdapter<Image> implements Gall
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
@@ -54,5 +56,11 @@ public abstract class GalleryAdapter extends ArrayAdapter<Image> implements Gall
     static class ViewHolder {
         TextView textView;
         ImageView imageView;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        fragment.updateUI();
     }
 }

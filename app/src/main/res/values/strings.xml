@@ -3,6 +3,10 @@
     <string name="action_settings">Configurar</string>
     <string name="action_search">Buscar</string>
 
+    <!-- StartActivity -->
+    <string name="microscope_tab">Microscopios</string>
+    <string name="gallery_tab">Mis imágenes</string>
+
     <!-- PreviewActivity  -->
     <string name="default_url">rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</string>
     <string name="wait_dialog_title">Espere por favor...</string>
@@ -36,5 +40,8 @@
     <string name="local_gallery_no_images">No hay imágenes guardadas</string>
 
     <!-- mucroscope_button -->
+
+    <!-- ViewAnalysisActivity -->
+    <string name="error_loding_image">Error al cargar el análisis</string>
 
 </resources>

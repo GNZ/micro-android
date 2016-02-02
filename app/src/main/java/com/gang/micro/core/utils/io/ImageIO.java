@@ -18,14 +18,14 @@ public class ImageIO {
     public final static String PICTURE_EXTENSION = ".jpg";
     public final static String ANALYSIS_EXTENSION = ".json";
     static final String SUB_FOLDER = "micro";
-    static final String FOLDER = Environment.getExternalStorageDirectory() + File.separator + SUB_FOLDER;
+    public static final String FOLDER = Environment.getExternalStorageDirectory() + File.separator + SUB_FOLDER + File.separator;
 
     public ImageIO() {
     }
 
     public Image readImage(String path) throws IOException {
 
-        Image image = null;
+        Image image;
 
         String analysisPath = path + ANALYSIS_EXTENSION;
         String bitmapPath = path + PICTURE_EXTENSION;
@@ -60,8 +60,8 @@ public class ImageIO {
 
         File files[] = folder.listFiles();
 
-        for (int i = 0; i < files.length; i++) {
-            String name = files[i].getAbsolutePath();
+        for (File file : files) {
+            String name = file.getAbsolutePath();
 
             if (name.endsWith(PICTURE_EXTENSION)) {
                 int pos = name.lastIndexOf(".");

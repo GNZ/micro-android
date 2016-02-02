@@ -2,11 +2,16 @@ package com.gang.micro.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.io.ImageIO;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,9 +43,17 @@ public class ViewAnalysisActivity extends AppCompatActivity {
 
         String imageId = getIntent().getStringExtra(ViewAnalysisActivity.EXTRA_IMAGE_ID);
 
-        imageView.setImageBitmap(image.getBitmap());
-        nameTextView.setText(image.getId().toString().substring(0, 6));
-        dateTextView.setText(image.getCreated_at().toString());
-        countTextView.setText(image.getAnalyses().get(0).getResult());
+        ImageIO imageIO = new ImageIO();
+        try {
+            image = imageIO.readImage(ImageIO.FOLDER + imageId);
+
+            imageView.setImageBitmap(image.getBitmap());
+            nameTextView.setText(image.getId().toString().substring(0, 6));
+            dateTextView.setText(image.getCreated_at().toString());
+            countTextView.setText(image.getAnalyses().get(0).getResult());
+
+        }catch (IOException e){
+            Toast.makeText(ViewAnalysisActivity.this, R.string.error_loding_image, Toast.LENGTH_LONG).show();
+        }
     }
 }

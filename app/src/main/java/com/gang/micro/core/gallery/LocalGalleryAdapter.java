@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class LocalGalleryAdapter extends GalleryAdapter {
-    public LocalGalleryAdapter(Context context, int resource) {
-        super(context, resource);
+    public LocalGalleryAdapter(Context context, int resource, GalleryFragment fragment) {
+        super(context, resource, fragment);
     }
 
     GalleryAdapter me = this;

@@ -38,8 +38,8 @@ public class StartActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new MicroscopesFragment(), "Microscopios");
-        adapter.addFragment(new LocalGalleryFragment(), "Mis imágenes");
+        adapter.addFragment(new MicroscopesFragment(), getResources().getString(R.string.microscope_tab));
+        adapter.addFragment(new LocalGalleryFragment(), getResources().getString(R.string.gallery_tab));
 
         viewPager.setAdapter(adapter);
     }

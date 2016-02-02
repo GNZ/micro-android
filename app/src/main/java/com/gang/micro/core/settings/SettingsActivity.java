@@ -35,13 +35,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
     }
-    /*
-    public void onBackPressed() {
-        Intent previewActivity = new Intent(SettingsActivity.this,PreviewActivity.class);
-        startActivity(previewActivity);
-        super.onBackPressed();
-    }
-    */
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

@@ -5,7 +5,7 @@
     android:background="#f0f0f0">
 
     <GridView
-        android:id="@+id/gridView"
+        android:id="@+id/local_gallery_gridView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -19,11 +19,22 @@
         android:clickable="true" />
 
     <TextView
-        android:id="@android:id/empty"
+        android:id="@+id/local_gallery_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:textSize="@dimen/abc_text_size_body_1_material"
-        android:text="@string/local_gallery_no_images" />
+        android:text="@string/local_gallery_no_images"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/local_gallery_loading_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="false" />
+
+
 </RelativeLayout>
