@@ -22,8 +22,6 @@ public class NSDCoordinator {
 
     public void startDiscovery() throws InterruptedException {
 
-        Thread.currentThread().sleep(100);
-
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener);
     }
 

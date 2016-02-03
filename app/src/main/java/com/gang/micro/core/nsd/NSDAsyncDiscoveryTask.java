@@ -12,7 +12,6 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
     private static final int TIMEOUT_MILLIS = 2000;
     private final MicroscopeListAdapter microscopeListAdapter;
     private final NSDCoordinator nsdCoordinator;
-    private Microscope microscope;
 
     public NSDAsyncDiscoveryTask(MicroscopeListAdapter microscopeListAdapter) {
         this.microscopeListAdapter = microscopeListAdapter;
@@ -45,7 +44,7 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
 
     @Override
     protected void onProgressUpdate(Microscope... values) {
-        microscopeListAdapter.addAll(values);
+        microscopeListAdapter.addAll(values[0]);
     }
 
     public void publish(Microscope microscope) {
