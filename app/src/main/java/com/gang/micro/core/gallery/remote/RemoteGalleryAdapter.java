@@ -47,6 +47,8 @@ public class RemoteGalleryAdapter extends RecyclerView.Adapter<RemoteGalleryAdap
     public void onBindViewHolder(ImageHolder holder, int position) {
         String imageUrl = new ImageUtils(context).getImageUrl(dataset.get(position));
 
+        holder.imageView.setImageDrawable(null);
+
         Picasso.with(context).load(imageUrl).into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());
     }
@@ -58,6 +60,8 @@ public class RemoteGalleryAdapter extends RecyclerView.Adapter<RemoteGalleryAdap
 
     public void add(Image image) {
         dataset.add(image);
+
+        //new ImageIO().saveImage(image, image.getBitmap());
 
         notifyItemInserted(dataset.size() - 1);
     }
