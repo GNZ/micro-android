@@ -4,11 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gang.micro.core.image.Image;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +76,30 @@ public class ImageIO {
 
         return filenames;
     }
+
+    public boolean deleteImage(String path) {
+        File bitmap = new File(path + PICTURE_EXTENSION);
+        File image = new File(path + ANALYSIS_EXTENSION);
+        if (bitmap.exists() && image.exists())
+            return bitmap.delete() && image.delete();
+        return false;
+    }
+
+    public boolean saveImage(Image image, Bitmap bitmap) {
+        String id = image.getId().toString();
+        try {
+            // Save bitmap
+            FileOutputStream outputStream = new FileOutputStream(FOLDER + id + PICTURE_EXTENSION);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            // Save image json
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File(FOLDER + id + ANALYSIS_EXTENSION), image);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 
 }

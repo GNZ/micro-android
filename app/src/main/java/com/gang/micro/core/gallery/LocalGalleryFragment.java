@@ -1,5 +1,6 @@
 package com.gang.micro.core.gallery;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
 
     @Bind(R.id.local_gallery_loading_bar)
     ProgressBar loadingBar;
+
+    GalleryWrapper listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,24 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listener = (GalleryWrapper) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
     public void updateUI() {
         loadingBar.setVisibility(View.GONE);
         if (gridView.getAdapter().isEmpty())
@@ -76,20 +97,9 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-            // Get context
-            Context context = adapterView.getContext();
-
-            // Load clicked Image
             Image image = (Image) adapterView.getItemAtPosition(position);
 
-            // Create PreviewActivity intent
-            Intent intent = new Intent(context, ViewAnalysisActivity.class);
-
-            // Put microscope_ip as extra
-            intent.putExtra(ViewAnalysisActivity.EXTRA_IMAGE_ID, image.getId().toString());
-
-            // Start activity
-            context.startActivity(intent);
+            listener.showImage(image);
         }
     }
 }
