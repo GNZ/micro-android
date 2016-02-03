@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.api.MicroApi;
-import com.gang.micro.core.gallery.LocalGalleryFragment;
+import com.gang.micro.core.gallery.remote.RemoteGalleryActivity;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.image.analysis.Analysis;
 import com.gang.micro.core.image.analysis.AnalysisType;
@@ -126,10 +126,10 @@ public class PreviewActivity extends AppCompatActivity {
     private void getParameters() {
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        serviceName = settings.getString("service_name", "");
-        protocol = settings.getString("protocol", "");
-        port = settings.getString("port", "");
-        folderName = settings.getString("folder", "");
+        serviceName = settings.getString("service_name", "micro");
+        protocol = settings.getString("protocol", "http");
+        port = settings.getString("port", "8080");
+        folderName = settings.getString("folder", "action=stream");
 
         ((MicroApplication) getApplication()).setServiceName(serviceName);
         ((MicroApplication) getApplication()).setProtocol(protocol);
@@ -142,7 +142,7 @@ public class PreviewActivity extends AppCompatActivity {
         //String picture = takeAndAnalize();
         //seeTakenPicture(picture);
 
-        Intent intent = new Intent(PreviewActivity.this, LocalGalleryFragment.class);
+        Intent intent = new Intent(PreviewActivity.this, RemoteGalleryActivity.class);
 
         startActivity(intent);
     }

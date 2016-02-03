@@ -22,6 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.PictureActivity" />
         <activity android:name=".ui.AnalysisActivity" />
+        <activity android:name=".core.gallery.remote.RemoteGalleryActivity" />
         <activity android:name=".ui.ViewAnalysisActivity" />
         <activity
             android:name=".core.settings.SettingsActivity"
