@@ -3,20 +3,24 @@ package com.gang.micro.core.microscope;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.gang.micro.ui.PreviewActivity;
 
-public class MicroscopeListItemClickListener implements AdapterView.OnItemClickListener {
+public class MicroscopeListItemClickListener {
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    private final Context context;
+    private final MicroscopeListAdapter adapter;
 
-        // Get context
-        Context context = adapterView.getContext();
+    public MicroscopeListItemClickListener(Context context, MicroscopeListAdapter adapter) {
 
-        // Load clicked microscope
-        Microscope microscope = (Microscope) adapterView.getItemAtPosition(i);
+        this.context = context;
+        this.adapter = adapter;
+    }
+
+    public void onItemClick(int position, View view) {
+
+        // Get microscope from adapter
+        Microscope microscope = adapter.getItemAtPosition(position);
 
         // Create PreviewActivity intent
         Intent intent = new Intent(context, PreviewActivity.class);

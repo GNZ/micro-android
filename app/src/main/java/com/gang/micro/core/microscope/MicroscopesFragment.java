@@ -2,10 +2,11 @@ package com.gang.micro.core.microscope;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.gang.micro.R;
 
@@ -15,7 +16,7 @@ import butterknife.ButterKnife;
 public class MicroscopesFragment extends Fragment {
 
     @Bind(R.id.microscope_list)
-    ListView listView;
+    RecyclerView listView;
 
     public MicroscopesFragment() {
         // Required empty public constructor  
@@ -26,13 +27,19 @@ public class MicroscopesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        MicroscopeListAdapter microscopeListAdapter = new MicroscopeListAdapter(getActivity(), R.layout.microscope_list_item);
+        MicroscopeListAdapter microscopeListAdapter = new MicroscopeListAdapter(getActivity());
+
+        // Create layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        // Set the layout manager
+        listView.setLayoutManager(layoutManager);
 
         // Set adapter
         listView.setAdapter(microscopeListAdapter);
 
         // Set item click listener
-        listView.setOnItemClickListener(new MicroscopeListItemClickListener());
+        microscopeListAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), microscopeListAdapter));
     }
 
     @Override

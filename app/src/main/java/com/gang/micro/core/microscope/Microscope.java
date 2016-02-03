@@ -17,4 +17,12 @@ public class Microscope {
     public String getIp() {
         return ip;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 }
