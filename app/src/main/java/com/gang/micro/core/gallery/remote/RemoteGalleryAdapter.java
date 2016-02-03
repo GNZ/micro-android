@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.image.ImageUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,9 @@ public class RemoteGalleryAdapter extends RecyclerView.Adapter<RemoteGalleryAdap
 
     @Override
     public void onBindViewHolder(ImageHolder holder, int position) {
-        holder.imageView.setImageBitmap(dataset.get(position).getBitmap());
+        String imageUrl = new ImageUtils(context).getImageUrl(dataset.get(position));
+
+        Picasso.with(context).load(imageUrl).into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());
     }
 
