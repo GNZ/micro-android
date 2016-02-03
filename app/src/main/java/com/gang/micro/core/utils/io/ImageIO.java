@@ -21,6 +21,10 @@ public class ImageIO {
     public static final String FOLDER = Environment.getExternalStorageDirectory() + File.separator + SUB_FOLDER + File.separator;
 
     public ImageIO() {
+        File file = new File(FOLDER);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
     }
 
     public Image readImage(String path) throws IOException {
