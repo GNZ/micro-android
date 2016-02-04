@@ -1,7 +1,5 @@
 package com.gang.micro.core.gallery;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,15 +17,17 @@ import butterknife.ButterKnife;
 public class ViewAnalysisFragment extends Fragment {
 
     private Image image;
-    private GalleryWrapper listener;
 
     // UI elements
     @Bind(R.id.view_analyses_imageView)
     ImageView imageView;
+
     @Bind(R.id.view_analyses_name)
     TextView nameTextView;
+
     @Bind(R.id.view_analyses_date)
     TextView dateTextView;
+
     @Bind(R.id.view_analyses_description)
     TextView descriptionTextView;
 
@@ -45,7 +45,7 @@ public class ViewAnalysisFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_view_analysis, container, false);
         ButterKnife.bind(this, rootView);
 
-        if (image != null){
+        if (image != null) {
             imageView.setImageBitmap(image.getBitmap());
             nameTextView.setText(image.getId().toString().substring(0, 6));
             dateTextView.setText(image.getCreated_at().toString());
@@ -56,23 +56,11 @@ public class ViewAnalysisFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        listener = (GalleryWrapper) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-    public void setImage(Image image){
+    public void setImage(Image image) {
         this.image = image;
     }
 
-    public Image getImage(){
+    public Image getImage() {
         return image;
     }
 
