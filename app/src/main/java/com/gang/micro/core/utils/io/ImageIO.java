@@ -35,14 +35,9 @@ public class ImageIO {
         Image image;
 
         String analysisPath = path + ANALYSIS_EXTENSION;
-        String bitmapPath = path + PICTURE_EXTENSION;
 
         // Get data
         image = new ObjectMapper().readValue(new File(analysisPath), Image.class);
-
-        // Get bitmap
-        Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(bitmapPath));
-        image.setBitmap(bitmap);
 
         return image;
     }
@@ -59,7 +54,7 @@ public class ImageIO {
         return images;
     }
 
-    private List<String> getFilenames(String path) {
+    public List<String> getFilenames(String path) {
 
         List<String> filenames = new ArrayList<>();
 
@@ -103,6 +98,10 @@ public class ImageIO {
             return false;
         }
         return true;
+    }
+
+    public static String getPicturePath(Image image) {
+        return FOLDER + image.getId().toString() + PICTURE_EXTENSION;
     }
 
 

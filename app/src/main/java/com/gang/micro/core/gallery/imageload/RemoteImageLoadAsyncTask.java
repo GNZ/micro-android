@@ -1,10 +1,10 @@
-package com.gang.micro.core.gallery.remote;
+package com.gang.micro.core.gallery.imageload;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.api.MicroApiSpecification;
+import com.gang.micro.core.gallery.adapters.GalleryAdapter;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 
@@ -14,14 +14,11 @@ import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class RemoteImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
+public class RemoteImageLoadAsyncTask extends ImageLoadAsyncTask {
 
-    private final Context context;
-    private final RemoteGalleryAdapter adapter;
 
-    public RemoteImageLoadAsyncTask(Context context, RemoteGalleryAdapter adapter) {
-        this.context = context;
-        this.adapter = adapter;
+    public RemoteImageLoadAsyncTask(Context context, GalleryAdapter adapter) {
+        super(context, adapter);
     }
 
     @Override
@@ -43,12 +40,4 @@ public class RemoteImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
 
         return null;
     }
-
-    @Override
-    protected void onProgressUpdate(Image... images) {
-        super.onProgressUpdate(images);
-
-        adapter.add(images[0]);
-    }
-
 }

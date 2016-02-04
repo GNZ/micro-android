@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery;
+package com.gang.micro.core.gallery.adapters;
 
 import android.graphics.Bitmap;
 

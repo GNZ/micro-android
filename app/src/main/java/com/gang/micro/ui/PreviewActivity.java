@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.api.MicroApi;
-import com.gang.micro.core.gallery.remote.RemoteGalleryActivity;
+import com.gang.micro.core.gallery.RemoteGalleryActivity;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.image.analysis.Analysis;
 import com.gang.micro.core.image.analysis.AnalysisType;

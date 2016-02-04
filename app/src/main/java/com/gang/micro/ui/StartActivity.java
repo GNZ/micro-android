@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.gang.micro.R;
 import com.gang.micro.core.gallery.GalleryWrapper;
-import com.gang.micro.core.gallery.LocalGalleryFragment;
+import com.gang.micro.core.gallery.fragments.LocalGalleryFragment;
 import com.gang.micro.core.gallery.ViewAnalysisFragment;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.microscope.MicroscopesFragment;

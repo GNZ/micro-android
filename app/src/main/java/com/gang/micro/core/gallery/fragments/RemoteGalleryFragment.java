@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.remote;
+package com.gang.micro.core.gallery.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gang.micro.R;
+import com.gang.micro.core.gallery.fragments.GalleryFragment;
+import com.gang.micro.core.gallery.adapters.RemoteGalleryAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RemoteGalleryFragment extends Fragment {
+public class RemoteGalleryFragment extends Fragment implements GalleryFragment {
 
     @Bind(R.id.remote_gallery_list)
     RecyclerView gridView;
@@ -23,7 +25,7 @@ public class RemoteGalleryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        RemoteGalleryAdapter remoteGalleryAdapter = new RemoteGalleryAdapter(getActivity());
+        RemoteGalleryAdapter remoteGalleryAdapter = new RemoteGalleryAdapter(getActivity(),this);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
@@ -54,5 +56,10 @@ public class RemoteGalleryFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void updateUI() {
+
     }
 }

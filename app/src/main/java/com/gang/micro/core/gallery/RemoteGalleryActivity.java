@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.remote;
+package com.gang.micro.core.gallery;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

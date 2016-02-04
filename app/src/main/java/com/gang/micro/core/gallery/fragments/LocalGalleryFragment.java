@@ -1,30 +1,30 @@
-package com.gang.micro.core.gallery;
+package com.gang.micro.core.gallery.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.gallery.GalleryWrapper;
+import com.gang.micro.core.gallery.adapters.GalleryAdapter;
+import com.gang.micro.core.gallery.adapters.LocalGalleryAdapter;
 import com.gang.micro.core.image.Image;
-import com.gang.micro.core.microscope.Microscope;
-import com.gang.micro.ui.ViewAnalysisActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class LocalGalleryFragment extends Fragment implements GalleryFragment {
 
-    @Bind(R.id.local_gallery_gridView)
-    GridView gridView;
+    @Bind(R.id.local_gallery_list)
+    RecyclerView recyclerView;
 
     @Bind(R.id.local_gallery_empty)
     TextView empty;
@@ -44,13 +44,18 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        GalleryAdapter galleryAdapter = new LocalGalleryAdapter(getActivity(), R.layout.gallery_grid_item, this);
+        GalleryAdapter galleryAdapter = new LocalGalleryAdapter(getActivity(), this);
 
-        // Set adapter to grid
-        gridView.setAdapter(galleryAdapter);
+        // Set adapter to recyclerView
+        recyclerView.setAdapter(galleryAdapter);
+
+        // Create layout manager
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+
+        recyclerView.setLayoutManager(layoutManager);
 
         // Set click listener
-        gridView.setOnItemClickListener(new onImageListItemClick());
+        //recyclerView.setOnItemClickListener(new onImageListItemClick());
 
 
     }
@@ -75,7 +80,7 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
         listener = (GalleryWrapper) activity;
     }
@@ -89,7 +94,7 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
     @Override
     public void updateUI() {
         loadingBar.setVisibility(View.GONE);
-        if (gridView.getAdapter().isEmpty())
+        if (recyclerView.getAdapter().getItemCount() == 0)
             empty.setVisibility(View.VISIBLE);
     }
 
