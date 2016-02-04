@@ -1,6 +1,5 @@
 package com.gang.micro.core.gallery.local;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,15 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gang.micro.R;
-import com.gang.micro.core.gallery.GalleryWrapper;
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryFragment;
-import com.gang.micro.core.image.Image;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,8 +27,6 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
 
     @Bind(R.id.local_gallery_loading_bar)
     ProgressBar loadingBar;
-
-    GalleryWrapper listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,31 +68,9 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
     }
 
     @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
-        listener = (GalleryWrapper) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-    @Override
     public void updateUI() {
         loadingBar.setVisibility(View.GONE);
         if (recyclerView.getAdapter().getItemCount() == 0)
             empty.setVisibility(View.VISIBLE);
-    }
-
-    private class onImageListItemClick implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-            Image image = (Image) adapterView.getItemAtPosition(position);
-
-            listener.showImage(image);
-        }
     }
 }
