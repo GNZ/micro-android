@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".core.gallery.RemoteGalleryActivity">
+    tools:context=".core.gallery.remote.RemoteGalleryActivity">
 
     <fragment
-        android:name="com.gang.micro.core.gallery.fragments.RemoteGalleryFragment"
+        android:name="com.gang.micro.core.gallery.remote.RemoteGalleryFragment"
         android:id="@+id/remote_gallery_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"

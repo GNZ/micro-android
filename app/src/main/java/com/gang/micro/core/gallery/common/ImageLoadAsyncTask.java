@@ -1,16 +1,15 @@
-package com.gang.micro.core.gallery.imageload;
+package com.gang.micro.core.gallery.common;
 
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.gang.micro.core.gallery.adapters.GalleryAdapter;
 import com.gang.micro.core.image.Image;
 
 public abstract class ImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
 
-    final Context context;
-    final GalleryAdapter adapter;
+    protected final Context context;
+    protected final GalleryAdapter adapter;
 
     public ImageLoadAsyncTask(Context context, GalleryAdapter adapter) {
         this.context = context;

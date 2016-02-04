@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.fragments;
+package com.gang.micro.core.gallery.local;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.gallery.GalleryWrapper;
-import com.gang.micro.core.gallery.adapters.GalleryAdapter;
-import com.gang.micro.core.gallery.adapters.LocalGalleryAdapter;
+import com.gang.micro.core.gallery.common.GalleryAdapter;
+import com.gang.micro.core.gallery.common.GalleryFragment;
 import com.gang.micro.core.image.Image;
 
 import butterknife.Bind;
@@ -53,11 +53,6 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
 
         recyclerView.setLayoutManager(layoutManager);
-
-        // Set click listener
-        //recyclerView.setOnItemClickListener(new onImageListItemClick());
-
-
     }
 
     @Override
@@ -76,7 +71,6 @@ public class LocalGalleryFragment extends Fragment implements GalleryFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.MicroStreamActivity">
+
+    <item
+        android:id="@+id/action_open_remote_gallery"
+        android:icon="@drawable/ic_collections_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/remote_gallery"
+        app:showAsAction="always" />
+</menu>

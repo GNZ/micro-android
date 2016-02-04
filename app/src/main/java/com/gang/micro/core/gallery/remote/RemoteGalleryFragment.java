@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.fragments;
+package com.gang.micro.core.gallery.remote;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gang.micro.R;
-import com.gang.micro.core.gallery.fragments.GalleryFragment;
-import com.gang.micro.core.gallery.adapters.RemoteGalleryAdapter;
+import com.gang.micro.core.gallery.common.GalleryFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

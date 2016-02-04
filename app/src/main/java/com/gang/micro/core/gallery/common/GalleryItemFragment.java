@@ -1,7 +1,7 @@
-package com.gang.micro.core.gallery;
+package com.gang.micro.core.gallery.common;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,7 @@ import com.gang.micro.core.image.Image;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ViewAnalysisFragment extends Fragment {
+public class GalleryItemFragment extends DialogFragment {
 
     private Image image;
 
@@ -31,12 +31,15 @@ public class ViewAnalysisFragment extends Fragment {
     @Bind(R.id.view_analyses_description)
     TextView descriptionTextView;
 
-    public ViewAnalysisFragment() {
+    private GalleryItem caller;
+
+    public GalleryItemFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
     }
 
     @Override
@@ -44,6 +47,7 @@ public class ViewAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_view_analysis, container, false);
         ButterKnife.bind(this, rootView);
+
 
         if (image != null) {
             imageView.setImageBitmap(image.getBitmap());
@@ -64,4 +68,11 @@ public class ViewAnalysisFragment extends Fragment {
         return image;
     }
 
+    public void setCaller(GalleryItem caller) {
+        this.caller = caller;
+    }
+
+    public GalleryItem getCaller() {
+        return caller;
+    }
 }

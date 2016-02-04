@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gang.micro.core.gallery.ViewAnalysisFragment">
+    tools:context=".core.gallery.common.GalleryItemFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,24 +1,24 @@
-package com.gang.micro.core.gallery.adapters;
+package com.gang.micro.core.gallery.common;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gang.micro.R;
-import com.gang.micro.core.gallery.fragments.GalleryFragment;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public abstract class GalleryAdapter extends RecyclerView.Adapter<ImageHolder> implements GalleryService {
+public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> implements GalleryService {
 
-
-    GalleryFragment fragment;
-    Context context;
-    ArrayList<Image> dataset;
+    private GalleryFragment fragment;
+    private Context context;
+    private List<Image> dataset;
 
     public GalleryAdapter(Context context, GalleryFragment fragment) {
         this.context = context;
@@ -28,14 +28,14 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<ImageHolder> i
         loadImages();
     }
 
-    public ImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.gallery_list_item, parent, false);
 
-        return new ImageHolder(view);
+        return new GalleryItemViewHolder(view, this);
     }
 
     @Override
-    public void onBindViewHolder(ImageHolder holder, int position) {
+    public void onBindViewHolder(GalleryItemViewHolder holder, int position) {
 
         String imageUrl = picturePath(position);
 
@@ -58,4 +58,19 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<ImageHolder> i
 
     public abstract String picturePath(int position);
 
+    public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
+        return new GalleryItemImpl(galleryItemViewHolder, (Fragment) fragment);
+    }
+
+    public GalleryFragment getFragment() {
+        return fragment;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public List<Image> getDataset() {
+        return dataset;
+    }
 }

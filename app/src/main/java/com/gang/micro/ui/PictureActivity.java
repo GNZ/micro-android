@@ -95,7 +95,7 @@ public class PictureActivity extends Activity {
     }
 
     private void startPreviewActivity() {
-        Intent previewActivity = new Intent(PictureActivity.this, PreviewActivity.class);
+        Intent previewActivity = new Intent(PictureActivity.this, MicroStreamActivity.class);
         startActivity(previewActivity);
     }
 

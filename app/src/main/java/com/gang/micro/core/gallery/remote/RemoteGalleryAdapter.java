@@ -1,10 +1,9 @@
-package com.gang.micro.core.gallery.adapters;
+package com.gang.micro.core.gallery.remote;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.gang.micro.core.gallery.imageload.RemoteImageLoadAsyncTask;
-import com.gang.micro.core.gallery.fragments.RemoteGalleryFragment;
+import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
 
@@ -16,12 +15,12 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
 
     @Override
     public String picturePath(int position) {
-        return new ImageUtils(context).getImageUrl(dataset.get(position));
+        return new ImageUtils(getContext()).getImageUrl(getDataset().get(position));
     }
 
     @Override
     public void loadImages() {
-        RemoteImageLoadAsyncTask loadRemoteImages = new RemoteImageLoadAsyncTask(context, this);
+        RemoteImageLoadAsyncTask loadRemoteImages = new RemoteImageLoadAsyncTask(getContext(), this);
 
         loadRemoteImages.execute();
     }

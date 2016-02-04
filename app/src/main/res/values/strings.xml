@@ -7,7 +7,7 @@
     <string name="microscope_tab">Microscopios</string>
     <string name="gallery_tab">Mis imágenes</string>
 
-    <!-- PreviewActivity  -->
+    <!-- MicroStreamActivity  -->
     <string name="default_url">rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</string>
     <string name="wait_dialog_title">Espere por favor...</string>
     <string name="wait_dialog_text">Buscando microscopios...</string>
@@ -46,5 +46,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="remote_gallery">Galería remota</string>
 
 </resources>

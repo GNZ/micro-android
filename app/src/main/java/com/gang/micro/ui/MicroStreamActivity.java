@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -16,7 +18,7 @@ import android.widget.RelativeLayout;
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.api.MicroApi;
-import com.gang.micro.core.gallery.RemoteGalleryActivity;
+import com.gang.micro.core.gallery.remote.RemoteGalleryActivity;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.image.analysis.Analysis;
 import com.gang.micro.core.image.analysis.AnalysisType;
@@ -34,9 +36,9 @@ import retrofit.Call;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class PreviewActivity extends AppCompatActivity {
+public class MicroStreamActivity extends AppCompatActivity {
 
-    private static final String TAG = "PreviewActivity";
+    private static final String TAG = "MicroStreamActivity";
     public static final String EXTRA_MICROSCOPE_IP = "micoscope_ip";
 
     @Bind(R.id.toolbar)
@@ -57,7 +59,7 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preview);
+        setContentView(R.layout.activity_micro_stream);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -139,13 +141,35 @@ public class PreviewActivity extends AppCompatActivity {
         //String picture = takeAndAnalize();
         //seeTakenPicture(picture);
 
-        Intent intent = new Intent(PreviewActivity.this, RemoteGalleryActivity.class);
+        Intent intent = new Intent(MicroStreamActivity.this, RemoteGalleryActivity.class);
 
         startActivity(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_microscope_stream_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_open_remote_gallery) {
+            Intent settingsActivity = new Intent(MicroStreamActivity.this, RemoteGalleryActivity.class);
+            startActivity(settingsActivity);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void seeTakenPicture(String picture) {
-        Intent pictureActivity = new Intent(PreviewActivity.this, PictureActivity.class);
+        Intent pictureActivity = new Intent(MicroStreamActivity.this, PictureActivity.class);
         pictureActivity.putExtra("picture", picture);
         startActivity(pictureActivity);
 

@@ -13,37 +13,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gang.micro.R;
-import com.gang.micro.core.gallery.GalleryWrapper;
-import com.gang.micro.core.gallery.ViewAnalysisFragment;
-import com.gang.micro.core.gallery.fragments.LocalGalleryFragment;
-import com.gang.micro.core.image.Image;
+import com.gang.micro.core.gallery.local.LocalGalleryFragment;
 import com.gang.micro.core.microscope.MicroscopesFragment;
 import com.gang.micro.core.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartActivity extends AppCompatActivity implements GalleryWrapper {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class StartActivity extends AppCompatActivity {
 
     static final boolean SHOWING_GALLERY = true;
 
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
+
+    @Bind(R.id.viewpager)
+    ViewPager viewPager;
+
     private ViewPagerAdapter adapter;
+
     private boolean state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -61,15 +68,12 @@ public class StartActivity extends AppCompatActivity implements GalleryWrapper {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_preview, menu);
+        getMenuInflater().inflate(R.menu.menu_start_activity, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -126,33 +130,6 @@ public class StartActivity extends AppCompatActivity implements GalleryWrapper {
                     .remove(mFragmentList.set(position, fragment))
                     .commit();
             notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void deleteImage() {
-    }
-
-    @Override
-    public void showImage(Image image) {
-        ViewAnalysisFragment viewAnalysisFragment = new ViewAnalysisFragment();
-        viewAnalysisFragment.setImage(image);
-        adapter.switchFragment(1, viewAnalysisFragment);
-        state = !SHOWING_GALLERY;
-    }
-
-    @Override
-    public void closeImage() {
-        adapter.switchFragment(1, new LocalGalleryFragment());
-        state = SHOWING_GALLERY;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (state != SHOWING_GALLERY)
-            closeImage();
-        else {
-            super.onBackPressed();
         }
     }
 }

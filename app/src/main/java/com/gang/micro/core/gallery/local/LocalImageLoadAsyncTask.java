@@ -1,8 +1,9 @@
-package com.gang.micro.core.gallery.imageload;
+package com.gang.micro.core.gallery.local;
 
 import android.content.Context;
 
-import com.gang.micro.core.gallery.adapters.GalleryAdapter;
+import com.gang.micro.core.gallery.common.GalleryAdapter;
+import com.gang.micro.core.gallery.common.ImageLoadAsyncTask;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.io.ImageIO;
 
