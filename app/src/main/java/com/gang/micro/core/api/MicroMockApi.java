@@ -7,13 +7,13 @@ import com.gang.micro.core.MicroApplication;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 
-public class MicroApi {
+public class MicroMockApi {
 
     private MicroApiSpecification api;
 
-    public MicroApi(Context context) {
+    public MicroMockApi(Context context) {
         String ip = ((MicroApplication) context.getApplicationContext()).getServerIP();
-        String baseUrl = "http://" + ip + ":5000";
+        String baseUrl = "http://:5000";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

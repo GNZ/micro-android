@@ -24,19 +24,16 @@ public class RemoteGalleryFragment extends Fragment implements GalleryFragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        RemoteGalleryAdapter remoteGalleryAdapter = new RemoteGalleryAdapter(getActivity(),this);
+        RemoteGalleryAdapter remoteGalleryAdapter = new RemoteGalleryAdapter(getActivity(), this);
 
         // Create layout manager
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
 
         // Set the layout manager
         gridView.setLayoutManager(layoutManager);
 
         // Set adapter
         gridView.setAdapter(remoteGalleryAdapter);
-
-        // Set item click listener
-        // TODO: remoteGalleryAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), remoteGalleryAdapter));
     }
 
     @Override

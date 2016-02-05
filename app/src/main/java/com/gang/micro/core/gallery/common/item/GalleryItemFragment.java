@@ -1,35 +1,36 @@
-package com.gang.micro.core.gallery.common;
+package com.gang.micro.core.gallery.common.item;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.image.ImageUtils;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class GalleryItemFragment extends DialogFragment {
 
-    private Image image;
-
     // UI elements
     @Bind(R.id.view_analyses_imageView)
     ImageView imageView;
 
-    @Bind(R.id.view_analyses_name)
-    TextView nameTextView;
+    @Bind(R.id.fragment_gallery_item_attribute_list)
+    RecyclerView attributesList;
 
-    @Bind(R.id.view_analyses_date)
-    TextView dateTextView;
-
-    @Bind(R.id.view_analyses_description)
-    TextView descriptionTextView;
+    @Bind(R.id.fragment_gallery_item_toolbar)
+    Toolbar toolbar;
 
     private GalleryItem caller;
 
@@ -48,24 +49,25 @@ public class GalleryItemFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_view_analysis, container, false);
         ButterKnife.bind(this, rootView);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        if (image != null) {
-            imageView.setImageBitmap(image.getBitmap());
-            nameTextView.setText(image.getId().toString().substring(0, 6));
-            dateTextView.setText(image.getCreated_at().toString());
-            descriptionTextView.setText(image.getAnalyses().get(0).getResult());
-        } else {
-            // TODO
+        if (caller == null) {
+            Log.e(this.getClass().getName(), "No image to display");
+            return rootView;
         }
+
+        Image image = caller.getImage();
+
+        // Load image
+        String url = new ImageUtils(getContext()).getImageUrl(image);
+
+        Picasso.with(getContext()).load(url).into(imageView);
+
+        attributesList.setAdapter(new GalleryItemAttributeListAdapter(getContext(), image));
+
+        attributesList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return rootView;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public Image getImage() {
-        return image;
     }
 
     public void setCaller(GalleryItem caller) {

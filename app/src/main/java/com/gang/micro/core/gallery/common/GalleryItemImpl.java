@@ -3,6 +3,10 @@ package com.gang.micro.core.gallery.common;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.gang.micro.core.gallery.common.item.GalleryItem;
+import com.gang.micro.core.gallery.common.item.GalleryItemFragment;
+import com.gang.micro.core.image.Image;
+
 public class GalleryItemImpl implements GalleryItem {
 
     private final GalleryItemViewHolder galleryItemViewHolder;
@@ -21,6 +25,11 @@ public class GalleryItemImpl implements GalleryItem {
     @Override
     public void removeItem() {
         galleryItemViewHolder.removeFromAdapter();
+    }
+
+    @Override
+    public Image getImage() {
+        return galleryItemViewHolder.getImage();
     }
 
     public Fragment getFragment() {

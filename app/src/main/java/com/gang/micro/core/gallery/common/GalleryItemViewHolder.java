@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.image.Image;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,5 +44,10 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
         int adapterPosition = getAdapterPosition();
 
         adapter.notifyItemChanged(adapterPosition);
+    }
+
+    public Image getImage() {
+
+        return adapter.getDataset().get(getAdapterPosition());
     }
 }
