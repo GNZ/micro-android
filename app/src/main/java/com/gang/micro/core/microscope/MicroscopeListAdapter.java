@@ -31,9 +31,17 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
     private void loadMicroscopes() {
 
+        loadMockMicroscope();
+
         NSDAsyncDiscoveryTask findMicroscopesTask = new NSDAsyncDiscoveryTask(this);
 
         findMicroscopesTask.execute();
+    }
+
+    private void loadMockMicroscope() {
+        Microscope microscope = new Microscope("Test microscope", "192.168.0.108");
+
+        dataset.add(microscope);
     }
 
     @Override
