@@ -51,16 +51,23 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
         return dataset.size();
     }
 
+    @Override
+    public void finishedLoadingItems() {
+        fragment.updateUI();
+    }
+
     public void add(Image image) {
         dataset.add(image);
         notifyItemInserted(dataset.size() - 1);
         fragment.updateUI();
     }
 
+
+
     public abstract String picturePath(int position);
 
     public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
-        return new GalleryItemImpl(galleryItemViewHolder, (Fragment) fragment);
+        return new GalleryItemImpl(galleryItemViewHolder, fragment);
     }
 
     public GalleryFragment getFragment() {

@@ -13,4 +13,6 @@ public interface GalleryService {
     void updateImage(Image image);
 
     void saveImage(Bitmap bitmap, Image image);
+
+    void finishedLoadingItems();
 }

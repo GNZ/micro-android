@@ -26,4 +26,9 @@ public abstract class ImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
         adapter.add(images[0]);
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        adapter.finishedLoadingItems();
+    }
 }
