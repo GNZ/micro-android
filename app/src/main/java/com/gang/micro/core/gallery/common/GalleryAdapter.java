@@ -17,9 +17,9 @@ import java.util.List;
 
 public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> implements GalleryService {
 
-    private GalleryFragment fragment;
-    private Context context;
-    private List<Image> dataset;
+    protected GalleryFragment fragment;
+    protected Context context;
+    protected List<Image> dataset;
 
     public GalleryAdapter(Context context, GalleryFragment fragment) {
         this.context = context;
@@ -66,9 +66,7 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
 
     public abstract String picturePath(int position);
 
-    public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
-        return new GalleryItemImpl(galleryItemViewHolder, fragment);
-    }
+    public abstract GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder);
 
     public GalleryFragment getFragment() {
         return fragment;

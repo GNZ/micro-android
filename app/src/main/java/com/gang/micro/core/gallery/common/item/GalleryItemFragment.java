@@ -59,7 +59,8 @@ public class GalleryItemFragment extends DialogFragment {
         Image image = caller.getImage();
 
         // Load image
-        String url = new ImageUtils(getContext()).getImageUrl(image);
+        //String url = new ImageUtils(getContext()).getImageUrl(image);
+        String url = caller.getUrl();
 
         Picasso.with(getContext()).load(url).into(imageView);
 

@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryFragment;
+import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
+import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.io.ImageIO;
 
@@ -21,6 +23,11 @@ public class LocalGalleryAdapter extends GalleryAdapter {
     public String picturePath(int position) {
         Uri uri = Uri.fromFile(new File(ImageIO.getPicturePath(getDataset().get(position))));
         return uri.toString();
+    }
+
+    @Override
+    public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
+        return new GalleryItemLocal(galleryItemViewHolder, fragment);
     }
 
     @Override
