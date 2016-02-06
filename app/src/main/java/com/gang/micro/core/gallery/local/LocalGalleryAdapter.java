@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryFragment;
 import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
-import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
+import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.io.ImageIO;
 
@@ -27,8 +27,8 @@ public class LocalGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public GalleryItemImpl getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
-        return new GalleryItemImplLocal(galleryItemViewHolder, fragment);
+    public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
+        return new LocalGalleryItemImpl(galleryItemViewHolder, fragment);
     }
 
     @Override

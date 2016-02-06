@@ -6,9 +6,9 @@ import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
 import com.gang.micro.core.utils.image.ImageUtils;
 
 
-public class GalleryItemImplRemote extends GalleryItemImpl {
+public class RemoteGalleryItemImpl extends GalleryItemImpl {
 
-    public GalleryItemImplRemote(GalleryItemViewHolder galleryItemViewHolder, GalleryFragment fragment) {
+    public RemoteGalleryItemImpl(GalleryItemViewHolder galleryItemViewHolder, GalleryFragment fragment) {
         super(galleryItemViewHolder, fragment);
     }
 

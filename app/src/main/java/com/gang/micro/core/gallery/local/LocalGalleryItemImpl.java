@@ -10,8 +10,8 @@ import com.gang.micro.core.utils.io.ImageIO;
 import java.io.File;
 
 
-public class GalleryItemImplLocal extends GalleryItemImpl {
-    public GalleryItemImplLocal(GalleryItemViewHolder galleryItemViewHolder, Fragment fragment) {
+public class LocalGalleryItemImpl extends GalleryItemImpl {
+    public LocalGalleryItemImpl(GalleryItemViewHolder galleryItemViewHolder, Fragment fragment) {
         super(galleryItemViewHolder, fragment);
     }
 

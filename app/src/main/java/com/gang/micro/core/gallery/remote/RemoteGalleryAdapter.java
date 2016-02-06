@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
-import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
+import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
 
@@ -21,8 +21,8 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public GalleryItemImpl getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
-        return new GalleryItemImplRemote(galleryItemViewHolder, fragment);
+    public GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder) {
+        return new RemoteGalleryItemImpl(galleryItemViewHolder, fragment);
     }
 
     @Override

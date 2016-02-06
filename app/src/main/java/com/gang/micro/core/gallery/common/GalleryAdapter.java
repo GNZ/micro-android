@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gang.micro.R;
-import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
+import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +71,7 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
 
     public abstract String picturePath(int position);
 
-    public abstract GalleryItemImpl getItemClickListener(GalleryItemViewHolder galleryItemViewHolder);
+    public abstract GalleryItem getItemClickListener(GalleryItemViewHolder galleryItemViewHolder);
 
     public GalleryFragment getFragment() {
         return fragment;
