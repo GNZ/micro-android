@@ -2,13 +2,13 @@ package com.gang.micro.core.gallery.remote;
 
 import com.gang.micro.core.gallery.common.GalleryFragment;
 import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
-import com.gang.micro.core.gallery.common.item.GalleryItem;
+import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
 import com.gang.micro.core.utils.image.ImageUtils;
 
 
-public class GalleryItemRemote extends GalleryItem {
+public class GalleryItemImplRemote extends GalleryItemImpl {
 
-    public GalleryItemRemote(GalleryItemViewHolder galleryItemViewHolder, GalleryFragment fragment) {
+    public GalleryItemImplRemote(GalleryItemViewHolder galleryItemViewHolder, GalleryFragment fragment) {
         super(galleryItemViewHolder, fragment);
     }
 

@@ -35,7 +35,7 @@ public class GalleryItemFragment extends DialogFragment {
     @Bind(R.id.fragment_gallery_item_toolbar)
     Toolbar toolbar;
 
-    private GalleryItem caller;
+    private GalleryItemImpl caller;
 
     public GalleryItemFragment() {
     }
@@ -75,11 +75,11 @@ public class GalleryItemFragment extends DialogFragment {
         return rootView;
     }
 
-    public void setCaller(GalleryItem caller) {
+    public void setCaller(GalleryItemImpl caller) {
         this.caller = caller;
     }
 
-    public GalleryItem getCaller() {
+    public GalleryItemImpl getCaller() {
         return caller;
     }
 }
