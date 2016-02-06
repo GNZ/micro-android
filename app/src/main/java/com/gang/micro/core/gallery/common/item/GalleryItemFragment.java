@@ -1,6 +1,7 @@
 package com.gang.micro.core.gallery.common.item;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,9 @@ import butterknife.ButterKnife;
 public class GalleryItemFragment extends DialogFragment {
 
     // UI elements
+    @Bind(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
     @Bind(R.id.view_analyses_imageView)
     ImageView imageView;
 
@@ -51,6 +55,8 @@ public class GalleryItemFragment extends DialogFragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+        collapsingToolbarLayout.setTitle("Micro");
+
         if (caller == null) {
             Log.e(this.getClass().getName(), "No image to display");
             return rootView;
@@ -59,7 +65,6 @@ public class GalleryItemFragment extends DialogFragment {
         Image image = caller.getImage();
 
         // Load image
-        //String url = new ImageUtils(getContext()).getImageUrl(image);
         String url = caller.getUrl();
 
         Picasso.with(getContext()).load(url).into(imageView);
