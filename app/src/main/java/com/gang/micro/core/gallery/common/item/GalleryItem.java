@@ -6,7 +6,8 @@ import com.gang.micro.core.image.Image;
 
 
 public interface GalleryItem extends View.OnClickListener {
-    void updateItem();
+
+    void updateItem(Image newImage);
 
     void removeItem();
 

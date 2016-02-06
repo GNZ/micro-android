@@ -22,7 +22,6 @@ public abstract class ImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
     @Override
     protected void onProgressUpdate(Image... images) {
         super.onProgressUpdate(images);
-
         adapter.add(images[0]);
     }
 

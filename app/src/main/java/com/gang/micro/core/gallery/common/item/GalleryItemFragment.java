@@ -53,6 +53,8 @@ public class GalleryItemFragment extends DialogFragment {
 
         toolbar.inflateMenu(R.menu.menu_gallery_item_detail);
 
+        toolbar.setOnMenuItemClickListener(new GalleryItemMenuItemClickListener(caller,this));
+
         if (caller == null) {
             Log.e(this.getClass().getName(), "No image to display");
             return rootView;

@@ -8,9 +8,9 @@ public interface GalleryService {
 
     void loadImages();
 
-    void deleteImage(Image image);
+    void deleteImage(int position);
 
-    void updateImage(Image image);
+    void updateImage(int position, Image image);
 
     void saveImage(Bitmap bitmap, Image image);
 

@@ -38,42 +38,46 @@ public class LocalGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public void deleteImage(Image image) {
+    public void deleteImage(int position) {
 
-        (new AsyncTask<Image, Void, Boolean>() {
+        (new AsyncTask<Integer, Void, Boolean>() {
             Image image;
+            int position;
             @Override
-            protected Boolean doInBackground(Image... params) {
-                image = params[0];
+            protected Boolean doInBackground(Integer... params) {
+                position = params[0];
+                image = dataset.get(position);
                 return ImageIO.deletePicture(image) && ImageIO.deleteImage(image);
             }
 
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 if (aBoolean)
-                    remove(image);
+                    remove(position);
             }
-        }).execute(image);
+        }).execute(position);
 
     }
 
     @Override
-    public void updateImage(Image image) {
+    public void updateImage(int position, Image newImage) {
 
-        (new AsyncTask<Image, Void, Boolean>() {
+        (new AsyncTask<Object, Void, Boolean>() {
             Image image;
+            int position;
             @Override
-            protected Boolean doInBackground(Image... params) {
-                image = params[0];
+            protected Boolean doInBackground(Object... params) {
+                position = (Integer) params[0];
+                image = (Image) params[1];
                 return ImageIO.saveImage(image);
             }
 
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 if (aBoolean)
-                    notifyItemRemoved(dataset.indexOf(image));
+                    update(position);
             }
-        }).execute(image);
+        }).execute(position,newImage);
 
     }
 

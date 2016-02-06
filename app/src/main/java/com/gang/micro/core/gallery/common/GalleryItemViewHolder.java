@@ -34,16 +34,12 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
 
     public void removeFromAdapter() {
         int adapterPosition = getAdapterPosition();
-
-        adapter.getDataset().remove(adapterPosition);
-
-        adapter.notifyItemRemoved(adapterPosition);
+        adapter.deleteImage(adapterPosition);
     }
 
-    public void updateInAdapter() {
+    public void updateInAdapter(Image newImage) {
         int adapterPosition = getAdapterPosition();
-
-        adapter.notifyItemChanged(adapterPosition);
+        adapter.updateImage(adapterPosition,newImage);
     }
 
     public Image getImage() {

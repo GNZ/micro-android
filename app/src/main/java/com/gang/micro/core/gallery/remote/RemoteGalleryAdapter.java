@@ -33,12 +33,12 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public void deleteImage(Image image) {
+    public void deleteImage(int position) {
 
     }
 
     @Override
-    public void updateImage(Image image) {
+    public void updateImage(int position, Image image) {
 
     }
 

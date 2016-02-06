@@ -61,13 +61,14 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
         fragment.updateUI();
     }
 
-    protected void remove(Image image){
-        int position = dataset.indexOf(image);
+    protected void remove(int position){
         dataset.remove(position);
         notifyItemRemoved(position);
     }
 
-
+    protected void update(int position){
+        notifyItemChanged(position);
+    }
 
     public abstract String picturePath(int position);
 
