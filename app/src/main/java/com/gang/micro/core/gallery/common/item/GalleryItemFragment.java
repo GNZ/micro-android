@@ -3,7 +3,6 @@ package com.gang.micro.core.gallery.common.item;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -52,9 +51,7 @@ public class GalleryItemFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_view_analysis, container, false);
         ButterKnife.bind(this, rootView);
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        collapsingToolbarLayout.setTitle(caller.getImage().getName());
+        toolbar.inflateMenu(R.menu.menu_gallery_item_detail);
 
         if (caller == null) {
             Log.e(this.getClass().getName(), "No image to display");

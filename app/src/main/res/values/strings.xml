@@ -42,5 +42,7 @@
     <string name="error_loding_image">Error al cargar el análisis</string>
 
     <string name="remote_gallery">Galería remota</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
 
 </resources>
