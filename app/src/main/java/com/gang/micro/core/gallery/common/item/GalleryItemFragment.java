@@ -55,7 +55,7 @@ public class GalleryItemFragment extends DialogFragment {
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        collapsingToolbarLayout.setTitle("Micro");
+        collapsingToolbarLayout.setTitle(caller.getImage().getName());
 
         if (caller == null) {
             Log.e(this.getClass().getName(), "No image to display");

@@ -76,4 +76,9 @@ public class Image extends JsonPrintedImpl implements Serializable {
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
+
+    @Override
+    public int hashCode(){
+        return id.hashCode();
+    }
 }

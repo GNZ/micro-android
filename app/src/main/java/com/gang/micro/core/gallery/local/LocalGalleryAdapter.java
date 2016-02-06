@@ -3,6 +3,7 @@ package com.gang.micro.core.gallery.local;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryFragment;
@@ -39,15 +40,45 @@ public class LocalGalleryAdapter extends GalleryAdapter {
     @Override
     public void deleteImage(Image image) {
 
+        (new AsyncTask<Image, Void, Boolean>() {
+            Image image;
+            @Override
+            protected Boolean doInBackground(Image... params) {
+                image = params[0];
+                return ImageIO.deletePicture(image) && ImageIO.deleteImage(image);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if (aBoolean)
+                    notifyItemRemoved(dataset.indexOf(image));
+            }
+        }).execute(image);
+
     }
 
     @Override
     public void updateImage(Image image) {
 
+        (new AsyncTask<Image, Void, Boolean>() {
+            Image image;
+            @Override
+            protected Boolean doInBackground(Image... params) {
+                image = params[0];
+                return ImageIO.saveImage(image);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if (aBoolean)
+                    notifyItemChanged(dataset.indexOf(image));
+            }
+        }).execute(image);
+
     }
 
     @Override
     public void saveImage(Bitmap bitmap, Image image) {
-
+        // NO IMPLEMENTATION
     }
 }
