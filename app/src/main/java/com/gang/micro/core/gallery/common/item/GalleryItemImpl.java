@@ -32,11 +32,6 @@ public abstract class GalleryItemImpl implements GalleryItem {
     }
 
     @Override
-    public Fragment getFragment() {
-        return fragment;
-    }
-
-    @Override
     public void onClick(View v) {
         GalleryItemFragment galleryItemFragment = new GalleryItemFragment();
 
