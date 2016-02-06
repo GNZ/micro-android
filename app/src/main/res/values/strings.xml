@@ -32,12 +32,15 @@
     <string name="settings_folder_summary">Ingresa comando a utilizar</string>
 
 
-    <string name="local_gallery_no_images">No hay imágenes guardadas</string>
+    <string name="gallery_no_images">No hay imágenes guardadas</string>
+    <string name="no_microscopes">No hay microscopios disponibles</string>
 
     <!-- microscope_button -->
 
 
     <!-- ViewAnalysisActivity -->
     <string name="error_loding_image">Error al cargar el análisis</string>
+
+    <string name="remote_gallery">Galería remota</string>
 
 </resources>

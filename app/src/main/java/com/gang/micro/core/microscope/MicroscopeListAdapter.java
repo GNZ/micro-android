@@ -21,9 +21,11 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
     private static MicroscopeListItemClickListener clickListener;
     private Context context;
+    private MicroscopesFragment fragment;
 
-    public MicroscopeListAdapter(Context context) {
+    public MicroscopeListAdapter(Context context, MicroscopesFragment fragment) {
         this.context = context;
+        this.fragment = fragment;
         this.dataset = new ArrayList<>();
 
         loadMicroscopes();
@@ -78,6 +80,10 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
     public Context getContext() {
         return context;
+    }
+
+    public MicroscopesFragment getMicroscopeFragment(){
+        return fragment;
     }
 
     static class MicroscopeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

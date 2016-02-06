@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
-import com.gang.micro.core.utils.image.ImageUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;

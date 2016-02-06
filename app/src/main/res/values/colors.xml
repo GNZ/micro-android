@@ -8,7 +8,7 @@
     <color name="container_background">#3399ff</color>
     <color name="general_background">#E1E1E1</color>
 
-    <!-- GalleryFragment -->
-    <color name="gallery_fragment_background">#f0f0f0</color>
+    <!-- StartActivity -->
+    <color name="start_activity_fragments_background">#f0f0f0</color>
 
 </resources>

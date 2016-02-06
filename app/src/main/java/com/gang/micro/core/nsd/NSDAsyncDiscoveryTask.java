@@ -47,6 +47,11 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
         microscopeListAdapter.addAll(values[0]);
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        microscopeListAdapter.getMicroscopeFragment().updateUI();
+    }
+
     public void publish(Microscope microscope) {
         publishProgress(microscope);
     }

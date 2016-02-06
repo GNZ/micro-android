@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gallery_fragment_background">
+    android:background="@color/start_activity_fragments_background">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gallery_list"
@@ -17,7 +17,7 @@
         android:gravity="center"
         android:layout_centerVertical="true"
         android:textSize="@dimen/abc_text_size_body_1_material"
-        android:text="@string/local_gallery_no_images"
+        android:text="@string/gallery_no_images"
         android:visibility="gone"/>
 
     <ProgressBar
