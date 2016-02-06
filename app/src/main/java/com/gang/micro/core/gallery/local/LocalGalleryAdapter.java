@@ -51,7 +51,7 @@ public class LocalGalleryAdapter extends GalleryAdapter {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 if (aBoolean)
-                    notifyItemRemoved(dataset.indexOf(image));
+                    remove(image);
             }
         }).execute(image);
 
@@ -71,7 +71,7 @@ public class LocalGalleryAdapter extends GalleryAdapter {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 if (aBoolean)
-                    notifyItemChanged(dataset.indexOf(image));
+                    notifyItemRemoved(dataset.indexOf(image));
             }
         }).execute(image);
 
