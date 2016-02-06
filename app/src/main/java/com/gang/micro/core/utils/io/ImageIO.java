@@ -20,6 +20,7 @@ public class ImageIO {
     public final static String ANALYSIS_EXTENSION = ".json";
     static final String SUB_FOLDER = "micro";
     public static final String FOLDER = Environment.getExternalStorageDirectory() + File.separator + SUB_FOLDER + File.separator;
+    public static final String TEMP_PICTURE_FILE = FOLDER + "temp_picture" + PICTURE_EXTENSION;
 
     public ImageIO() {
         File file = new File(FOLDER);
@@ -52,7 +53,7 @@ public class ImageIO {
         return images;
     }
 
-    public List<String> getFilenames(String path) {
+    public static List<String> getFilenames(String path) {
 
         List<String> filenames = new ArrayList<>();
 
@@ -81,11 +82,15 @@ public class ImageIO {
     }
 
     public static boolean deletePicture(Image image) {
-        File picture = new File(getPicturePath(image));
+        return deletePicture(getPicturePath(image));
+    }
+
+    public static boolean deletePicture(String path) {
+        File picture = new File(path);
         return picture.delete();
     }
 
-    public static boolean savePicture(Image image, Bitmap bitmap) {
+    public static boolean savePicture(Bitmap bitmap, Image image) {
         String id = image.getId().toString();
         FileOutputStream outputStream;
         try {
@@ -96,6 +101,24 @@ public class ImageIO {
             return false;
         }
         return true;
+    }
+
+    public static File savePicture(Bitmap bitmap, String path) {
+
+        File picture = new File(path);
+        FileOutputStream outputStream;
+        try {
+            outputStream = new FileOutputStream(picture);
+            try {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.flush();
+            } finally {
+                outputStream.close();
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return picture;
     }
 
     public static boolean saveImage(Image image) {

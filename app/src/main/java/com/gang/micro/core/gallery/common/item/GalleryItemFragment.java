@@ -1,5 +1,6 @@
 package com.gang.micro.core.gallery.common.item;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
@@ -14,12 +15,15 @@ import android.widget.ImageView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.io.ImageIO;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class GalleryItemFragment extends DialogFragment {
+
+    public static final int SHARE_INTENT_CODE = 2;
 
     // UI elements
     @Bind(R.id.collapsing_toolbar_layout)
@@ -72,6 +76,13 @@ public class GalleryItemFragment extends DialogFragment {
         attributesList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SHARE_INTENT_CODE)
+            ImageIO.deletePicture(ImageIO.TEMP_PICTURE_FILE);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void setCaller(GalleryItem caller) {
