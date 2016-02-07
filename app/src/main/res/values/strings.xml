@@ -8,7 +8,6 @@
     <string name="gallery_tab">Mis imágenes</string>
 
     <!-- MicroStreamActivity  -->
-    <string name="default_url">rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</string>
     <string name="wait_dialog_title">Espere por favor...</string>
     <string name="wait_dialog_text">Buscando microscopios...</string>
 
@@ -38,6 +37,9 @@
     <string name="no_microscopes">No hay microscopios disponibles</string>
 
     <!-- microscope_button -->
+
+    <!-- RemoteGalleryItemFragment -->
+    <string name="image_save">Imagen guardada en la galeria local con el nombre</string>
 
 
     <!-- ViewAnalysisActivity -->
