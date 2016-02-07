@@ -1,11 +1,9 @@
 package com.gang.micro.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,7 +37,6 @@ import retrofit.Retrofit;
 public class MicroStreamActivity extends AppCompatActivity {
 
     private static final String TAG = "MicroStreamActivity";
-    public static final String EXTRA_MICROSCOPE_IP = "micoscope_ip";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -47,14 +44,7 @@ public class MicroStreamActivity extends AppCompatActivity {
     @Bind(R.id.micro_video)
     MjpegView microVideo;
 
-    private SharedPreferences settings;
     private RelativeLayout.LayoutParams paramsNotFullscreen;
-    private SharedPreferences.Editor prefEditor;
-    private String serviceName;
-    private String protocol;
-    private String port;
-    private String folderName;
-    private String videoURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +53,12 @@ public class MicroStreamActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
         // No changes were made on settings
         ((MicroApplication) getApplication()).setChanges(false);
+
         // Avoid screen lock
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        String microscopeIP = getIntent().getStringExtra(EXTRA_MICROSCOPE_IP);
-
-        ((MicroApplication) getApplication()).setServerIP(microscopeIP);
-
-        getParameters();
-
     }
 
     protected void onRestart() {
@@ -122,20 +107,6 @@ public class MicroStreamActivity extends AppCompatActivity {
         }
     }
 
-    private void getParameters() {
-        settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        serviceName = settings.getString("service_name", "micro");
-        protocol = settings.getString("protocol", "http");
-        port = settings.getString("port", "8080");
-        folderName = settings.getString("folder", "action=stream");
-
-        ((MicroApplication) getApplication()).setServiceName(serviceName);
-        ((MicroApplication) getApplication()).setProtocol(protocol);
-        ((MicroApplication) getApplication()).setPort(port);
-        ((MicroApplication) getApplication()).setFolderName(folderName);
-    }
-
     @OnClick(R.id.fab)
     void selectFrame() {
         //String picture = takeAndAnalize();
@@ -151,6 +122,7 @@ public class MicroStreamActivity extends AppCompatActivity {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_microscope_stream_activity, menu);
+
         return true;
     }
 
@@ -212,10 +184,13 @@ public class MicroStreamActivity extends AppCompatActivity {
     }
 
     private void startVideo() {
-        String serverIP = ((MicroApplication) getApplication()).getServerIP();
-        String port = ((MicroApplication) getApplication()).getPort();
+        MicroApplication application = ((MicroApplication) getApplication());
 
-        videoURL = "http://" + serverIP + ":" + port + "/?" + folderName;
+        String serverIP = application.getServerIp();
+        String port = application.getStreamingPort();
+        String folderName = application.getFolderName();
+
+        String videoURL = "http://" + serverIP + ":" + port + "/?" + folderName;
 
         Log.d(TAG, videoURL);
 

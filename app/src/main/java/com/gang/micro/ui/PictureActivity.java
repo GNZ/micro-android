@@ -75,7 +75,7 @@ public class PictureActivity extends Activity {
                 setButtonsClickeable(true);
 
                 id = response.body().getId().toString();
-                String serverIP = ((MicroApplication) getApplication()).getServerIP();
+                String serverIP = ((MicroApplication) getApplication()).getServerIp();
 
                 String imageUrl = "http://" + serverIP + FIX_URL + id + ".jpg";
 

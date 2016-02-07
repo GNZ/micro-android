@@ -41,7 +41,8 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     private void loadMockMicroscope() {
-        Microscope microscope = new Microscope("Test microscope", "192.168.0.108");
+        Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
+        microscope.setWebApplicationPort("80");
 
         dataset.add(microscope);
     }
@@ -57,7 +58,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     @Override
     public void onBindViewHolder(MicroscopeViewHolder holder, int position) {
         holder.titleTextView.setText(dataset.get(position).getName());
-        holder.subtitleTextView.setText(dataset.get(position).getIp());
+        holder.subtitleTextView.setText(dataset.get(position).getServerIp());
     }
 
     @Override

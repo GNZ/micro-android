@@ -2,8 +2,8 @@ package com.gang.micro.core.gallery.common.item;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.gang.micro.R;
 

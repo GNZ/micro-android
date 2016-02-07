@@ -12,8 +12,11 @@ public class MicroApi {
     private MicroApiSpecification api;
 
     public MicroApi(Context context) {
-        String ip = ((MicroApplication) context.getApplicationContext()).getServerIP();
-        String baseUrl = "http://" + ip + ":5000";
+        MicroApplication app = ((MicroApplication) context.getApplicationContext());
+
+        String ip = app.getServerIp();
+
+        String baseUrl = app.getProtocol() + "://" + ip + ":" + app.getWebApplicationPort();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

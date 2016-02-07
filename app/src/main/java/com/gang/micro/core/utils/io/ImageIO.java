@@ -2,7 +2,6 @@ package com.gang.micro.core.utils.io;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gang.micro.core.image.Image;

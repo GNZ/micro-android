@@ -18,7 +18,7 @@ public class ImageUtils {
     }
 
     public String getImageUrl(Image image) {
-        String serverIp = application.getServerIP();
+        String serverIp = application.getServerIp();
 
         return "http://" + serverIp + "/" + SERVER_IMAGE_PATH + image.getId().toString() + IMAGE_EXTENSION;
     }

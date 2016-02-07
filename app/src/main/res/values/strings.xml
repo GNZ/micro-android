@@ -24,12 +24,14 @@
     <string name="settings_parameters_category">Configurar parametros</string>>
     <string name="settings_service_title">Servicio</string>
     <string name="settings_protocol_title">Protocolo</string>
-    <string name="settings_port_title">Puerto</string>
+    <string name="settings_port_title">Puerto de streaming</string>
     <string name="settings_folder_title">Comando</string>
-    <string name="settings_service_summary">Ingresa el nombre del servicio</string>
-    <string name="settings_protocol_summary">Ingresa el protocolo a usar</string>
-    <string name="settings_port_summary">Ingeresa el puerto a utilizar</string>
-    <string name="settings_folder_summary">Ingresa comando a utilizar</string>
+    <string name="settings_webapp_port_title">Puerto de aplicación web</string>
+    <string name="settings_service_summary">Ingresá el nombre del servicio</string>
+    <string name="settings_protocol_summary">Ingresá el protocolo a usar</string>
+    <string name="settings_port_summary">Ingeresa el puerto de streaming a utilizar</string>
+    <string name="settings_folder_summary">Ingresá comando a utilizar</string>
+    <string name="settings_webapp_port_summary">Ingresá el puerto de la aplicación web</string>
 
 
     <string name="gallery_no_images">No hay imágenes guardadas</string>

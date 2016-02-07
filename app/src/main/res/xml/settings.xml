@@ -8,16 +8,25 @@
             android:summary="@string/settings_service_summary"
             android:defaultValue="micro"
             android:key="service_name"/>
+
         <EditTextPreference
             android:title="@string/settings_port_title"
             android:summary="@string/settings_port_summary"
             android:defaultValue="8080"
-            android:key="port"/>
+            android:key="streaming_port" />
+
         <EditTextPreference
             android:title="@string/settings_folder_title"
             android:summary="@string/settings_folder_summary"
             android:defaultValue="action=stream"
             android:key="folder"/>
+
+        <EditTextPreference
+            android:title="@string/settings_webapp_port_title"
+            android:summary="@string/settings_webapp_port_summary"
+            android:defaultValue="5000"
+            android:key="webapp_port" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

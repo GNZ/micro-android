@@ -3,26 +3,44 @@ package com.gang.micro.core.microscope;
 public class Microscope {
 
     private String name;
-    private String ip;
+    private String serverIp;
+    private String streamingPort;
+    private String webApplicationPort;
 
-    public Microscope(String name, String ip) {
+    public Microscope(String name, String serverIp) {
         this.name = name;
-        this.ip = ip;
+        this.serverIp = serverIp;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getIp() {
-        return ip;
+    public String getServerIp() {
+        return serverIp;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public String getStreamingPort() {
+        return streamingPort;
+    }
+
+    public void setStreamingPort(String streamingPort) {
+        this.streamingPort = streamingPort;
+    }
+
+    public String getWebApplicationPort() {
+        return webApplicationPort;
+    }
+
+    public void setWebApplicationPort(String webApplicationPort) {
+        this.webApplicationPort = webApplicationPort;
     }
 }
