@@ -10,8 +10,8 @@ import com.gang.micro.core.microscope.Microscope;
 
 public class MicroApplication extends Application {
 
-    private final String defaultStreamingPort;
-    private final String defaultWebApplicationPort;
+    private String defaultStreamingPort;
+    private String defaultWebApplicationPort;
     private String defaultServiceName;
     private String defaultProtocol;
     private String defaultStreamingPath;
@@ -21,8 +21,12 @@ public class MicroApplication extends Application {
     private boolean changes;
 
     public MicroApplication() {
+    }
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         defaultServiceName = sharedPreferences.getString("service_name", "micro");
         defaultProtocol = sharedPreferences.getString("protocol", "http");
