@@ -2,12 +2,20 @@ package com.gang.micro.core.gallery.remote;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 
+import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
+import com.gang.micro.core.utils.io.ImageIO;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class RemoteGalleryAdapter extends GalleryAdapter {
 
@@ -33,17 +41,60 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public void deleteImage(int position) {
+    public void deleteImage(final int position) {
+        Image image = dataset.get(position);
+
+        Call<Boolean> call = new MicroApi(getContext())
+                .getApi()
+                .deleteImage(image.getId());
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Response<Boolean> response, Retrofit retrofit) {
+                boolean success = response.body();
+                if (success)
+                    remove(position);
+            }
+            @Override
+            public void onFailure(Throwable t) { }
+        });
 
     }
 
     @Override
-    public void updateImage(int position, Image image) {
+    public void updateImage(final int position, Image image) {
 
+        Call<Image> call = new MicroApi(getContext())
+                .getApi()
+                .updateImage(image.getId(),image);
+
+        call.enqueue(new Callback<Image>() {
+            @Override
+            public void onResponse(Response<Image> response, Retrofit retrofit) {
+                update(position);
+            }
+
+            @Override
+            public void onFailure(Throwable t) { }
+        });
     }
 
     @Override
-    public void saveImage(Bitmap bitmap, Image image) {
+    public void saveImage(final Bitmap bitmap,final Image image) {
 
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return ImageIO.saveImage(image) && ImageIO.savePicture(bitmap,image);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                // TODO notify LocalGalleryAdapter???
+                if (aBoolean)
+                    ;
+            }
+        }.execute();
     }
+
 }

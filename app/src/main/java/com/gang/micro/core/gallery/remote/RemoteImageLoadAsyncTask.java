@@ -32,8 +32,11 @@ public class RemoteImageLoadAsyncTask extends ImageLoadAsyncTask {
 
             List<Image> images = imagesResponse.body();
 
-            for (Image image : images) {
-                publishProgress(image);
+            if (images != null) {
+
+                for (Image image : images) {
+                    publishProgress(image);
+                }
             }
 
         } catch (IOException exception) {
