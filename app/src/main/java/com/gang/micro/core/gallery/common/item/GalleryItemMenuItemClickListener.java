@@ -6,6 +6,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.gang.micro.R;
+import com.gang.micro.core.utils.io.ImageIO;
+
+import java.io.File;
 
 
 public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClickListener {
@@ -39,7 +42,8 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
     private void callSharePictureIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/jpeg");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(caller.getPictureFile()));
+        File bitmapFile = ImageIO.savePicture(caller.getBitmap(),ImageIO.TEMP_PICTURE_FILE);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
         galleryItemFragment.startActivityForResult(shareIntent,galleryItemFragment.SHARE_INTENT_CODE);
     }
 }

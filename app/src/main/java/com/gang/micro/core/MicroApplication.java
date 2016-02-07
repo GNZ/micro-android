@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.gang.micro.core.gallery.local.LocalGalleryAdapter;
 import com.gang.micro.core.microscope.Microscope;
 
 
@@ -17,6 +18,9 @@ public class MicroApplication extends Application {
     private String defaultStreamingPath;
 
     private Microscope currentMicroscope;
+
+    //LocalGalleryAdapter
+    LocalGalleryAdapter localGalleryAdapter;
 
     private boolean changes;
 
@@ -45,6 +49,10 @@ public class MicroApplication extends Application {
 
     public void setChanges(boolean changes) {
         this.changes = changes;
+    }
+
+    public void setLocalGalleryAdapter(LocalGalleryAdapter localGalleryAdapter){
+        this.localGalleryAdapter = localGalleryAdapter;
     }
 
     public String getStreamingPort() {
@@ -81,5 +89,9 @@ public class MicroApplication extends Application {
 
     public String getProtocol() {
         return defaultProtocol;
+    }
+
+    public LocalGalleryAdapter getLocalGalleryAdapter() {
+        return localGalleryAdapter;
     }
 }

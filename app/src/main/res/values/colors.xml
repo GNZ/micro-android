@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#ac14da</color>
     <color name="colorPrimaryDark">#6b0f9f</color>
-    <color name="colorAccent">#e7e7e7</color>
+    <color name="colorAccent">#ac14da</color>
 
     <!-- PictureActivity -->
     <color name="container_background">#3399ff</color>

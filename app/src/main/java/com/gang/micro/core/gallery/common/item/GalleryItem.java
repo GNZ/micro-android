@@ -1,10 +1,9 @@
 package com.gang.micro.core.gallery.common.item;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
 import com.gang.micro.core.image.Image;
-
-import java.io.File;
 
 
 public interface GalleryItem extends View.OnClickListener {
@@ -15,7 +14,7 @@ public interface GalleryItem extends View.OnClickListener {
 
     Image getImage();
 
-    File getPictureFile();
+    Bitmap getBitmap();
 
     String getUrl();
 }

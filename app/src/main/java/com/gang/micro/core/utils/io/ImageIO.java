@@ -28,7 +28,7 @@ public class ImageIO {
         }
     }
 
-    public Image readImage(String path) throws IOException {
+    public static Image readImage(String path) throws IOException {
 
         Image image;
 

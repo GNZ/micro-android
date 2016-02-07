@@ -16,6 +16,7 @@ import com.gang.micro.R;
 import com.gang.micro.core.gallery.local.LocalGalleryFragment;
 import com.gang.micro.core.microscope.MicroscopesFragment;
 import com.gang.micro.core.settings.SettingsActivity;
+import com.gang.micro.core.utils.io.ImageIO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,6 @@ public class StartActivity extends AppCompatActivity {
 
     private ViewPagerAdapter adapter;
 
-    private boolean state;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +51,9 @@ public class StartActivity extends AppCompatActivity {
         setupViewPager(viewPager);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        // Create images and pictures folder
+        new ImageIO();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -59,7 +61,6 @@ public class StartActivity extends AppCompatActivity {
 
         adapter.addFragment(new MicroscopesFragment(), getResources().getString(R.string.microscope_tab));
         adapter.addFragment(new LocalGalleryFragment(), getResources().getString(R.string.gallery_tab));
-        state = SHOWING_GALLERY;
 
         viewPager.setAdapter(adapter);
     }
@@ -90,7 +91,6 @@ public class StartActivity extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
         private FragmentManager fm;
-        private Fragment fragmentChange;
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -100,13 +100,6 @@ public class StartActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            if (object.getClass() != fragmentChange.getClass())
-                return POSITION_NONE;
-            return POSITION_UNCHANGED;
         }
 
         @Override
@@ -124,12 +117,5 @@ public class StartActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
 
-        public void switchFragment(int position, Fragment fragment) {
-            fragmentChange = fragment;
-            fm.beginTransaction()
-                    .remove(mFragmentList.set(position, fragment))
-                    .commit();
-            notifyDataSetChanged();
-        }
     }
 }

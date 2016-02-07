@@ -38,7 +38,9 @@ public class GalleryItemFragment extends DialogFragment {
     @Bind(R.id.fragment_gallery_item_toolbar)
     Toolbar toolbar;
 
-    private GalleryItem caller;
+    protected GalleryItem caller;
+
+    protected Image image;
 
     public GalleryItemFragment() {
     }
@@ -55,6 +57,10 @@ public class GalleryItemFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_view_analysis, container, false);
         ButterKnife.bind(this, rootView);
 
+        return initUI(rootView);
+    }
+
+    protected View initUI(View rootView){
         toolbar.inflateMenu(R.menu.menu_gallery_item_detail);
 
         toolbar.setOnMenuItemClickListener(new GalleryItemMenuItemClickListener(caller,this));
@@ -64,7 +70,7 @@ public class GalleryItemFragment extends DialogFragment {
             return rootView;
         }
 
-        Image image = caller.getImage();
+        image = caller.getImage();
 
         // Load image
         String url = caller.getUrl();

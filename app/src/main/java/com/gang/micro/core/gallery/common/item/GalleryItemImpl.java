@@ -7,14 +7,12 @@ import android.view.View;
 
 import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
-import com.gang.micro.core.utils.io.ImageIO;
-
-import java.io.File;
 
 public abstract class GalleryItemImpl implements GalleryItem {
 
     protected final GalleryItemViewHolder galleryItemViewHolder;
     protected Fragment fragment;
+    protected GalleryItemFragment galleryItemFragment;
 
     public GalleryItemImpl(GalleryItemViewHolder galleryItemViewHolder, Fragment fragment) {
         this.galleryItemViewHolder = galleryItemViewHolder;
@@ -38,20 +36,20 @@ public abstract class GalleryItemImpl implements GalleryItem {
     }
 
     @Override
-    public File getPictureFile() {
-        Bitmap bitmap = ((BitmapDrawable) galleryItemViewHolder.imageView.getDrawable())
+    public Bitmap getBitmap() {
+        return ((BitmapDrawable) galleryItemViewHolder.imageView.getDrawable())
                 .getBitmap();
-
-        return ImageIO.savePicture(bitmap, ImageIO.TEMP_PICTURE_FILE);
     }
 
     @Override
     public void onClick(View v) {
-        GalleryItemFragment galleryItemFragment = new GalleryItemFragment();
 
-        galleryItemFragment.setCaller(this);
+        if (galleryItemFragment != null) {
 
-        galleryItemFragment.show(fragment.getFragmentManager(), "galleryItemDetail");
+            galleryItemFragment.setCaller(this);
+
+            galleryItemFragment.show(fragment.getFragmentManager(), "galleryItemDetail");
+        }
     }
 
 }

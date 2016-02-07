@@ -18,11 +18,10 @@ public class LocalImageLoadAsyncTask extends ImageLoadAsyncTask {
 
     @Override
     protected Void doInBackground(Void... params) {
-        ImageIO io = new ImageIO();
-        List<String> filenames =  io.getFilenames(ImageIO.FOLDER);
+        List<String> filenames =  ImageIO.getFilenames(ImageIO.FOLDER);
         for(String f: filenames){
             try {
-                Image image = io.readImage(f);
+                Image image = ImageIO.readImage(f);
                 publishProgress(image);
             } catch (IOException e){
                 e.printStackTrace();

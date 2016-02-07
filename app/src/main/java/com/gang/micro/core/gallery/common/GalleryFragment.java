@@ -42,6 +42,12 @@ public abstract class GalleryFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        //galleryAdapter.loadImages();
+        super.onResume();
+    }
+
     public void updateUI() {
         loadingBar.setVisibility(View.GONE);
         if (recyclerView.getAdapter().getItemCount() == 0)
