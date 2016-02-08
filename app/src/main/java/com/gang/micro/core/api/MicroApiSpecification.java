@@ -20,7 +20,7 @@ public interface MicroApiSpecification {
     Call<List<Image>> getImages();
 
     @POST("/images")
-    Call<Image> takePicture();
+    Call<Image> captureImage();
 
     @GET("/images/{id}")
     Call<Image> getImage(@Path("id") UUID id);

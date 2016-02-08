@@ -24,10 +24,10 @@ public class AnalysisActivity extends Activity {
         setContentView(R.layout.activity_analysis);
         ButterKnife.bind(this);
         imageId = getIntent().getStringExtra("imageId");
-        String path = PictureActivity.FOLDER + imageId + ".jpg";
+        //String path = CapturedImageFragment.FOLDER + imageId + ".jpg";
 
-        Log.d("micro", path);
-        setPic(path, image);
+        //Log.d("micro", path);
+        //setPic(path, image);
         // TODO put the analysis also
     }
 

@@ -107,14 +107,10 @@ public class MicroStreamActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.fab)
+    @OnClick(R.id.micro_stream_take_picture_button)
     void selectFrame() {
-        //String picture = takeAndAnalize();
-        //seeTakenPicture(picture);
-
-        Intent intent = new Intent(MicroStreamActivity.this, RemoteGalleryActivity.class);
-
-        startActivity(intent);
+        String picture = takeAndAnalize();
+        seeTakenPicture(picture);
     }
 
     @Override
@@ -141,10 +137,9 @@ public class MicroStreamActivity extends AppCompatActivity {
     }
 
     private void seeTakenPicture(String picture) {
-        Intent pictureActivity = new Intent(MicroStreamActivity.this, PictureActivity.class);
-        pictureActivity.putExtra("picture", picture);
-        startActivity(pictureActivity);
+        CapturedImageFragment capturedImageFragment = new CapturedImageFragment();
 
+        capturedImageFragment.show(getFragmentManager(), "capturedImageFragment");
     }
 
     private String takeAndAnalize() {
