@@ -11,7 +11,7 @@
     <string name="wait_dialog_title">Espere por favor...</string>
     <string name="wait_dialog_text">Buscando microscopios...</string>
 
-    <!-- PictureActivity -->
+    <!-- CapturedImageFragment -->
     <string name="save_button">Guardar y analizar</string>
     <string name="discard_button">Descartar</string>
 

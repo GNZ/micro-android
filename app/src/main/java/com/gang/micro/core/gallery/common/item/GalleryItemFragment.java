@@ -2,7 +2,6 @@ package com.gang.micro.core.gallery.common.item;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,8 +25,6 @@ public class GalleryItemFragment extends DialogFragment {
     public static final int SHARE_INTENT_CODE = 2;
 
     // UI elements
-    @Bind(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Bind(R.id.view_analyses_imageView)
     ImageView imageView;
