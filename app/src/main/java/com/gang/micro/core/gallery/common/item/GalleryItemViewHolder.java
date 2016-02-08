@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.common;
+package com.gang.micro.core.gallery.common.item;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.image.Image;
 
 import butterknife.Bind;
@@ -37,9 +38,8 @@ public class GalleryItemViewHolder extends RecyclerView.ViewHolder {
         adapter.deleteImage(adapterPosition);
     }
 
-    public void updateInAdapter(Image newImage) {
-        int adapterPosition = getAdapterPosition();
-        adapter.updateImage(adapterPosition,newImage);
+    public void updateInAdapter() {
+        adapter.updateImage(getAdapterPosition());
     }
 
     public Image getImage() {

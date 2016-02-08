@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.gallery.common.GalleryAdapter;
-import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
@@ -62,7 +62,9 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public void updateImage(final int position, Image image) {
+    public void updateImage(final int position) {
+
+        Image image = dataset.get(position);
 
         Call<Image> call = new MicroApi(getContext())
                 .getApi()

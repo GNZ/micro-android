@@ -25,7 +25,7 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.gallery_item_detail_edit_menu_button:
-                //TODO
+                callEditImage();
                 return true;
             case R.id.gallery_item_detail_delete_menu_button:
                 caller.removeItem();
@@ -45,5 +45,12 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
         File bitmapFile = ImageIO.savePicture(caller.getBitmap(),ImageIO.TEMP_PICTURE_FILE);
         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
         galleryItemFragment.startActivityForResult(shareIntent,galleryItemFragment.SHARE_INTENT_CODE);
+    }
+
+    private void callEditImage() {
+        GalleryItemEditFragment editDialogFragment = new GalleryItemEditFragment();
+        editDialogFragment.setCaller(caller);
+        editDialogFragment.setGalleryItemFragment(galleryItemFragment);
+        editDialogFragment.show(galleryItemFragment.getFragmentManager(), "edit dialog");
     }
 }

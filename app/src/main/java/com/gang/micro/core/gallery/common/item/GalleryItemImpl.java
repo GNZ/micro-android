@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
 
 public abstract class GalleryItemImpl implements GalleryItem {
@@ -20,9 +19,8 @@ public abstract class GalleryItemImpl implements GalleryItem {
     }
 
     @Override
-    public void updateItem(Image newImage) {
-        // TODO get the new image from the edition
-        galleryItemViewHolder.updateInAdapter(newImage);
+    public void updateItem() {
+        galleryItemViewHolder.updateInAdapter();
     }
 
     @Override

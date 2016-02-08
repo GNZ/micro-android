@@ -10,7 +10,7 @@ public interface GalleryService {
 
     void deleteImage(int position);
 
-    void updateImage(int position, Image image);
+    void updateImage(int position);
 
     void saveImage(Bitmap bitmap, Image image);
 

@@ -2,6 +2,7 @@ package com.gang.micro.core.gallery.common;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,16 @@ public abstract class GalleryFragment extends Fragment {
 
         // Bind components
         ButterKnife.bind(this, view);
+
+        // Disable animations
+        DefaultItemAnimator animator = new DefaultItemAnimator() {
+            @Override
+            public boolean canReuseUpdatedViewHolder(RecyclerView.ViewHolder viewHolder) {
+                return true;
+            }
+        };
+
+        recyclerView.setItemAnimator(animator);
 
         return view;
     }

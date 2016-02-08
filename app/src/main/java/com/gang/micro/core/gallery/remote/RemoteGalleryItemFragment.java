@@ -1,4 +1,4 @@
-package com.gang.micro.core.gallery.common.item;
+package com.gang.micro.core.gallery.remote;
 
 
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
+import com.gang.micro.core.gallery.common.item.GalleryItemFragment;
 import com.gang.micro.core.utils.io.ImageIO;
 
 import butterknife.ButterKnife;

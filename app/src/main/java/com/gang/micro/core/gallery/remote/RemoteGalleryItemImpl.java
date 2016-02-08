@@ -1,9 +1,8 @@
 package com.gang.micro.core.gallery.remote;
 
 import com.gang.micro.core.gallery.common.GalleryFragment;
-import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
-import com.gang.micro.core.gallery.common.item.RemoteGalleryItemFragment;
 import com.gang.micro.core.utils.image.ImageUtils;
 
 

@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 
 import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.GalleryFragment;
-import com.gang.micro.core.gallery.common.GalleryItemViewHolder;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.io.ImageIO;
@@ -57,12 +57,13 @@ public class LocalGalleryAdapter extends GalleryAdapter {
     }
 
     @Override
-    public void updateImage(final int position, final Image newImage) {
+    public void updateImage(final int position) {
 
-        (new AsyncTask<Object, Void, Boolean>() {
+        (new AsyncTask<Void, Void, Boolean>() {
             @Override
-            protected Boolean doInBackground(Object... params) {
-                return ImageIO.saveImage(newImage);
+            protected Boolean doInBackground(Void... params) {
+                Image image = dataset.get(position);
+                return ImageIO.saveImage(image);
             }
 
             @Override
@@ -70,7 +71,7 @@ public class LocalGalleryAdapter extends GalleryAdapter {
                 if (aBoolean)
                     update(position);
             }
-        }).execute(position,newImage);
+        }).execute();
 
     }
 

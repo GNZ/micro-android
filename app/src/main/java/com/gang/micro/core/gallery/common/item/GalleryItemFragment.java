@@ -91,6 +91,10 @@ public class GalleryItemFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void refresh(){
+        attributesList.setAdapter(new GalleryItemAttributeListAdapter(getContext(), image));
+    }
+
     public void setCaller(GalleryItem caller) {
         this.caller = caller;
     }

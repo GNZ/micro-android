@@ -2,12 +2,14 @@ package com.gang.micro.core.gallery.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gang.micro.R;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
 import com.squareup.picasso.Picasso;
 
@@ -31,11 +33,15 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
     public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.gallery_list_item, parent, false);
 
+
+
         return new GalleryItemViewHolder(view, this);
     }
 
     @Override
     public void onBindViewHolder(GalleryItemViewHolder holder, int position) {
+
+        Log.d("GalleryAdapter", "OnBindViewHolder");
 
         String imageUrl = picturePath(position);
 
@@ -67,7 +73,7 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
     }
 
     protected void update(int position){
-        notifyItemChanged(position);
+        notifyItemChanged(position,new Object());
     }
 
     public abstract String picturePath(int position);
