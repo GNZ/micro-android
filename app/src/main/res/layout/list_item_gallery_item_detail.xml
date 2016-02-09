@@ -6,17 +6,18 @@
     android:padding="12dp">
 
     <TextView
+        android:id="@+id/list_item_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:text="Subtitle" />
+
+    <TextView
         android:id="@+id/list_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Title"
         android:text="Title" />
-
-    <TextView
-        android:id="@+id/list_item_subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:text="Subtitle" />
 
 </LinearLayout>

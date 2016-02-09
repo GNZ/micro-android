@@ -12,8 +12,8 @@
     android:weightSum="1">
 
     <com.gang.micro.core.mjpeg.MjpegView
-        android:layout_width="wrap_content"
-        android:layout_height="274dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/micro_video"
         android:layout_centerInParent="true"/>
 

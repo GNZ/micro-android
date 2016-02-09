@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/general_background"
     tools:context=".core.gallery.common.item.GalleryItemFragment">
 
     <android.support.design.widget.AppBarLayout
