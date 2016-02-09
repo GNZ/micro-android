@@ -21,8 +21,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".ui.AnalysisActivity" />
-
         <activity
             android:name=".core.gallery.remote.RemoteGalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -15,8 +15,6 @@
     <string name="save_button">Guardar y analizar</string>
     <string name="discard_button">Descartar</string>
 
-    <!-- AnalysisActivity -->
-    <string name="ok_button">OK</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Settings -->
