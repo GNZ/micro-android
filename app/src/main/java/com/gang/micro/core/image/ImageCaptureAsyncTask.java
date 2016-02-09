@@ -2,9 +2,11 @@ package com.gang.micro.core.image;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.api.MicroApiSpecification;
+import com.gang.micro.R;
 
 import java.io.IOException;
 
@@ -36,6 +38,8 @@ public class ImageCaptureAsyncTask extends AsyncTask<Void, Void, Image> {
 
     @Override
     protected void onPostExecute(Image image) {
-        imageContainer.setImage(image);
+        if (image != null)
+            imageContainer.setImage(image);
+        else Toast.makeText(context, R.string.error_capturing_image,Toast.LENGTH_LONG).show();
     }
 }
