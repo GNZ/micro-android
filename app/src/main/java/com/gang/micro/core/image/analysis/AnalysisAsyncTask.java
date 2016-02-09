@@ -2,7 +2,9 @@ package com.gang.micro.core.image.analysis;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.gang.micro.R;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.api.MicroApiSpecification;
 import com.gang.micro.core.image.Image;
@@ -29,18 +31,20 @@ public class AnalysisAsyncTask extends AsyncTask<Void, Void, Analysis> {
         Analysis analysis = new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT);
 
         Analysis result = null;
-
         try {
             result = api.analyseImage(image.getId(), analysis).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
         return result;
     }
 
     @Override
     protected void onPostExecute(Analysis analysis) {
-        analysisResultListener.setAnalysis(analysis);
+        if (analysis != null)
+            analysisResultListener.setAnalysis(analysis);
+        else Toast.makeText(context, R.string.analysis_error, Toast.LENGTH_LONG).show();
     }
 }

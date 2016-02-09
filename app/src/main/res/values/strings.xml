@@ -34,6 +34,7 @@
     <string name="error_taking_picture">Error al capturar la imagen</string>
     <string name="success_taking_picture">La imagen fue guardada correctamente</string>
     <string name="discard_image">La imagen fue descartada</string>
+    <string name="analysis_error">Error al realizar el analisis</string>
 
 
     <string name="gallery_no_images">No hay imágenes guardadas</string>
