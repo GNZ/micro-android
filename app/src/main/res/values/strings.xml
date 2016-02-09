@@ -18,7 +18,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Settings -->
-    <string name="settings_parameters_category">Configurar parametros</string>>
+    <string name="settings_parameters_category">Configurar parámetros</string>>
     <string name="settings_service_title">Servicio</string>
     <string name="settings_protocol_title">Protocolo</string>
     <string name="settings_port_title">Puerto de streaming</string>
@@ -27,7 +27,7 @@
     <string name="settings_service_summary">Ingresá el nombre del servicio</string>
     <string name="settings_protocol_summary">Ingresá el protocolo a usar</string>
     <string name="settings_port_summary">Ingresá el puerto de streaming a utilizar</string>
-    <string name="settings_folder_summary">Ingresá comando a utilizar</string>
+    <string name="settings_folder_summary">Ingresá el comando a utilizar</string>
     <string name="settings_webapp_port_summary">Ingresá el puerto de la aplicación web</string>
 
     <string name="error_capturing_image">Error al capturar la imagen</string>
@@ -37,7 +37,7 @@
     <!-- microscope_button -->
 
     <!-- RemoteGalleryItemFragment -->
-    <string name="image_save">Imagen guardada en la galeria local con el nombre</string>
+    <string name="image_save">Imagen guardada en la galería local con el nombre</string>
 
 
     <!-- GalleryItemEditFragment -->
@@ -45,7 +45,7 @@
     <string name="detail_hint">Detalle</string>
     <string name="ok_button_edit">OK</string>
     <string name="cancel_button_edit">Cancelar</string>
-    <string name="edit_item_title">Editar analisis</string>
+    <string name="edit_item_title">Editar análisis</string>
     <string name="image_changed">Los cambios han sido guardados</string>
 
     <string name="remote_gallery">Galería remota</string>
