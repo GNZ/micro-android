@@ -29,8 +29,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="test"/>
 
-        <activity android:name=".ui.ViewAnalysisActivity" />
-
         <activity
             android:name=".core.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />

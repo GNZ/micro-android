@@ -41,8 +41,6 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
     @Override
     public void onBindViewHolder(GalleryItemViewHolder holder, int position) {
 
-        Log.d("GalleryAdapter", "OnBindViewHolder");
-
         String imageUrl = picturePath(position);
 
         holder.imageView.setImageDrawable(null);

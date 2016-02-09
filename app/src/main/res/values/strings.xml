@@ -42,9 +42,6 @@
     <string name="image_save">Imagen guardada en la galeria local con el nombre</string>
 
 
-    <!-- ViewAnalysisActivity -->
-    <string name="error_loding_image">Error al cargar el análisis</string>
-
     <!-- GalleryItemEditFragment -->
     <string name="name_hint">Nombre</string>
     <string name="detail_hint">Detalle</string>
