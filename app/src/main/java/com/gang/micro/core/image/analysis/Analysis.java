@@ -11,7 +11,10 @@ public class Analysis extends JsonPrintedImpl {
     private String result;
 
     public Analysis() {
+    }
 
+    public Analysis(AnalysisType analysisType) {
+        type = analysisType;
     }
 
     @JsonProperty
