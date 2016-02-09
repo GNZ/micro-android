@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.gang.micro.R;
+import com.gang.micro.core.MicroApplication;
+import com.gang.micro.core.microscope.Microscope;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +25,10 @@ public class RemoteGalleryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        Microscope microscope = ((MicroApplication) getApplication()).getCurrentMicroscope();
+
+        setTitle("Imágenes en " + microscope.getName());
     }
 
     @Override

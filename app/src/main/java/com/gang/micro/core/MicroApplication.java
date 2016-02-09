@@ -39,6 +39,10 @@ public class MicroApplication extends Application {
         defaultStreamingPort = sharedPreferences.getString("streaming_port", "8080");
     }
 
+    public Microscope getCurrentMicroscope() {
+        return currentMicroscope;
+    }
+
     public void setCurrentMicroscope(Microscope currentMicroscope) {
         this.currentMicroscope = currentMicroscope;
     }

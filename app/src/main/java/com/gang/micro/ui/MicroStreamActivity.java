@@ -15,24 +15,13 @@ import android.widget.RelativeLayout;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
-import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.gallery.remote.RemoteGalleryActivity;
-import com.gang.micro.core.image.Image;
-import com.gang.micro.core.image.analysis.Analysis;
-import com.gang.micro.core.image.analysis.AnalysisType;
 import com.gang.micro.core.mjpeg.MjpegView;
 import com.gang.micro.core.mjpeg.MjpegViewInitializer;
-import com.gang.micro.core.utils.api.ErrorLoggingCallback;
-
-import java.util.List;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class MicroStreamActivity extends AppCompatActivity {
 
@@ -109,8 +98,7 @@ public class MicroStreamActivity extends AppCompatActivity {
 
     @OnClick(R.id.micro_stream_take_picture_button)
     void selectFrame() {
-        String picture = takeAndAnalize();
-        seeTakenPicture(picture);
+        seeTakenPicture();
     }
 
     @Override
@@ -128,54 +116,18 @@ public class MicroStreamActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_open_remote_gallery) {
-            Intent settingsActivity = new Intent(MicroStreamActivity.this, RemoteGalleryActivity.class);
-            startActivity(settingsActivity);
+            Intent remoteGalleryIntent = new Intent(MicroStreamActivity.this, RemoteGalleryActivity.class);
+            startActivity(remoteGalleryIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void seeTakenPicture(String picture) {
+    private void seeTakenPicture() {
         CapturedImageFragment capturedImageFragment = new CapturedImageFragment();
 
         capturedImageFragment.show(getFragmentManager(), "capturedImageFragment");
-    }
-
-    private String takeAndAnalize() {
-
-        final MicroApi microApi = new MicroApi(getBaseContext());
-
-        Call<List<Image>> imagesCall = microApi.getApi().getImages();
-
-        imagesCall.enqueue(new ErrorLoggingCallback<List<Image>>() {
-
-            @Override
-            public void onSuccessfulResponse(Response<List<Image>> response, Retrofit retrofit) {
-                Log.d(TAG, response.body().toString());
-
-                UUID imageId = response.body().get(0).getId();
-                Analysis analysis = new Analysis();
-                analysis.setType(AnalysisType.BLOOD__RED_CELL_COUNT);
-
-                microApi.getApi().analyseImage(imageId, analysis).enqueue(new ErrorLoggingCallback<Analysis>() {
-
-                    @Override
-                    public void onSuccessfulResponse(Response<Analysis> response, Retrofit retrofit) {
-
-                        Log.d(TAG, String.valueOf(response.code()));
-
-                        if (response.isSuccess())
-                            Log.d(TAG, response.body().toString());
-                    }
-                });
-            }
-        });
-
-        //TODO action take and analize picture
-
-        //TODO return the image url
-        return null;
     }
 
     private void startVideo() {
