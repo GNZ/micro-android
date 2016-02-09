@@ -40,6 +40,6 @@ public class ImageCaptureAsyncTask extends AsyncTask<Void, Void, Image> {
     protected void onPostExecute(Image image) {
         if (image != null)
             imageContainer.setImage(image);
-        else Toast.makeText(context, R.string.error_capturing_image,Toast.LENGTH_LONG).show();
+        else Toast.makeText(context, R.string.error_taking_picture,Toast.LENGTH_LONG).show();
     }
 }

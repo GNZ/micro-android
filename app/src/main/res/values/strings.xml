@@ -30,7 +30,12 @@
     <string name="settings_folder_summary">Ingresá el comando a utilizar</string>
     <string name="settings_webapp_port_summary">Ingresá el puerto de la aplicación web</string>
 
-    <string name="error_capturing_image">Error al capturar la imagen</string>
+    <!-- CapturedImageFragment -->
+    <string name="error_taking_picture">Error al capturar la imagen</string>
+    <string name="success_taking_picture">La imagen fue guardada correctamente</string>
+    <string name="discard_image">La imagen fue descartada</string>
+
+
     <string name="gallery_no_images">No hay imágenes guardadas</string>
     <string name="no_microscopes">No hay microscopios disponibles</string>
 

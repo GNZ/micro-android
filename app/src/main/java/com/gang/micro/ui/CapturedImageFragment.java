@@ -104,15 +104,18 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         MicroApiSpecification api = new MicroApi(context).getApi();
 
-        Call<Image> updateCall = api.updateImage(image.getId(), image);
+        if (image != null) {
 
-        updateCall.enqueue(new ErrorLoggingCallback<Image>() {
-            @Override
-            public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
-                Toast.makeText(context, "La imagen fue guardada correctamente", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
+            Call<Image> updateCall = api.updateImage(image.getId(), image);
+
+            updateCall.enqueue(new ErrorLoggingCallback<Image>() {
+                @Override
+                public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
+                    Toast.makeText(context, R.string.success_taking_picture, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        } else Toast.makeText(context, R.string.error_taking_picture, Toast.LENGTH_LONG).show();
 
         dismiss();
     }
@@ -122,15 +125,18 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         MicroApiSpecification api = new MicroApi(context).getApi();
 
-        Call<Boolean> deleteCall = api.deleteImage(image.getId());
+        if (image != null) {
 
-        deleteCall.enqueue(new ErrorLoggingCallback<Boolean>() {
-            @Override
-            public void onSuccessfulResponse(Response<Boolean> response, Retrofit retrofit) {
-                Toast.makeText(context, "La imagen fue descartada", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
+            Call<Boolean> deleteCall = api.deleteImage(image.getId());
+
+            deleteCall.enqueue(new ErrorLoggingCallback<Boolean>() {
+                @Override
+                public void onSuccessfulResponse(Response<Boolean> response, Retrofit retrofit) {
+                    Toast.makeText(context, R.string.discard_image, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        } else Toast.makeText(context, R.string.error_taking_picture, Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.analysis_item_analyse_button)
