@@ -19,7 +19,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/fragment_captured_image_name_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_hint"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/fragment_captured_image_description_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/detail_hint" />
+            </android.support.design.widget.TextInputLayout>
 
             <include layout="@layout/analysis_item" />
 
@@ -28,13 +52,13 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fragment_captured_image_delete_button"
+        android:id="@+id/fragment_captured_image_analyse_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimaryLight"
-        android:src="@drawable/ic_delete_black_24dp" />
+        app:backgroundTint="@android:color/white"
+        android:src="@drawable/ic_remove_red_eye_black_24dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fragment_captured_image_save_button"

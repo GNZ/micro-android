@@ -45,6 +45,12 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
     //@Bind(R.id.loading_image)
     ProgressBar loadingImage;
 
+    @Bind(R.id.fragment_captured_image_name_edit)
+    TextView nameEdit;
+
+    @Bind(R.id.fragment_captured_image_description_edit)
+    TextView descriptionEdit;
+
     @Bind(R.id.analysis_item_value)
     TextView analysisResultTextView;
 
@@ -92,15 +98,11 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         return view;
     }
 
-    @OnClick(R.id.fragment_captured_image_delete_button)
-    public void deleteImage() {
-        getDialog().cancel();
-    }
-
     @OnClick(R.id.fragment_captured_image_save_button)
     public void saveImage() {
 
-        // TODO: Update image name and description
+        image.setName(nameEdit.getText().toString());
+        image.setDescription(descriptionEdit.getText().toString());
 
         MicroApiSpecification api = new MicroApi(context).getApi();
 
@@ -139,7 +141,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         } else Toast.makeText(context, R.string.error_taking_picture, Toast.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.analysis_item_analyse_button)
+    @OnClick(R.id.fragment_captured_image_analyse_button)
     public void analyseImage() {
 
         Log.d("Analysis", "Started analysis");

@@ -48,7 +48,7 @@
 
     <!-- GalleryItemEditFragment -->
     <string name="name_hint">Nombre</string>
-    <string name="detail_hint">Detalle</string>
+    <string name="detail_hint">Descripción</string>
     <string name="ok_button_edit">OK</string>
     <string name="cancel_button_edit">Cancelar</string>
     <string name="edit_item_title">Editar análisis</string>
