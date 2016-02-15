@@ -1,16 +1,13 @@
 package com.gang.micro.core.gallery.remote;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.gallery.common.GalleryAdapter;
-import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
-import com.gang.micro.core.utils.io.ImageIO;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -77,26 +74,8 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
             }
 
             @Override
-            public void onFailure(Throwable t) { }
+            public void onFailure(Throwable t) {
+            }
         });
     }
-
-    @Override
-    public void saveImage(final Bitmap bitmap,final Image image) {
-
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                return ImageIO.saveImage(image) && ImageIO.savePicture(bitmap,image);
-            }
-
-            @Override
-            protected void onPostExecute(Boolean aBoolean) {
-                // TODO notify LocalGalleryAdapter???
-                if (aBoolean)
-                    ;
-            }
-        }.execute();
-    }
-
 }
