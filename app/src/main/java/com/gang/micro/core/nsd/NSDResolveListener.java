@@ -46,9 +46,16 @@ public class NSDResolveListener implements NsdManager.ResolveListener {
     private String getServiceName(NsdServiceInfo nsdServiceInfo) {
         String serviceName = nsdServiceInfo.getServiceName();
 
+        String toReturn;
+
+        // Remove \32
         int bugIndex = serviceName.indexOf("\\032");
+        toReturn = bugIndex >= 0 ?  serviceName.substring(0, bugIndex): serviceName;
 
-        return serviceName.substring(0, bugIndex);
+        // Remove mac
+        int macPosition = toReturn.indexOf(" [");
+        toReturn = macPosition >= 0 ?  serviceName.substring(0, macPosition): toReturn;
 
+        return toReturn;
     }
 }
