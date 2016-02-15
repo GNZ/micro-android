@@ -80,9 +80,4 @@ public class LocalGalleryAdapter extends GalleryAdapter {
         if (!dataset.contains(image))
             super.add(image);
     }
-
-    @Override
-    public void saveImage(Bitmap bitmap, Image image) {
-        // NO IMPLEMENTATION
-    }
 }
