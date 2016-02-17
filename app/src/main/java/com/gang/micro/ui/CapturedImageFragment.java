@@ -82,6 +82,8 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         // Set bitmap asynchronously
         Picasso.with(context)
                 .load(imageUrl)
+                .resize(ImageUtils.WIDTH,ImageUtils.HEIGTH)
+                .centerCrop()
                 .into(capturedImage);
     }
 

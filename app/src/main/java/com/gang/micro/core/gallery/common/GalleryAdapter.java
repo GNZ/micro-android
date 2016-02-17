@@ -10,6 +10,7 @@ import com.gang.micro.R;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.image.ImageUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,7 +45,11 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
 
         holder.imageView.setImageDrawable(null);
 
-        Picasso.with(context).load(imageUrl).into(holder.imageView);
+        Picasso.with(context)
+                .load(imageUrl)
+                .resize(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .centerCrop()
+                .into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());
     }
 

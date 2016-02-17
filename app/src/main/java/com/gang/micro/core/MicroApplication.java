@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.gang.micro.core.gallery.local.LocalGalleryAdapter;
 import com.gang.micro.core.microscope.Microscope;
+import com.squareup.leakcanary.LeakCanary;
 
 
 public class MicroApplication extends Application {
@@ -30,6 +31,9 @@ public class MicroApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
+
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         defaultServiceName = sharedPreferences.getString("service_name", "micro");

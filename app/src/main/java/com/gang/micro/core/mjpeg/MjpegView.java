@@ -71,13 +71,24 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         init(context);
     }
 
+    @Override
     public void surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
         thread.setSurfaceSize(w, h);
     }
 
+    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
         stopPlayback();
+        boolean retry = true;
+        while (retry) {
+            try {
+                thread.join();
+                retry = false;
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 
     public MjpegView(Context context) {
@@ -189,7 +200,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
             Paint p = new Paint();
             String fps = "";
 
-            while (true) {
+            while (mRun) {
                 if (mRun && surfaceDone) {
                     try {
                         c = mSurfaceHolder.lockCanvas();
@@ -216,6 +227,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                                     }
                                 }
                             } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     } finally {

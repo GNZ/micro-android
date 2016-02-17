@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.image.ImageUtils;
 import com.gang.micro.core.utils.io.ImageIO;
 import com.squareup.picasso.Picasso;
 
@@ -72,7 +73,11 @@ public class GalleryItemFragment extends DialogFragment {
         // Load image
         String url = caller.getUrl();
 
-        Picasso.with(getContext()).load(url).into(imageView);
+        Picasso.with(getContext())
+                .load(url)
+                .resize(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .centerCrop()
+                .into(imageView);
 
         attributesList.setAdapter(new GalleryItemAttributeListAdapter(getContext(), image));
 
