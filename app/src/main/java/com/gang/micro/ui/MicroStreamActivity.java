@@ -2,6 +2,8 @@ package com.gang.micro.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,6 @@ import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.gallery.remote.RemoteGalleryActivity;
 import com.gang.micro.core.mjpeg.MjpegView;
-import com.gang.micro.core.mjpeg.MjpegViewInitializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -141,6 +142,11 @@ public class MicroStreamActivity extends AppCompatActivity {
 
         Log.d(TAG, videoURL);
 
-        new MjpegViewInitializer(microVideo).execute(videoURL);
+        microVideo.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+        microVideo.setOverlayBackgroundColor(Color.BLACK);
+        microVideo.setOverlayTextColor(Color.WHITE);
+        microVideo.setOverlayPosition(MjpegView.POSITION_LOWER_RIGHT);
+        microVideo.setOverlayPaint(new Paint());
+        microVideo.setSource(videoURL);
     }
 }
