@@ -10,7 +10,7 @@ public class ImageUtils {
     private static final String SERVER_IMAGE_PATH = "images/output/";
     private static final String IMAGE_EXTENSION = ".jpg";
     public static final int WIDTH = 800;
-    public static final int HEIGTH = 800;
+    public static final int HEIGHT = 800;
 
     private final MicroApplication application;
 

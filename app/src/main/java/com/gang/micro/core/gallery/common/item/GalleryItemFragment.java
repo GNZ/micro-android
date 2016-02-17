@@ -75,7 +75,7 @@ public class GalleryItemFragment extends DialogFragment {
 
         Glide.with(getContext())
                 .load(url)
-                .override(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH, ImageUtils.HEIGHT)
                 .centerCrop()
                 .into(imageView);
 

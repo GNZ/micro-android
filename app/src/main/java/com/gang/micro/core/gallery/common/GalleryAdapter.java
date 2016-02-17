@@ -47,7 +47,7 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
 
         Glide.with(context)
                 .load(imageUrl)
-                .override(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH, ImageUtils.HEIGHT)
                 .centerCrop()
                 .into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());

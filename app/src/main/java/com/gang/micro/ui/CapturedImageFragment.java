@@ -20,7 +20,6 @@ import com.gang.micro.R;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.api.MicroApiSpecification;
 import com.gang.micro.core.image.Image;
-import com.gang.micro.core.image.ImageCaptureAsyncTask;
 import com.gang.micro.core.image.ImageContainer;
 import com.gang.micro.core.image.analysis.Analysis;
 import com.gang.micro.core.image.analysis.AnalysisAsyncTask;
@@ -69,7 +68,14 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         context = getActivity().getApplicationContext();
 
-        new ImageCaptureAsyncTask(context, this).execute();
+        MicroApiSpecification microApi = new MicroApi(context).getApi();
+
+        microApi.captureImage().enqueue(new ErrorLoggingCallback<Image>() {
+            @Override
+            public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
+                setImage(response.body());
+            }
+        });
     }
 
     @Override
@@ -82,7 +88,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         // Set bitmap asynchronously
         Glide.with(context)
                 .load(imageUrl)
-                .override(ImageUtils.WIDTH,ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH, ImageUtils.HEIGHT)
                 .centerCrop()
                 .into(capturedImage);
     }
