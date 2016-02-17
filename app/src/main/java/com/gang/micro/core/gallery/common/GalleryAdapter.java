@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.gang.micro.R;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
 
         holder.imageView.setImageDrawable(null);
 
-        Picasso.with(context)
+        Glide.with(context)
                 .load(imageUrl)
-                .resize(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH, ImageUtils.HEIGTH)
                 .centerCrop()
                 .into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());

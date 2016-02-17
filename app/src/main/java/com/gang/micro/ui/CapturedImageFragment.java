@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.gang.micro.R;
 import com.gang.micro.core.api.MicroApi;
 import com.gang.micro.core.api.MicroApiSpecification;
@@ -26,7 +27,6 @@ import com.gang.micro.core.image.analysis.AnalysisAsyncTask;
 import com.gang.micro.core.image.analysis.AnalysisResultListener;
 import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 import com.gang.micro.core.utils.image.ImageUtils;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -80,9 +80,9 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         String imageUrl = new ImageUtils(context).getImageUrl(image);
 
         // Set bitmap asynchronously
-        Picasso.with(context)
+        Glide.with(context)
                 .load(imageUrl)
-                .resize(ImageUtils.WIDTH,ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH,ImageUtils.HEIGTH)
                 .centerCrop()
                 .into(capturedImage);
     }

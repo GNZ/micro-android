@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.gang.micro.R;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.image.ImageUtils;
 import com.gang.micro.core.utils.io.ImageIO;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,9 +73,9 @@ public class GalleryItemFragment extends DialogFragment {
         // Load image
         String url = caller.getUrl();
 
-        Picasso.with(getContext())
+        Glide.with(getContext())
                 .load(url)
-                .resize(ImageUtils.WIDTH, ImageUtils.HEIGTH)
+                .override(ImageUtils.WIDTH, ImageUtils.HEIGTH)
                 .centerCrop()
                 .into(imageView);
 
