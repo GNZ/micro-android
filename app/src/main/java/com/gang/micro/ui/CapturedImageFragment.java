@@ -41,14 +41,14 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
     @Bind(R.id.fragment_captured_image_image_view)
     ImageView capturedImage;
 
-    //@Bind(R.id.loading_image)
-    ProgressBar loadingImage;
-
     @Bind(R.id.fragment_captured_image_name_edit)
     TextView nameEdit;
 
     @Bind(R.id.fragment_captured_image_description_edit)
     TextView descriptionEdit;
+
+    @Bind(R.id.analysis_item_progress_bar)
+    ProgressBar progressBar;
 
     @Bind(R.id.analysis_item_value)
     TextView analysisResultTextView;
@@ -103,6 +103,8 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         // Bind components
         ButterKnife.bind(this, view);
 
+        progressBar.setIndeterminate(true);
+
         return view;
     }
 
@@ -151,6 +153,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
     @OnClick(R.id.fragment_captured_image_analyse_button)
     public void analyseImage() {
+        progressBar.setVisibility(View.VISIBLE);
 
         Log.d("Analysis", "Started analysis");
 
@@ -158,7 +161,10 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
             @Override
             public void setAnalysis(Analysis analysis) {
                 analysisResultTextView.setText(analysis.getResult());
+
                 Log.d("Analysis", "Finished analysis");
+
+                progressBar.setVisibility(View.INVISIBLE);
             }
         };
 
