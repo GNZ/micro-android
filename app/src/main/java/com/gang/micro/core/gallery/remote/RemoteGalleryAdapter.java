@@ -7,7 +7,10 @@ import com.gang.micro.core.gallery.common.GalleryAdapter;
 import com.gang.micro.core.gallery.common.item.GalleryItem;
 import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.image.Image;
+import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 import com.gang.micro.core.utils.image.ImageUtils;
+
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -32,9 +35,16 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
 
     @Override
     public void loadImages() {
-        RemoteImageLoadAsyncTask loadRemoteImages = new RemoteImageLoadAsyncTask(getContext(), this);
 
-        loadRemoteImages.execute();
+        new MicroApi(context).getApi().getImages().enqueue(new ErrorLoggingCallback<List<Image>>() {
+            @Override
+            public void onSuccessfulResponse(Response<List<Image>> response, Retrofit retrofit) {
+                List<Image> images = response.body();
+                for (Image image : images) {
+                    add(image);
+                }
+            }
+        });
     }
 
     @Override
