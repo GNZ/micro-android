@@ -3,6 +3,7 @@ package com.gang.micro.core.nsd;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.gang.micro.core.microscope.Microscope;
 import com.gang.micro.core.microscope.MicroscopeListAdapter;
@@ -33,7 +34,10 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
             Thread.currentThread().sleep(TIMEOUT_MILLIS);
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+
+            // Log discovery was interrupted
+            Log.d("NsdDiscovery", "Discovery interrupted");
+
         } finally {
 
             // Always stop discovery

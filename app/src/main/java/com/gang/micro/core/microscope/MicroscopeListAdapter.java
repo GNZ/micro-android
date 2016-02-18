@@ -22,6 +22,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     private static MicroscopeListItemClickListener clickListener;
     private Context context;
     private MicroscopesFragment fragment;
+    private NSDAsyncDiscoveryTask findMicroscopesTask;
 
     public MicroscopeListAdapter(Context context, MicroscopesFragment fragment) {
         this.context = context;
@@ -35,7 +36,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
         loadMockMicroscope();
 
-        NSDAsyncDiscoveryTask findMicroscopesTask = new NSDAsyncDiscoveryTask(this);
+        findMicroscopesTask = new NSDAsyncDiscoveryTask(this);
 
         findMicroscopesTask.execute();
     }
@@ -85,6 +86,10 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
     public MicroscopesFragment getMicroscopeFragment(){
         return fragment;
+    }
+
+    public void stopDiscovery() {
+        findMicroscopesTask.cancel(true);
     }
 
     static class MicroscopeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
