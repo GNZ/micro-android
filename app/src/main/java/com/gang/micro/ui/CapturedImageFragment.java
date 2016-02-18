@@ -116,7 +116,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         MicroApiSpecification api = new MicroApi(context).getApi();
 
-        if (image != null) {
+        if (image != null && capturedImage.getDrawable() != null) {
 
             Call<Image> updateCall = api.updateImage(image.getId(), image);
 

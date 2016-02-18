@@ -25,6 +25,12 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
     }
 
     @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        microscopeListAdapter.getMicroscopeFragment().updateUI();
+    }
+
+    @Override
     protected Void doInBackground(Void... voids) {
         try {
             // Start discovery
