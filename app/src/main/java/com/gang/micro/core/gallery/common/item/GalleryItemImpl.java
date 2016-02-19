@@ -1,7 +1,5 @@
 package com.gang.micro.core.gallery.common.item;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -31,12 +29,6 @@ public abstract class GalleryItemImpl implements GalleryItem {
     @Override
     public Image getImage() {
         return galleryItemViewHolder.getImage();
-    }
-
-    @Override
-    public Bitmap getBitmap() {
-        return ((BitmapDrawable) galleryItemViewHolder.imageView.getDrawable())
-                .getBitmap();
     }
 
     @Override

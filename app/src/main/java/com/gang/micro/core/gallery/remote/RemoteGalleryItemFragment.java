@@ -2,13 +2,15 @@ package com.gang.micro.core.gallery.remote;
 
 
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
 import com.gang.micro.core.gallery.common.item.GalleryItemFragment;
@@ -31,25 +33,20 @@ public class RemoteGalleryItemFragment extends GalleryItemFragment {
     @OnClick(R.id.view_analysis_save_fab)
     void saveInLocalGallery() {
 
-        (new AsyncTask<Void, Void, Boolean>() {
+        Glide.with(getContext()).load(caller.getUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
-            protected Boolean doInBackground(Void... params) {
-                Bitmap bitmap = caller.getBitmap();
-                return ImageIO.saveImage(image) && ImageIO.savePicture(bitmap, image);
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                ImageIO.saveImage(image);
+                ImageIO.savePicture(resource, image);
+
+                String msg = getResources().getString(R.string.image_save) + " " + image.getName();
+
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+
+                ((MicroApplication) getActivity().getApplication())
+                        .getLocalGalleryAdapter()
+                        .add(image);
             }
-
-            @Override
-            protected void onPostExecute(Boolean aBoolean) {
-                if (aBoolean) {
-                    String msg = getResources().getString(R.string.image_save) + " " + image.getName();
-
-                    Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-
-                    ((MicroApplication)getActivity().getApplication())
-                            .getLocalGalleryAdapter()
-                            .add(image);
-                }
-            }
-        }).execute();
+        });
     }
 }

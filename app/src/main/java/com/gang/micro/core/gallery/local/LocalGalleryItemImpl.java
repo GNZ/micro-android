@@ -3,9 +3,9 @@ package com.gang.micro.core.gallery.local;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 
-import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.gallery.common.item.GalleryItemFragment;
 import com.gang.micro.core.gallery.common.item.GalleryItemImpl;
+import com.gang.micro.core.gallery.common.item.GalleryItemViewHolder;
 import com.gang.micro.core.utils.io.ImageIO;
 
 import java.io.File;

@@ -1,10 +1,14 @@
 package com.gang.micro.core.gallery.common.item;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.gang.micro.R;
 import com.gang.micro.core.utils.io.ImageIO;
 
@@ -16,14 +20,14 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
     private GalleryItem caller;
     private GalleryItemFragment galleryItemFragment;
 
-    public GalleryItemMenuItemClickListener(GalleryItem caller, GalleryItemFragment galleryItemFragment){
+    public GalleryItemMenuItemClickListener(GalleryItem caller, GalleryItemFragment galleryItemFragment) {
         this.caller = caller;
         this.galleryItemFragment = galleryItemFragment;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.gallery_item_detail_edit_menu_button:
                 callEditImage();
                 return true;
@@ -40,11 +44,18 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
     }
 
     private void callSharePictureIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/jpeg");
-        File bitmapFile = ImageIO.savePicture(caller.getBitmap(),ImageIO.TEMP_PICTURE_FILE);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
-        galleryItemFragment.startActivityForResult(shareIntent,galleryItemFragment.SHARE_INTENT_CODE);
+
+        Glide.with(galleryItemFragment).load(caller.getUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                File bitmapFile = ImageIO.savePicture(resource, ImageIO.TEMP_PICTURE_FILE);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
+                galleryItemFragment.startActivityForResult(shareIntent, galleryItemFragment.SHARE_INTENT_CODE);
+            }
+        });
     }
 
     private void callEditImage() {

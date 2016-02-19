@@ -43,8 +43,8 @@ public class AnalysisAsyncTask extends AsyncTask<Void, Void, Analysis> {
 
     @Override
     protected void onPostExecute(Analysis analysis) {
-        if (analysis != null)
+        if (analysis != null) {
             analysisResultListener.setAnalysis(analysis);
-        else Toast.makeText(context, R.string.analysis_error, Toast.LENGTH_LONG).show();
+        } else Toast.makeText(context, R.string.analysis_error, Toast.LENGTH_LONG).show();
     }
 }
