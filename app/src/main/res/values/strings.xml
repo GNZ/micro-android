@@ -40,7 +40,8 @@
     <string name="gallery_no_images">No hay imágenes guardadas</string>
     <string name="no_microscopes">No hay microscopios disponibles</string>
 
-    <!-- microscope_button -->
+    <!-- RemoteGalleryActivity -->
+    <string name="saving_image">Guardando imagen en la galerya local, espere...</string>
 
     <!-- RemoteGalleryItemFragment -->
     <string name="image_save">Imagen guardada en la galería local con el nombre</string>

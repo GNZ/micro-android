@@ -26,8 +26,6 @@ import butterknife.ButterKnife;
 
 public class StartActivity extends AppCompatActivity {
 
-    static final boolean SHOWING_GALLERY = true;
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -85,6 +83,14 @@ public class StartActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0);
+        } else
+            super.onBackPressed();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

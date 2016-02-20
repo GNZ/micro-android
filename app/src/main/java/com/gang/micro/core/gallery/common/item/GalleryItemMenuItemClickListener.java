@@ -47,15 +47,19 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/jpeg");
 
-        Glide.with(galleryItemFragment).load(caller.getUrl()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+        Glide.with(galleryItemFragment)
+                .load(caller.getUrl())
+                .asBitmap()
+                .toBytes(Bitmap.CompressFormat.JPEG,100)
+                .into(new SimpleTarget<byte[]>() {
+                    @Override
+                    public void onResourceReady(byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {
 
-                File bitmapFile = ImageIO.savePicture(resource, ImageIO.TEMP_PICTURE_FILE);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
-                galleryItemFragment.startActivityForResult(shareIntent, galleryItemFragment.SHARE_INTENT_CODE);
-            }
-        });
+                        File bitmapFile = ImageIO.savePictureFromByteArray(resource, ImageIO.TEMP_PICTURE_FILE);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(bitmapFile));
+                        galleryItemFragment.startActivityForResult(shareIntent, galleryItemFragment.SHARE_INTENT_CODE);
+                    }
+                });
     }
 
     private void callEditImage() {

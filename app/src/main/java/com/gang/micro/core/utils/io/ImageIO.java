@@ -2,10 +2,12 @@ package com.gang.micro.core.utils.io;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gang.micro.core.image.Image;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -102,6 +104,28 @@ public class ImageIO {
         return true;
     }
 
+    public static boolean savePictureFromByteArray(byte[] bitmap, Image image) {
+        String id = image.getId().toString();
+        FileOutputStream outputStream;
+        BufferedOutputStream bufferedOutputStream;
+        try {
+            outputStream = new FileOutputStream(FOLDER + id + PICTURE_EXTENSION);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            try {
+                bufferedOutputStream.write(bitmap);
+                bufferedOutputStream.flush();
+            } finally {
+                bufferedOutputStream.close();
+                outputStream.close();
+            }
+        } catch (IOException e) {
+            Log.d("ImageIO", "Error");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static File savePicture(Bitmap bitmap, String path) {
 
         File picture = new File(path);
@@ -115,6 +139,28 @@ public class ImageIO {
                 outputStream.close();
             }
         } catch (IOException e) {
+            return null;
+        }
+        return picture;
+    }
+
+    public static File savePictureFromByteArray(byte[] bitmap, String path) {
+        File picture = new File(path);
+        FileOutputStream outputStream;
+        BufferedOutputStream bufferedOutputStream;
+        try {
+            outputStream = new FileOutputStream(picture);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            try {
+                bufferedOutputStream.write(bitmap);
+                bufferedOutputStream.flush();
+            } finally {
+                bufferedOutputStream.close();
+                outputStream.close();
+            }
+        } catch (IOException e) {
+            Log.d("ImageIO", "Error");
+            e.printStackTrace();
             return null;
         }
         return picture;

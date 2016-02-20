@@ -111,12 +111,12 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
     @OnClick(R.id.fragment_captured_image_save_button)
     public void saveImage() {
 
-        image.setName(nameEdit.getText().toString());
-        image.setDescription(descriptionEdit.getText().toString());
-
-        MicroApiSpecification api = new MicroApi(context).getApi();
-
         if (image != null && capturedImage.getDrawable() != null) {
+
+            image.setName(nameEdit.getText().toString());
+            image.setDescription(descriptionEdit.getText().toString());
+
+            MicroApiSpecification api = new MicroApi(context).getApi();
 
             Call<Image> updateCall = api.updateImage(image.getId(), image);
 
