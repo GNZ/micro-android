@@ -2,6 +2,7 @@ package com.gang.micro.core.microscope;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,11 +21,13 @@ public class MicroscopesFragment extends Fragment {
     @Bind(R.id.microscope_list)
     RecyclerView recyclerView;
 
-    @Bind(R.id.microscopes_loading_bar)
-    ProgressBar loadingBar;
-
     @Bind(R.id.microscopes_empty)
     TextView emptyTextView;
+
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private MicroscopeListAdapter microscopeListAdapter;
 
     public MicroscopesFragment() {
         // Required empty public constructor  
@@ -35,7 +38,7 @@ public class MicroscopesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        MicroscopeListAdapter microscopeListAdapter = new MicroscopeListAdapter(getActivity(),this);
+        microscopeListAdapter = new MicroscopeListAdapter(getActivity(),this);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -46,8 +49,30 @@ public class MicroscopesFragment extends Fragment {
         // Set adapter
         recyclerView.setAdapter(microscopeListAdapter);
 
+        // Init swipe refresh
+        initSwipeRefresh();
+
         // Set item click listener
         microscopeListAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), microscopeListAdapter));
+    }
+
+    private void initSwipeRefresh() {
+
+        // Set swipe listener
+        swipeRefreshLayout.setOnRefreshListener(new MicroscopesFragmentSwipeOnRefresh());
+
+        // After onMeasure start refreshing
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+
+                // Disable swipe refreshing
+                swipeRefreshLayout.setEnabled(false);
+
+                // Show refreshing
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
@@ -69,8 +94,17 @@ public class MicroscopesFragment extends Fragment {
     }
 
     public void updateUI() {
-        loadingBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
         if (recyclerView.getAdapter().getItemCount() == 0)
             emptyTextView.setVisibility(View.VISIBLE);
+    }
+
+    private class MicroscopesFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener{
+
+        @Override
+        public void onRefresh() {
+            microscopeListAdapter.loadMicroscopes();
+        }
     }
 }  

@@ -32,7 +32,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         loadMicroscopes();
     }
 
-    private void loadMicroscopes() {
+    public void loadMicroscopes() {
 
         loadMockMicroscope();
 
