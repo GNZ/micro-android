@@ -4,29 +4,29 @@
     android:layout_height="match_parent"
     android:background="@color/start_activity_fragments_background">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gallery_list"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"  />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gallery_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/gallery_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerVertical="true"
         android:gravity="center"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/abc_text_size_body_1_material"
         android:text="@string/gallery_no_images"
-        android:visibility="gone"/>
-
-    <ProgressBar
-        android:id="@+id/gallery_loading_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:indeterminate="false" />
+        android:textSize="@dimen/abc_text_size_body_1_material"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

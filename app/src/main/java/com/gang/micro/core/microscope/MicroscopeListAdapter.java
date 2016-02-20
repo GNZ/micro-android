@@ -27,12 +27,13 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     public MicroscopeListAdapter(Context context, MicroscopesFragment fragment) {
         this.context = context;
         this.fragment = fragment;
-        this.dataset = new ArrayList<>();
 
         loadMicroscopes();
     }
 
     public void loadMicroscopes() {
+
+        dataset = new ArrayList<>();
 
         loadMockMicroscope();
 

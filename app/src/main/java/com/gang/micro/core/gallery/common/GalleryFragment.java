@@ -2,6 +2,7 @@ package com.gang.micro.core.gallery.common;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ public abstract class GalleryFragment extends Fragment {
     @Bind(R.id.gallery_empty)
     protected TextView empty;
 
-    @Bind(R.id.gallery_loading_bar)
-    protected ProgressBar loadingBar;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     protected GalleryAdapter galleryAdapter;
 
@@ -48,21 +49,53 @@ public abstract class GalleryFragment extends Fragment {
             }
         };
 
+        //initSwipeRefreshLayout();
+        initSwipeRefreshLayout();
+
         recyclerView.setItemAnimator(animator);
 
         return view;
     }
 
+    private void initSwipeRefreshLayout() {
+
+        // Set swipe listener
+        swipeRefreshLayout.setOnRefreshListener(new GalleryFragmentSwipeOnRefresh());
+
+        // After onMeasure start refreshing
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+
+                // Disable swipe refreshing
+                swipeRefreshLayout.setEnabled(false);
+
+                // Show refreshing
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+    }
+
     @Override
     public void onResume() {
-        //galleryAdapter.loadImages();
         super.onResume();
     }
 
+
+
     public void updateUI() {
-        loadingBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
         if (recyclerView.getAdapter().getItemCount() == 0)
             empty.setVisibility(View.VISIBLE);
+    }
+
+    private class GalleryFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener{
+
+        @Override
+        public void onRefresh() {
+            galleryAdapter.loadImages();
+        }
     }
 
 }

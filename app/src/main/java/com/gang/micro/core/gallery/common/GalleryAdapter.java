@@ -48,6 +48,7 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
         Glide.with(context)
                 .load(imageUrl)
                 .override(ImageUtils.WIDTH, ImageUtils.HEIGHT)
+                .thumbnail(0.5f)
                 .centerCrop()
                 .into(holder.imageView);
         holder.textView.setText(dataset.get(position).getName());
@@ -72,6 +73,8 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
     protected void remove(int position){
         dataset.remove(position);
         notifyItemRemoved(position);
+        if (dataset.isEmpty())
+            fragment.updateUI();
     }
 
     protected void update(int position){
