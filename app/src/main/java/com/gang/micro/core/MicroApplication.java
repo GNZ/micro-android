@@ -57,7 +57,7 @@ public class MicroApplication extends Application {
             return currentMicroscope.getStreamingPort();
         }
 
-        return sharedPreferences.getString("streaming_port", "8080");
+        return sharedPreferences.getString("streaming_port", "8554");
     }
 
     public String getWebApplicationPort() {
@@ -85,7 +85,7 @@ public class MicroApplication extends Application {
     }
 
     public String getProtocol() {
-        return sharedPreferences.getString("protocol", "http");
+        return sharedPreferences.getString("protocol", "rtsp");
     }
 
     public LocalGalleryAdapter getLocalGalleryAdapter() {

@@ -43,7 +43,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     private void loadMockMicroscope() {
-        Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
+        Microscope microscope = new Microscope("Test microscope", "dev.upclaz.com");
         microscope.setWebApplicationPort("80");
 
         if (!dataset.contains(microscope))

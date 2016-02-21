@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.VideoView;
 
 import com.gang.micro.R;
 import com.gang.micro.core.MicroApplication;
@@ -32,7 +34,7 @@ public class MicroStreamActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @Bind(R.id.micro_video)
-    MjpegView microVideo;
+    VideoView microVideo;
 
     private RelativeLayout.LayoutParams paramsNotFullscreen;
 
@@ -53,12 +55,14 @@ public class MicroStreamActivity extends AppCompatActivity {
 
     protected void onRestart() {
         super.onRestart();
+
+        microVideo.start();
     }
 
     public void onPause() {
         super.onPause();
 
-        microVideo.stopPlayback();
+        microVideo.pause();
     }
 
     @Override
@@ -138,15 +142,10 @@ public class MicroStreamActivity extends AppCompatActivity {
         String port = application.getStreamingPort();
         String folderName = application.getFolderName();
 
-        String videoURL = "http://" + serverIP + ":" + port + "/?" + folderName;
+        String videoURL = "rtsp://" + serverIP + ":" + port + "/output.h264";
 
-        Log.d(TAG, videoURL);
+        microVideo.setVideoPath(videoURL);
 
-        microVideo.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-        microVideo.setOverlayBackgroundColor(Color.BLACK);
-        microVideo.setOverlayTextColor(Color.WHITE);
-        microVideo.setOverlayPosition(MjpegView.POSITION_LOWER_RIGHT);
-        microVideo.setOverlayPaint(new Paint());
-        microVideo.setSource(videoURL);
+        microVideo.start();
     }
 }

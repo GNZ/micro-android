@@ -11,7 +11,7 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <com.gang.micro.core.mjpeg.MjpegView
+    <VideoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/micro_video"
