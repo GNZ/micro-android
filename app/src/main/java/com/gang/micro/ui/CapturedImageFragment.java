@@ -22,8 +22,8 @@ import com.gang.micro.core.api.MicroApiSpecification;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.image.ImageContainer;
 import com.gang.micro.core.image.analysis.Analysis;
-import com.gang.micro.core.image.analysis.AnalysisAsyncTask;
 import com.gang.micro.core.image.analysis.AnalysisResultListener;
+import com.gang.micro.core.image.analysis.AnalysisType;
 import com.gang.micro.core.utils.api.ErrorLoggingCallback;
 import com.gang.micro.core.utils.image.ImageUtils;
 
@@ -157,7 +157,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         Log.d("Analysis", "Started analysis");
 
-        AnalysisResultListener analysisResultListener = new AnalysisResultListener() {
+        final AnalysisResultListener analysisResultListener = new AnalysisResultListener() {
             @Override
             public void setAnalysis(Analysis analysis) {
                 analysisResultTextView.setText(analysis.getResult());
@@ -168,6 +168,14 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
             }
         };
 
-        new AnalysisAsyncTask(context, analysisResultListener, image).execute();
+        microApi.getApi()
+                .analyseImage(image.getId(), new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT))
+                .enqueue(new ErrorLoggingCallback<Analysis>() {
+                    @Override
+                    public void onSuccessfulResponse(Response<Analysis> response, Retrofit retrofit) {
+
+                        analysisResultListener.setAnalysis(response.body());
+                    }
+                });
     }
 }
