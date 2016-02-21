@@ -135,7 +135,6 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 							break;
 						}
 						c = mSurfaceHolder.lockCanvas();
-						Log.d(TAG, "Lock");
 						synchronized (mSurfaceHolder) {
 							destRect = destRect(bitmap.getWidth(),
 									bitmap.getHeight());
@@ -163,7 +162,6 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 					} finally {
 						if (c != null) {
 							mSurfaceHolder.unlockCanvasAndPost(c);
-							Log.d(TAG, "UnLock");
 						}
 					}
 					if (sucess) {

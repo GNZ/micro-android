@@ -26,7 +26,7 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
 
     @Override
     public String picturePath(int position) {
-        return new ImageUtils(getContext()).getImageUrl(getDataset().get(position));
+        return new ImageUtils(getContext()).getImageThumbnailUrl(getDataset().get(position));
     }
 
     @Override
@@ -57,16 +57,10 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
                 .getApi()
                 .deleteImage(image.getId());
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new ErrorLoggingCallback<Boolean>() {
             @Override
-            public void onResponse(Response<Boolean> response, Retrofit retrofit) {
-                boolean success = response.body();
-                if (success)
-                    remove(position);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
+            public void onSuccessfulResponse(Response<Boolean> response, Retrofit retrofit) {
+                remove(position);
             }
         });
 
