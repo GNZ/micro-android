@@ -12,16 +12,12 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class MicroApplication extends Application {
 
-    private String defaultStreamingPort;
-    private String defaultWebApplicationPort;
-    private String defaultServiceName;
-    private String defaultProtocol;
-    private String defaultStreamingPath;
-
     private Microscope currentMicroscope;
 
     //LocalGalleryAdapter
     LocalGalleryAdapter localGalleryAdapter;
+
+    SharedPreferences sharedPreferences;
 
     private boolean changes;
 
@@ -31,16 +27,9 @@ public class MicroApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
 
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        defaultServiceName = sharedPreferences.getString("service_name", "micro");
-        defaultProtocol = sharedPreferences.getString("protocol", "http");
-        defaultStreamingPath = sharedPreferences.getString("folder", "action=stream");
-        defaultWebApplicationPort = sharedPreferences.getString("webapp_port", "5000");
-        defaultStreamingPort = sharedPreferences.getString("streaming_port", "8080");
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
     public Microscope getCurrentMicroscope() {
@@ -68,7 +57,7 @@ public class MicroApplication extends Application {
             return currentMicroscope.getStreamingPort();
         }
 
-        return defaultStreamingPort;
+        return sharedPreferences.getString("streaming_port", "8080");
     }
 
     public String getWebApplicationPort() {
@@ -76,15 +65,15 @@ public class MicroApplication extends Application {
             return currentMicroscope.getWebApplicationPort();
         }
 
-        return defaultWebApplicationPort;
+        return sharedPreferences.getString("webapp_port", "5000");
     }
 
     public String getFolderName() {
-        return defaultStreamingPath;
+        return sharedPreferences.getString("folder", "action=stream");
     }
 
     public String getServiceName() {
-        return defaultServiceName;
+        return sharedPreferences.getString("service_name", "micro");
     }
 
     public String getServerIp() {
@@ -96,7 +85,7 @@ public class MicroApplication extends Application {
     }
 
     public String getProtocol() {
-        return defaultProtocol;
+        return sharedPreferences.getString("protocol", "http");
     }
 
     public LocalGalleryAdapter getLocalGalleryAdapter() {

@@ -46,7 +46,8 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
         microscope.setWebApplicationPort("80");
 
-        dataset.add(microscope);
+        if (!dataset.contains(microscope))
+            dataset.add(microscope);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         return context;
     }
 
-    public MicroscopesFragment getMicroscopeFragment(){
+    public MicroscopesFragment getMicroscopeFragment() {
         return fragment;
     }
 

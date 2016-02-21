@@ -43,4 +43,16 @@ public class Microscope {
     public void setWebApplicationPort(String webApplicationPort) {
         this.webApplicationPort = webApplicationPort;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Microscope))
+            return false;
+        if (o == this)
+            return true;
+
+        Microscope object = (Microscope) o;
+
+        return serverIp.equals(((Microscope) o).getServerIp()) && name.equals(object.getName());
+    }
 }
