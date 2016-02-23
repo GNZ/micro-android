@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.MicroStreamActivity"
+    tools:context=".MicroStreamActivity"
     android:background="@color/general_background"
     tools:showIn="@layout/activity_micro_stream"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <com.gang.micro.core.mjpeg.MjpegView
+    <com.gang.micro.mjpeg.MjpegView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/micro_video"
