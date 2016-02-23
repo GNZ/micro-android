@@ -1,19 +1,23 @@
 package com.gang.micro.core.gallery.local;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.gang.micro.core.gallery.common.GalleryAdapter;
-import com.gang.micro.core.gallery.common.ImageLoadAsyncTask;
 import com.gang.micro.core.image.Image;
 import com.gang.micro.core.utils.io.ImageIO;
 
 import java.io.IOException;
 import java.util.List;
 
-public class LocalImageLoadAsyncTask extends ImageLoadAsyncTask {
+public class LocalImageLoadAsyncTask extends AsyncTask<Void,Image,Void> {
+
+    protected final Context context;
+    protected final GalleryAdapter adapter;
 
     public LocalImageLoadAsyncTask(Context context, GalleryAdapter adapter) {
-        super(context, adapter);
+        this.context = context;
+        this.adapter = adapter;
     }
 
     @Override
@@ -28,6 +32,18 @@ public class LocalImageLoadAsyncTask extends ImageLoadAsyncTask {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Image... images) {
+        super.onProgressUpdate(images);
+        adapter.add(images[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        adapter.finishedLoadingItems();
     }
 
 }
