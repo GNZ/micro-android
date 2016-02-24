@@ -5,15 +5,16 @@ import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
 import com.gang.micro.microscope.Microscope;
+import com.gang.micro.microscope.events.FoundMicroscopeEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.InetAddress;
 
 public class NSDResolveListener implements NsdManager.ResolveListener {
 
-    private final NSDAsyncDiscoveryTask owningAsyncTask;
+    public NSDResolveListener() {
 
-    public NSDResolveListener(NSDAsyncDiscoveryTask owningAsyncTask) {
-        this.owningAsyncTask = owningAsyncTask;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class NSDResolveListener implements NsdManager.ResolveListener {
         Log.d(this.getClass().getName(), "Resolved address = " + address);
 
         // Notify progress to owning async task
-        owningAsyncTask.publish(microscope);
+        EventBus.getDefault().post(new FoundMicroscopeEvent(microscope));
     }
 
     private String getServiceName(NsdServiceInfo nsdServiceInfo) {

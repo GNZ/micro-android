@@ -1,6 +1,7 @@
 package com.gang.micro.microscope;
 
 import android.content.Context;
+import android.net.nsd.NsdManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
-import com.gang.micro.nsd.NSDAsyncDiscoveryTask;
+import com.gang.micro.microscope.events.FoundMicroscopeEvent;
+import com.gang.micro.nsd.NSDCoordinator;
+import com.gang.micro.nsd.events.StartNSDDiscoveryEvent;
+import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -22,29 +30,45 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     private static MicroscopeListItemClickListener clickListener;
     private Context context;
     private MicroscopesFragment fragment;
-    private NSDAsyncDiscoveryTask findMicroscopesTask;
+    private NSDCoordinator nsdCoordinator;
 
     public MicroscopeListAdapter(Context context, MicroscopesFragment fragment) {
         this.context = context;
         this.fragment = fragment;
 
-        loadMicroscopes();
+        EventBus.getDefault().register(this);
+
+        dataset = new ArrayList<>();
+
+        // Get NsdManager reference
+        NsdManager nsdManager = (NsdManager) getContext().getSystemService(Context.NSD_SERVICE);
+
+        nsdCoordinator = new NSDCoordinator(nsdManager);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+
+        EventBus.getDefault().unregister(this);
+
+        super.finalize();
     }
 
     public void loadMicroscopes() {
 
-        dataset = new ArrayList<>();
-
         loadMockMicroscope();
 
-        findMicroscopesTask = new NSDAsyncDiscoveryTask(this);
-
-        findMicroscopesTask.execute();
+        EventBus.getDefault().post(new StartNSDDiscoveryEvent());
     }
 
-    public void cancelMicroscopesSearch() {
-        if (!findMicroscopesTask.isCancelled())
-            findMicroscopesTask.cancel(true);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addMicroscope(FoundMicroscopeEvent foundMicroscopeEvent){
+        addAll(foundMicroscopeEvent.getMicroscope());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void stopFindMicroscope(StopNSDDiscoveryEvent stopNSDDiscoveryEvent){
+        fragment.updateUI();
     }
 
     private void loadMockMicroscope() {
@@ -75,8 +99,10 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     public void addAll(Microscope microscope) {
-        dataset.add(microscope);
-        notifyItemInserted(dataset.size() - 1);
+        if (!dataset.contains(microscope)) {
+            dataset.add(microscope);
+            notifyItemInserted(dataset.size() - 1);
+        }
     }
 
     public void setOnItemClickListener(MicroscopeListItemClickListener microscopeListItemClickListener) {
@@ -95,10 +121,6 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         return fragment;
     }
 
-    public void stopDiscovery() {
-        findMicroscopesTask.cancel(true);
-    }
-
     class MicroscopeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.microscope_list_item_title)
         TextView titleTextView;
@@ -114,9 +136,6 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
         @Override
         public void onClick(View view) {
-
-            findMicroscopesTask.cancel(true);
-
             clickListener.onItemClick(getAdapterPosition(), view);
         }
     }

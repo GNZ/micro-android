@@ -8,10 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.gang.micro.R;
-import com.gang.micro.nsd.NSDAsyncDiscoveryTask;
+import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +57,9 @@ public class MicroscopesFragment extends Fragment {
 
         // Set item click listener
         microscopeListAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), microscopeListAdapter));
+
+        // Load microscopes
+        microscopeListAdapter.loadMicroscopes();
     }
 
     private void initSwipeRefresh() {
@@ -95,7 +101,8 @@ public class MicroscopesFragment extends Fragment {
 
     @Override
     public void onPause() {
-        microscopeListAdapter.cancelMicroscopesSearch();
+
+        EventBus.getDefault().post(new StopNSDDiscoveryEvent());
 
         super.onPause();
     }

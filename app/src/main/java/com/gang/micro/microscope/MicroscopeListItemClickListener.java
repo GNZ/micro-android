@@ -6,6 +6,9 @@ import android.view.View;
 
 import com.gang.micro.MicroApplication;
 import com.gang.micro.MicroStreamActivity;
+import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MicroscopeListItemClickListener {
 
@@ -28,7 +31,7 @@ public class MicroscopeListItemClickListener {
         app.setCurrentMicroscope(microscope);
 
         // Stop microscope discovery
-        adapter.stopDiscovery();
+        EventBus.getDefault().post(new StopNSDDiscoveryEvent());
 
         // Create MicroStreamActivity intent
         Intent intent = new Intent(context, MicroStreamActivity.class);
