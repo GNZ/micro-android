@@ -4,8 +4,6 @@ import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
-import java.net.Inet4Address;
-
 public class NSDDiscoveryListener implements NsdManager.DiscoveryListener {
 
     private final String nsdServiceType;
@@ -48,7 +46,7 @@ public class NSDDiscoveryListener implements NsdManager.DiscoveryListener {
         Log.d(this.getClass().getName(), "Service name: " + name + ". Service type: " + type);
 
         // If the service is the desired one...
-        if ((serviceInfo.getHost() instanceof Inet4Address) && type.equals(nsdServiceType) && name.contains(nsdServiceName)) {
+        if (type.equals(nsdServiceType) && name.contains(nsdServiceName)) {
 
             // Log found service name
             Log.d(this.getClass().getName(), "Known service found @'" + name + "'");
