@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.nsd.NSDAsyncDiscoveryTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -90,6 +91,13 @@ public class MicroscopesFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        microscopeListAdapter.cancelMicroscopesSearch();
+
+        super.onPause();
     }
 
     public void updateUI() {

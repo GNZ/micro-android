@@ -27,6 +27,7 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
     @Override
     protected void onCancelled() {
         super.onCancelled();
+        nsdCoordinator.stopDiscovery();
         microscopeListAdapter.getMicroscopeFragment().updateUI();
     }
 
@@ -45,9 +46,10 @@ public class NSDAsyncDiscoveryTask extends AsyncTask<Void, Microscope, Void> {
             Log.d("NsdDiscovery", "Discovery interrupted");
 
         } finally {
-
-            // Always stop discovery
-            nsdCoordinator.stopDiscovery();
+            if (!isCancelled()) {
+                // Always stop discovery if it wasn't cancel
+                nsdCoordinator.stopDiscovery();
+            }
         }
         return null;
     }

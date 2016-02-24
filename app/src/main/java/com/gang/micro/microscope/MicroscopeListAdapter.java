@@ -42,6 +42,11 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         findMicroscopesTask.execute();
     }
 
+    public void cancelMicroscopesSearch() {
+        if (!findMicroscopesTask.isCancelled())
+            findMicroscopesTask.cancel(true);
+    }
+
     private void loadMockMicroscope() {
         Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
         microscope.setWebApplicationPort("80");
@@ -94,7 +99,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         findMicroscopesTask.cancel(true);
     }
 
-    static class MicroscopeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MicroscopeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.microscope_list_item_title)
         TextView titleTextView;
 
@@ -109,6 +114,9 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
         @Override
         public void onClick(View view) {
+
+            findMicroscopesTask.cancel(true);
+
             clickListener.onItemClick(getAdapterPosition(), view);
         }
     }
