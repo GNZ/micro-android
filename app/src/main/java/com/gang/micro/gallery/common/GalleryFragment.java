@@ -78,18 +78,27 @@ public abstract class GalleryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        checkRecyclerViewEmpty();
     }
-
-
 
     public void updateUI() {
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setEnabled(true);
-        if (recyclerView.getAdapter().getItemCount() == 0)
-            empty.setVisibility(View.VISIBLE);
+        stopRefreshing();
+        checkRecyclerViewEmpty();
     }
 
-    private class GalleryFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener{
+    private void stopRefreshing() {
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
+    }
+
+    private void checkRecyclerViewEmpty() {
+        if (recyclerView.getAdapter().getItemCount() == 0)
+            empty.setVisibility(View.VISIBLE);
+        else
+            empty.setVisibility(View.GONE);
+    }
+
+    private class GalleryFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener {
 
         @Override
         public void onRefresh() {

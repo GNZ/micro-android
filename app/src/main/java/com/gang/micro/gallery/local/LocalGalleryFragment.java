@@ -17,7 +17,7 @@ public class LocalGalleryFragment extends GalleryFragment {
         galleryAdapter = new LocalGalleryAdapter(getActivity(), this);
 
         // Set LocalGalleryAdapter to the application
-        ((MicroApplication)getActivity().getApplication())
+        ((MicroApplication) getActivity().getApplication())
                 .setLocalGalleryAdapter((LocalGalleryAdapter) galleryAdapter);
 
         // Create layout manager
