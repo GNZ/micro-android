@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:visibility="visible">
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
 
     <LinearLayout
         android:id="@+id/analysis_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:orientation="vertical"
         android:layout_centerVertical="true">
 
@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Caption"
-            android:text="@string/red_blood_cell_count" />
+            android:text="@string/red_blood_cell_count"
+            android:paddingBottom="4dp"/>
 
         <TextView
             android:id="@+id/analysis_item_value"
