@@ -58,10 +58,10 @@ public class GalleryItemFragment extends DialogFragment {
         return initUI(rootView);
     }
 
-    protected View initUI(View rootView){
+    protected View initUI(View rootView) {
         toolbar.inflateMenu(R.menu.menu_gallery_item_detail);
 
-        toolbar.setOnMenuItemClickListener(new GalleryItemMenuItemClickListener(caller,this));
+        toolbar.setOnMenuItemClickListener(new GalleryItemMenuItemClickListener(caller, this));
 
         if (caller == null) {
             Log.e(this.getClass().getName(), "No image to display");
@@ -93,7 +93,7 @@ public class GalleryItemFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void refresh(){
+    public void refresh() {
         attributesList.setAdapter(new GalleryItemAttributeListAdapter(getContext(), image));
     }
 

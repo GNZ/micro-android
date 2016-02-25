@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.gang.micro.R;
@@ -41,7 +40,7 @@ public class MicroscopesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         // Create adapter
-        microscopeListAdapter = new MicroscopeListAdapter(getActivity(),this);
+        microscopeListAdapter = new MicroscopeListAdapter(getActivity(), this);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -114,7 +113,7 @@ public class MicroscopesFragment extends Fragment {
             emptyTextView.setVisibility(View.VISIBLE);
     }
 
-    private class MicroscopesFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener{
+    private class MicroscopesFragmentSwipeOnRefresh implements SwipeRefreshLayout.OnRefreshListener {
 
         @Override
         public void onRefresh() {

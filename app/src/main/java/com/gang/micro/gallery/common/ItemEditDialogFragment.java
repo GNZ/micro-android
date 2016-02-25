@@ -17,7 +17,6 @@ import com.gang.micro.R;
  * to handle interaction events.
  * Use the {@link ItemEditDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class ItemEditDialogFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -48,6 +47,7 @@ public class ItemEditDialogFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public ItemEditDialogFragment() {
         // Required empty public constructor
     }
@@ -97,7 +97,7 @@ public class ItemEditDialogFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

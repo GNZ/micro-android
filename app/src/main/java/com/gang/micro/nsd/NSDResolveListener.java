@@ -51,11 +51,11 @@ public class NSDResolveListener implements NsdManager.ResolveListener {
 
         // Remove \32
         int bugIndex = serviceName.indexOf("\\032");
-        toReturn = bugIndex >= 0 ?  serviceName.substring(0, bugIndex): serviceName;
+        toReturn = bugIndex >= 0 ? serviceName.substring(0, bugIndex) : serviceName;
 
         // Remove mac
         int macPosition = toReturn.indexOf(" [");
-        toReturn = macPosition >= 0 ?  serviceName.substring(0, macPosition): toReturn;
+        toReturn = macPosition >= 0 ? serviceName.substring(0, macPosition) : toReturn;
 
         return toReturn;
     }

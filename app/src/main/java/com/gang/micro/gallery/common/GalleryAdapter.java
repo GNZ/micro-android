@@ -33,8 +33,6 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
     public GalleryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.gallery_list_item, parent, false);
 
-
-
         return new GalleryItemViewHolder(view, this);
     }
 
@@ -69,15 +67,15 @@ public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemVie
         fragment.updateUI();
     }
 
-    protected void remove(int position){
+    protected void remove(int position) {
         dataset.remove(position);
         notifyItemRemoved(position);
         if (dataset.isEmpty())
             fragment.updateUI();
     }
 
-    protected void update(int position){
-        notifyItemChanged(position,new Object());
+    protected void update(int position) {
+        notifyItemChanged(position, new Object());
     }
 
     public abstract String picturePath(int position);

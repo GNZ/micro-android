@@ -10,7 +10,7 @@ import com.gang.micro.utils.io.ImageIO;
 import java.io.IOException;
 import java.util.List;
 
-public class LocalImageLoadAsyncTask extends AsyncTask<Void,Image,Void> {
+public class LocalImageLoadAsyncTask extends AsyncTask<Void, Image, Void> {
 
     protected final Context context;
     protected final GalleryAdapter adapter;
@@ -22,12 +22,12 @@ public class LocalImageLoadAsyncTask extends AsyncTask<Void,Image,Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        List<String> filenames =  ImageIO.getFilenames(ImageIO.FOLDER);
-        for(String f: filenames){
+        List<String> filenames = ImageIO.getFilenames(ImageIO.FOLDER);
+        for (String f : filenames) {
             try {
                 Image image = ImageIO.readImage(f);
                 publishProgress(image);
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

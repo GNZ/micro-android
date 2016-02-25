@@ -62,12 +62,12 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void addMicroscope(FoundMicroscopeEvent foundMicroscopeEvent){
+    public void addMicroscope(FoundMicroscopeEvent foundMicroscopeEvent) {
         addAll(foundMicroscopeEvent.getMicroscope());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void stopFindMicroscope(StopNSDDiscoveryEvent stopNSDDiscoveryEvent){
+    public void stopFindMicroscope(StopNSDDiscoveryEvent stopNSDDiscoveryEvent) {
         fragment.updateUI();
     }
 

@@ -78,7 +78,7 @@ public class Image extends JsonPrintedImpl implements Serializable {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return id.hashCode();
     }
 
@@ -90,6 +90,6 @@ public class Image extends JsonPrintedImpl implements Serializable {
         if (o == this)
             return true;
 
-        return id.equals(((Image)o).getId());
+        return id.equals(((Image) o).getId());
     }
 }

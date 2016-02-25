@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.gang.micro.R;
 import com.gang.micro.api.MicroApi;
 import com.gang.micro.api.MicroApiSpecification;
 import com.gang.micro.image.Image;

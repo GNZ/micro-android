@@ -47,7 +47,7 @@ public class MicroApplication extends Application {
         this.changes = changes;
     }
 
-    public void setLocalGalleryAdapter(LocalGalleryAdapter localGalleryAdapter){
+    public void setLocalGalleryAdapter(LocalGalleryAdapter localGalleryAdapter) {
         this.localGalleryAdapter = localGalleryAdapter;
     }
 

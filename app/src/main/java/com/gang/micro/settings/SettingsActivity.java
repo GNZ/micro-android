@@ -7,8 +7,8 @@ import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
-import com.gang.micro.R;
 import com.gang.micro.MicroApplication;
+import com.gang.micro.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -38,6 +38,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        ((MicroApplication)getApplication()).setChanges(true);
+        ((MicroApplication) getApplication()).setChanges(true);
     }
 }

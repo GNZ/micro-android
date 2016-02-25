@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gang.micro.R;
 import com.gang.micro.MicroApplication;
+import com.gang.micro.R;
 import com.gang.micro.image.Image;
 import com.gang.micro.microscope.Microscope;
 import com.gang.micro.utils.io.ImageIO;
@@ -47,7 +47,7 @@ public class RemoteGalleryActivity extends AppCompatActivity implements RemoteGa
     }
 
     @Override
-    public void saveImageInLocalGallery(final Image image, String url){
+    public void saveImageInLocalGallery(final Image image, String url) {
         Glide.with(this)
                 .load(url)
                 .asBitmap()
@@ -70,6 +70,7 @@ public class RemoteGalleryActivity extends AppCompatActivity implements RemoteGa
 
                                 return null;
                             }
+
                             @Override
                             protected void onPostExecute(Void aVoid) {
                                 String msg = getResources().getString(R.string.image_save) + " " + image.getName();
@@ -88,7 +89,7 @@ public class RemoteGalleryActivity extends AppCompatActivity implements RemoteGa
 
     @Override
     public void onBackPressed() {
-        if (saving){
+        if (saving) {
             Toast.makeText(this, R.string.saving_image, Toast.LENGTH_SHORT).show();
         } else {
             super.onBackPressed();

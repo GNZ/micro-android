@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FileManager {
 
-    public FileManager(){
+    public FileManager() {
 
     }
 
@@ -20,7 +20,7 @@ public class FileManager {
         return exportDir;
     }
 
-    public static boolean saveJpegImageFromBitmap(String path,String name, Bitmap bitmap){
+    public static boolean saveJpegImageFromBitmap(String path, String name, Bitmap bitmap) {
         //Save the picture
         FileOutputStream fOut = null;
         try {
@@ -28,8 +28,7 @@ public class FileManager {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         } catch (Exception e) {
             //return false;
-        }
-        finally {
+        } finally {
             try {
                 if (fOut != null) {
                     fOut.flush();

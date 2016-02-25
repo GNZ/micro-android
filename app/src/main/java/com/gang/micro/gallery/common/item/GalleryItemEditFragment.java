@@ -36,7 +36,8 @@ public class GalleryItemEditFragment extends DialogFragment {
 
     Image image;
 
-    public GalleryItemEditFragment() { }
+    public GalleryItemEditFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class GalleryItemEditFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        if (caller != null){
+        if (caller != null) {
             image = caller.getImage();
             name.setText(image.getName());
             description.setText(image.getDescription());
@@ -88,7 +89,7 @@ public class GalleryItemEditFragment extends DialogFragment {
 
             galleryItemFragment.refresh();
 
-            Toast.makeText(getContext(),R.string.image_changed,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.image_changed, Toast.LENGTH_SHORT).show();
         }
 
         dismiss();
@@ -98,7 +99,7 @@ public class GalleryItemEditFragment extends DialogFragment {
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.gallery_item_edit_menu_button:
                     editImage();
                     return true;

@@ -50,7 +50,7 @@ public class GalleryItemMenuItemClickListener implements Toolbar.OnMenuItemClick
         Glide.with(galleryItemFragment)
                 .load(caller.getUrl())
                 .asBitmap()
-                .toBytes(Bitmap.CompressFormat.JPEG,100)
+                .toBytes(Bitmap.CompressFormat.JPEG, 100)
                 .into(new SimpleTarget<byte[]>() {
                     @Override
                     public void onResourceReady(byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {
