@@ -16,7 +16,7 @@ import com.gang.micro.utils.image.ImageUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> implements GalleryService {
+public abstract class GalleryAdapter extends RecyclerView.Adapter<GalleryItemViewHolder> implements Gallery {
 
     protected GalleryFragment fragment;
     protected Context context;

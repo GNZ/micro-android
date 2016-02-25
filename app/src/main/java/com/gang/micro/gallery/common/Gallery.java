@@ -1,6 +1,6 @@
 package com.gang.micro.gallery.common;
 
-public interface GalleryService {
+public interface Gallery {
 
     void loadImages();
 
