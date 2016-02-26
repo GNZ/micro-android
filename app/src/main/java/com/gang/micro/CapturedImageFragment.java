@@ -35,7 +35,7 @@ import retrofit.Retrofit;
 
 public class CapturedImageFragment extends DialogFragment implements ImageContainer {
 
-    MicroApi microApi;
+    MicroApiSpecification microApi;
 
     @Bind(R.id.fragment_captured_image_image_view)
     ImageView capturedImage;
@@ -67,7 +67,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         context = getActivity().getApplicationContext();
 
-        MicroApiSpecification microApi = new MicroApi(context).getApi();
+        microApi = new MicroApi(context).getApi();
 
         microApi.captureImage().enqueue(new ErrorLoggingCallback<Image>() {
             @Override
@@ -167,8 +167,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
             }
         };
 
-        microApi.getApi()
-                .analyseImage(image.getId(), new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT))
+        microApi.analyseImage(image.getId(), new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT))
                 .enqueue(new ErrorLoggingCallback<Analysis>() {
                     @Override
                     public void onSuccessfulResponse(Response<Analysis> response, Retrofit retrofit) {
