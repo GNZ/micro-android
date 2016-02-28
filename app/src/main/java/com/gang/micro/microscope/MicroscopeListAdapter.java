@@ -56,6 +56,10 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
 
     public void loadMicroscopes() {
 
+        dataset.clear();
+
+        notifyDataSetChanged();
+
         loadMockMicroscope();
 
         EventBus.getDefault().post(new StartNSDDiscoveryEvent());
@@ -75,8 +79,7 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
         Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
         microscope.setWebApplicationPort("80");
 
-        if (!dataset.contains(microscope))
-            dataset.add(microscope);
+        addAll(microscope);
     }
 
     @Override
