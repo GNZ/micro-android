@@ -13,14 +13,20 @@ import java.net.InetAddress;
 
 public class NSDResolveListener implements NsdManager.ResolveListener {
 
-    public NSDResolveListener() {
+    private final NSDCoordinator nsdCoordinator;
 
+    public NSDResolveListener(NSDCoordinator nsdCoordinator) {
+        this.nsdCoordinator = nsdCoordinator;
     }
 
     @Override
-    public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int i) {
+    public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int error) {
 
-        Log.d(this.getClass().getName(), "Resolve failed. Error code: " + i);
+        Log.d(this.getClass().getName(), "Resolve failed. Error code: " + error);
+
+        if (error == 3) {
+            nsdCoordinator.resolveService(nsdServiceInfo);
+        }
     }
 
     @Override

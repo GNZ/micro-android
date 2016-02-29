@@ -17,7 +17,6 @@ public class NSDCoordinator {
     private static final int TIME_OUT = 3000;
 
     private NsdManager nsdManager;
-    private NsdManager.ResolveListener resolveListener;
     private NsdManager.DiscoveryListener discoveryListener;
 
     // checks if the NsdManager is discovering services
@@ -26,8 +25,6 @@ public class NSDCoordinator {
     public NSDCoordinator(NsdManager nsdManager) {
 
         EventBus.getDefault().register(this);
-
-        this.resolveListener = new NSDResolveListener();
 
         this.discoveryListener = new NSDDiscoveryListener(SERVICE_TYPE, SERVICE_NAME, this);
 
@@ -81,6 +78,6 @@ public class NSDCoordinator {
     }
 
     public void resolveService(NsdServiceInfo serviceInfo) {
-        nsdManager.resolveService(serviceInfo, resolveListener);
+        nsdManager.resolveService(serviceInfo, new NSDResolveListener(this));
     }
 }
