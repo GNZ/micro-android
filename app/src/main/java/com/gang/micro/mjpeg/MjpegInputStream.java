@@ -6,6 +6,7 @@ package com.gang.micro.mjpeg;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.gang.micro.utils.image.ImageUtils;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -18,12 +19,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MjpegInputStream extends DataInputStream {
+
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
-    private final String CONTENT_LENGTH = "Content-Length";
+
     private final static int HEADER_MAX_LENGTH = 100;
     private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
-    private int mContentLength = -1;
+
+    private final byte[] frameData = new byte[500000];
+    private final byte[] header = new byte[20000];
+
+    private BitmapFactory.Options bmOptions;
 
     public static MjpegInputStream read(String url) {
 
@@ -48,6 +54,11 @@ public class MjpegInputStream extends DataInputStream {
 
     public MjpegInputStream(InputStream in) {
         super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
+
+        Bitmap bitmap = Bitmap.createBitmap(ImageUtils.WIDTH, ImageUtils.HEIGHT, Bitmap.Config.ARGB_8888);
+
+        bmOptions = new BitmapFactory.Options();
+        bmOptions.inBitmap = bitmap;
     }
 
     private int getEndOfSequence(DataInputStream in, byte[] sequence)
@@ -77,24 +88,27 @@ public class MjpegInputStream extends DataInputStream {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
-        return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
+
+        return Integer.parseInt(props.getProperty("Content-Length"));
     }
+
 
     public Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
         reset();
-        byte[] header = new byte[headerLen];
-        readFully(header);
+        readFully(header, 0, headerLen);
+
+        int mContentLength;
         try {
             mContentLength = parseContentLength(header);
         } catch (NumberFormatException nfe) {
             mContentLength = getEndOfSequence(this, EOF_MARKER);
         }
+
         reset();
-        byte[] frameData = new byte[mContentLength];
         skipBytes(headerLen);
-        readFully(frameData);
-        return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
+        readFully(frameData, 0, mContentLength);
+        return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData), null, bmOptions);
     }
 }

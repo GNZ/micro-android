@@ -47,7 +47,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
     private String url;
 
     public class MjpegViewThread extends AsyncTask<Void, Void, Void> {
-        private SurfaceHolder mSurfaceHolder;
+        private final SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
         private long start;
         private Bitmap ovl, bitmap;
@@ -116,7 +116,6 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
             Canvas c = null;
             Paint p = new Paint();
             String fps = "";
-            boolean sucess = false;
 
             mIn = MjpegInputStream.read(url);
 
@@ -129,9 +128,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                     try {
                         try {
                             bitmap = mIn.readMjpegFrame();
-                            sucess = true;
                         } catch (IOException e) {
-                            sucess = false;
                             break;
                         }
                         c = mSurfaceHolder.lockCanvas();
@@ -163,12 +160,6 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                         if (c != null) {
                             mSurfaceHolder.unlockCanvasAndPost(c);
                         }
-                    }
-                    if (sucess) {
-                        if (listener != null)
-                            listener.sucess();
-                    } else {
-                        onError();
                     }
                 }
             }
