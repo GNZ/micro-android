@@ -7,7 +7,7 @@ import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.R;
 
 /**

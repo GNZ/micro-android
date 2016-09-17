@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.gallery.remote.RemoteGalleryActivity;
 import com.gang.micro.mjpeg.MjpegView;
 

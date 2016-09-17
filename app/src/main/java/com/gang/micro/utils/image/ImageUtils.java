@@ -2,7 +2,7 @@ package com.gang.micro.utils.image;
 
 import android.content.Context;
 
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.image.Image;
 
 public class ImageUtils {

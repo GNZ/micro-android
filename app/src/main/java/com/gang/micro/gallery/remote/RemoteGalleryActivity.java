@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.R;
 import com.gang.micro.image.Image;
 import com.gang.micro.microscope.Microscope;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.MicroStreamActivity;
 import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
 

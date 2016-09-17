@@ -2,7 +2,7 @@ package com.gang.micro.api;
 
 import android.content.Context;
 
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;

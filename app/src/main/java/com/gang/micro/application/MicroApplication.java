@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.application;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -8,15 +8,20 @@ import android.util.Log;
 import com.gang.micro.gallery.local.LocalGalleryAdapter;
 import com.gang.micro.microscope.Microscope;
 
+import javax.inject.Inject;
+
 
 public class MicroApplication extends Application {
 
     private Microscope currentMicroscope;
 
+    private ApplicationComponent mApplicationComponent;
+
     //LocalGalleryAdapter
     LocalGalleryAdapter localGalleryAdapter;
 
-    SharedPreferences sharedPreferences;
+    @Inject
+    Preferences mPreferences;
 
     private boolean changes;
 
@@ -27,8 +32,14 @@ public class MicroApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //LeakCanary.install(this);
+        setupDaggerGraph();
+    }
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    private void setupDaggerGraph() {
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+        mApplicationComponent.inject(this);
     }
 
     public Microscope getCurrentMicroscope() {
@@ -56,7 +67,7 @@ public class MicroApplication extends Application {
             return currentMicroscope.getStreamingPort();
         }
 
-        return sharedPreferences.getString("streaming_port", "8080");
+        return mPreferences.getStreamingPort();
     }
 
     public String getWebApplicationPort() {
@@ -64,15 +75,15 @@ public class MicroApplication extends Application {
             return currentMicroscope.getWebApplicationPort();
         }
 
-        return sharedPreferences.getString("webapp_port", "5000");
+        return mPreferences.getWebApplicationPort();
     }
 
     public String getFolderName() {
-        return sharedPreferences.getString("folder", "action=stream");
+        return mPreferences.getFolderName();
     }
 
     public String getServiceName() {
-        return sharedPreferences.getString("service_name", "micro");
+        return mPreferences.getServiceName();
     }
 
     public String getServerIp() {
@@ -84,7 +95,7 @@ public class MicroApplication extends Application {
     }
 
     public String getProtocol() {
-        return sharedPreferences.getString("protocol", "http");
+        return mPreferences.getProtocol();
     }
 
     public LocalGalleryAdapter getLocalGalleryAdapter() {
