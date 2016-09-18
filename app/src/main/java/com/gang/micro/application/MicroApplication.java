@@ -42,6 +42,10 @@ public class MicroApplication extends Application {
         mApplicationComponent.inject(this);
     }
 
+    public static ApplicationComponent getAppComponent(Application app) {
+        return ((MicroApplication) app).mApplicationComponent;
+    }
+
     public Microscope getCurrentMicroscope() {
         return currentMicroscope;
     }

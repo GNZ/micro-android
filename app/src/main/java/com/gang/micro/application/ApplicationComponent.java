@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.gang.micro.api.MicroApiSpecification;
 import com.gang.micro.dagger.ForApplication;
+import com.gang.micro.microscope.MicroscopeProvider;
 
 import javax.inject.Singleton;
 
@@ -23,5 +24,7 @@ public interface ApplicationComponent {
     Preferences getPrefereces();
 
     MicroApiSpecification getMicroApi();
+
+    MicroscopeProvider getMicroscopeProvider();
 
 }
