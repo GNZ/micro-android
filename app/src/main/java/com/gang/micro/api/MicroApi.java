@@ -3,12 +3,13 @@ package com.gang.micro.api;
 import android.content.Context;
 
 import com.gang.micro.application.MicroApplication;
-import com.squareup.okhttp.OkHttpClient;
+import com.gang.micro.constansts.ApplicationConsts;
 
 import java.util.concurrent.TimeUnit;
 
-import retrofit.JacksonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class MicroApi {
 
@@ -21,9 +22,10 @@ public class MicroApi {
 
         String baseUrl = app.getProtocol() + "://" + ip + ":" + app.getWebApplicationPort();
 
-        final OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
-        okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(ApplicationConsts.CLIENT_TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(ApplicationConsts.CLIENT_TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

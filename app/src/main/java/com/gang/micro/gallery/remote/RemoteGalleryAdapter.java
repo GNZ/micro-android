@@ -12,10 +12,9 @@ import com.gang.micro.utils.image.ImageUtils;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RemoteGalleryAdapter extends GalleryAdapter {
 
@@ -37,7 +36,7 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
     public void loadImages() {
         new MicroApi(context).getApi().getImages().enqueue(new ErrorLoggingCallback<List<Image>>() {
             @Override
-            public void onSuccessfulResponse(Response<List<Image>> response, Retrofit retrofit) {
+            public void onSuccessfulResponse(Call<List<Image>> call, Response<List<Image>> response) {
                 List<Image> images = response.body();
                 for (Image image : images) {
                     if (!dataset.contains(image))
@@ -58,7 +57,7 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
 
         call.enqueue(new ErrorLoggingCallback<Boolean>() {
             @Override
-            public void onSuccessfulResponse(Response<Boolean> response, Retrofit retrofit) {
+            public void onSuccessfulResponse(Call<Boolean> call, Response<Boolean> response) {
                 remove(position);
             }
         });
@@ -76,12 +75,13 @@ public class RemoteGalleryAdapter extends GalleryAdapter {
 
         call.enqueue(new Callback<Image>() {
             @Override
-            public void onResponse(Response<Image> response, Retrofit retrofit) {
+            public void onResponse(Call<Image> call, Response<Image> response) {
                 update(position);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Image> call, Throwable t) {
+
             }
         });
     }

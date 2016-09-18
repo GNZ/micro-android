@@ -1,10 +1,11 @@
 package com.gang.micro.utils.api;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public interface SuccessfulResponseCallback<T> extends Callback<T> {
 
-    void onSuccessfulResponse(Response<T> response, Retrofit retrofit);
+    void onSuccessfulResponse(Call<T> call, Response<T> response);
 }

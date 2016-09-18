@@ -22,9 +22,9 @@ import com.gang.micro.image.analysis.AnalysisType;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RemoteGalleryItemFragment extends GalleryItemFragment {
 
@@ -96,7 +96,7 @@ public class RemoteGalleryItemFragment extends GalleryItemFragment {
         microApi.analyseImage(image.getId(), new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT))
                 .enqueue(new Callback<Analysis>() {
                     @Override
-                    public void onResponse(Response<Analysis> response, Retrofit retrofit) {
+                    public void onResponse(Call<Analysis> call, Response<Analysis> response) {
                         Context context = getContext();
                         if (context != null) {
                             analysisResultListener.setAnalysis(response.body());
@@ -104,8 +104,9 @@ public class RemoteGalleryItemFragment extends GalleryItemFragment {
                     }
 
                     @Override
-                    public void onFailure(Throwable t) {
+                    public void onFailure(Call<Analysis> call, Throwable t) {
                         analysisProgressBar.setVisibility(View.INVISIBLE);
+
                     }
                 });
     }

@@ -2,6 +2,9 @@ package com.gang.micro.application;
 
 import com.gang.micro.BuildConfig;
 import com.gang.micro.api.MicroApiSpecification;
+import com.gang.micro.constansts.ApplicationConsts;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -12,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Module
 public class NetworkModule {
@@ -31,6 +34,8 @@ public class NetworkModule {
     OkHttpClient provideOkHttpClient(HttpLoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .connectTimeout(ApplicationConsts.CLIENT_TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(ApplicationConsts.CLIENT_TIME_OUT_SECONDS, TimeUnit.SECONDS)
                 .build();
     }
 
@@ -48,7 +53,7 @@ public class NetworkModule {
     MicroApiSpecification provideGbfsApiService(OkHttpClient client, @Named("base_url") String baseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build()

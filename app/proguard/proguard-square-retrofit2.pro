@@ -9,3 +9,4 @@
 -keepclasseswithmembers class * {
     @retrofit2.http.* <methods>;
 }
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
