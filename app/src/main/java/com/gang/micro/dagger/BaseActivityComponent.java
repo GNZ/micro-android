@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.gang.micro.application.ApplicationComponent;
+import com.gang.micro.microscope.MicroscopeProvider;
 
 import dagger.Component;
 
@@ -23,4 +24,6 @@ public interface BaseActivityComponent {
 
     @ForActivity
     Context getActivityContext();
+
+    MicroscopeProvider getMicroscopeProvider();
 }

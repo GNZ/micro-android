@@ -43,9 +43,6 @@ public class MicroStreamActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        // No changes were made on settings
-        ((MicroApplication) getApplication()).setChanges(false);
-
         // Avoid screen lock
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

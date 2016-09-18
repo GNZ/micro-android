@@ -14,11 +14,11 @@ public class MicroscopeProvider {
         this.mPreferences = preferences;
     }
 
-    public Microscope getmMicroscope() {
+    public Microscope getMicroscope() {
         return mMicroscope;
     }
 
-    public void setmMicroscope(Microscope mMicroscope) {
+    public void setMicroscope(Microscope mMicroscope) {
         this.mMicroscope = mMicroscope;
     }
 

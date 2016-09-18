@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.gallery.remote;
 
 import com.gang.micro.application.ApplicationComponent;
 import com.gang.micro.dagger.ActivityModule;
@@ -12,10 +12,8 @@ import dagger.Component;
         dependencies = ApplicationComponent.class,
         modules = ActivityModule.class
 )
-public interface StartActivityComponent extends BaseActivityComponent {
+public interface RemoteGalleryActivityComponent extends BaseActivityComponent {
 
-    void inject(StartActivity startActivity);
-
-
+    void inject(RemoteGalleryActivity remoteGalleryActivity);
 
 }

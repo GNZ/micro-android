@@ -46,18 +46,6 @@ public class MicroApplication extends Application {
         return ((MicroApplication) app).mApplicationComponent;
     }
 
-    public Microscope getCurrentMicroscope() {
-        return currentMicroscope;
-    }
-
-    public void setCurrentMicroscope(Microscope currentMicroscope) {
-        this.currentMicroscope = currentMicroscope;
-    }
-
-    public boolean getChanges() {
-        return changes;
-    }
-
     public void setChanges(boolean changes) {
         this.changes = changes;
     }

@@ -21,8 +21,9 @@ import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class MicroscopesFragment extends BaseFragment {
 
@@ -35,7 +36,10 @@ public class MicroscopesFragment extends BaseFragment {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private MicroscopeListAdapter microscopeListAdapter;
+    @Inject
+    MicroscopeListAdapter microscopeListAdapter;
+    @Inject
+    MicroscopeListItemClickListener microscopeListItemClickListener;
 
     public MicroscopesFragment() {
         // Required empty public constructor  
@@ -48,9 +52,6 @@ public class MicroscopesFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // Create adapter
-        microscopeListAdapter = new MicroscopeListAdapter(getActivity(), this);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -65,7 +66,7 @@ public class MicroscopesFragment extends BaseFragment {
         initSwipeRefresh();
 
         // Set item click listener
-        microscopeListAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), microscopeListAdapter));
+        microscopeListAdapter.setOnItemClickListener(microscopeListItemClickListener);
 
         // Load microscopes
         microscopeListAdapter.loadMicroscopes();
@@ -95,6 +96,7 @@ public class MicroscopesFragment extends BaseFragment {
         final MicroscopesFragmentComponent component = DaggerMicroscopesFragmentComponent
                 .builder()
                 .startActivityComponent((StartActivityComponent) baseActivityComponent)
+                .microscopesFragmentModule(new MicroscopesFragmentModule(this))
                 .build();
         component.inject(this);
     }
@@ -110,9 +112,6 @@ public class MicroscopesFragment extends BaseFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_microscopes, container, false);
-
-        // Bind components
-        ButterKnife.bind(this, view);
 
         return view;
     }
