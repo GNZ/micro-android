@@ -1,4 +1,4 @@
-package com.gang.micro.mjpeg;
+package com.gang.micro.stream.mjpeg;
 
 import android.content.Context;
 import android.graphics.Bitmap;

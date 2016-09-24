@@ -3,7 +3,7 @@ package com.gang.micro.gallery.local;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 
-import com.gang.micro.MicroApplication;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.gallery.common.GalleryFragment;
 
 public class LocalGalleryFragment extends GalleryFragment {

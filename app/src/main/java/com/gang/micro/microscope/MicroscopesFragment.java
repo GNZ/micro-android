@@ -1,7 +1,8 @@
 package com.gang.micro.microscope;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +12,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.start.StartActivityComponent;
+import com.gang.micro.dagger.BaseActivityComponent;
+import com.gang.micro.dagger.BaseFragment;
+import com.gang.micro.dagger.FragmentModule;
 import com.gang.micro.nsd.events.StopNSDDiscoveryEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import javax.inject.Inject;
 
-public class MicroscopesFragment extends Fragment {
+import butterknife.Bind;
+
+public class MicroscopesFragment extends BaseFragment {
 
     @Bind(R.id.microscope_list)
     RecyclerView recyclerView;
@@ -29,18 +35,25 @@ public class MicroscopesFragment extends Fragment {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private MicroscopeListAdapter microscopeListAdapter;
+    @Inject
+    MicroscopeListAdapter microscopeListAdapter;
+    @Inject
+    MicroscopeListItemClickListener microscopeListItemClickListener;
 
     public MicroscopesFragment() {
         // Required empty public constructor  
+    }
+
+    public static MicroscopesFragment newInstance() {
+        return new MicroscopesFragment();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Create adapter
-        microscopeListAdapter = new MicroscopeListAdapter(getActivity(), this);
+        // Bind adapter to click listener
+        microscopeListItemClickListener.bindAdapter(microscopeListAdapter);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -55,7 +68,7 @@ public class MicroscopesFragment extends Fragment {
         initSwipeRefresh();
 
         // Set item click listener
-        microscopeListAdapter.setOnItemClickListener(new MicroscopeListItemClickListener(getActivity(), microscopeListAdapter));
+        microscopeListAdapter.setOnItemClickListener(microscopeListItemClickListener);
 
         // Load microscopes
         microscopeListAdapter.loadMicroscopes();
@@ -81,6 +94,16 @@ public class MicroscopesFragment extends Fragment {
     }
 
     @Override
+    protected void injectComponent(@NonNull BaseActivityComponent baseActivityComponent, @NonNull FragmentModule fragmentModule, @Nullable Bundle savedInstanceState) {
+        final MicroscopesFragmentComponent component = DaggerMicroscopesFragmentComponent
+                .builder()
+                .startActivityComponent((StartActivityComponent) baseActivityComponent)
+                .microscopesFragmentModule(new MicroscopesFragmentModule(this))
+                .build();
+        component.inject(this);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -91,9 +114,6 @@ public class MicroscopesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_microscopes, container, false);
-
-        // Bind components
-        ButterKnife.bind(this, view);
 
         return view;
     }

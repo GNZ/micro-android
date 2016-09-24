@@ -1,15 +1,12 @@
 /**
  *
  */
-package com.gang.micro.mjpeg;
+package com.gang.micro.stream.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.gang.micro.utils.image.ImageUtils;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -17,6 +14,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MjpegInputStream extends DataInputStream {
 

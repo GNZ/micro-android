@@ -2,15 +2,16 @@ package com.gang.micro.utils.api;
 
 import android.util.Log;
 
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Response;
+
 
 public abstract class ErrorLoggingCallback<T> implements SuccessfulResponseCallback<T> {
 
     @Override
-    public void onResponse(Response<T> response, Retrofit retrofit) {
-        if (response.isSuccess()) {
-            onSuccessfulResponse(response, retrofit);
+    public void onResponse(Call<T> call, Response<T> response) {
+        if (response.isSuccessful()) {
+            onSuccessfulResponse(call, response);
             return;
         }
 
@@ -18,7 +19,7 @@ public abstract class ErrorLoggingCallback<T> implements SuccessfulResponseCallb
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<T> call, Throwable t) {
         Log.e("Retrofit", t.getMessage());
     }
 }

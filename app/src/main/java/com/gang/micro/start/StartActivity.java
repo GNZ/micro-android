@@ -1,17 +1,22 @@
-package com.gang.micro;
+package com.gang.micro.start;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gang.micro.R;
+import com.gang.micro.application.MicroApplication;
+import com.gang.micro.dagger.ActivityModule;
+import com.gang.micro.dagger.BaseActivity;
+import com.gang.micro.dagger.BaseActivityComponent;
 import com.gang.micro.gallery.local.LocalGalleryFragment;
 import com.gang.micro.microscope.MicroscopesFragment;
 import com.gang.micro.settings.SettingsActivity;
@@ -23,7 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -53,10 +58,20 @@ public class StartActivity extends AppCompatActivity {
         new ImageIO();
     }
 
+    @NonNull
+    @Override
+    protected BaseActivityComponent createActivityComponent() {
+        final StartActivityComponent startActivityComponent = MicroApplication.get(this)
+                .getAppComponent(MicroApplication.get(this))
+                .plus(new StartActivityModule(this), new ActivityModule(this));
+        startActivityComponent.inject(this);
+        return startActivityComponent;
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new MicroscopesFragment(), getResources().getString(R.string.microscope_tab));
+        adapter.addFragment(MicroscopesFragment.newInstance(), getString(R.string.microscope_tab));
         adapter.addFragment(new LocalGalleryFragment(), getResources().getString(R.string.gallery_tab));
 
         viewPager.setAdapter(adapter);

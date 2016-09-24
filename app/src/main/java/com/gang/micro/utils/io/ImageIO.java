@@ -62,6 +62,9 @@ public class ImageIO {
 
         File files[] = folder.listFiles();
 
+        if (files == null)
+            return filenames;
+
         for (File file : files) {
             String name = file.getAbsolutePath();
 

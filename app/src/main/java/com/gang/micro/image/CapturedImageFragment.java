@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.image;
 
 
 import android.app.DialogFragment;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gang.micro.R;
 import com.gang.micro.api.MicroApi;
 import com.gang.micro.api.MicroApiSpecification;
 import com.gang.micro.image.Image;
@@ -29,9 +30,8 @@ import com.gang.micro.utils.image.ImageUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CapturedImageFragment extends DialogFragment implements ImageContainer {
 
@@ -71,7 +71,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
         microApi.captureImage().enqueue(new ErrorLoggingCallback<Image>() {
             @Override
-            public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
+            public void onSuccessfulResponse(Call<Image> call, Response<Image> response) {
                 setImage(response.body());
             }
         });
@@ -121,7 +121,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
             updateCall.enqueue(new ErrorLoggingCallback<Image>() {
                 @Override
-                public void onSuccessfulResponse(Response<Image> response, Retrofit retrofit) {
+                public void onSuccessfulResponse(Call<Image> call, Response<Image> response) {
                     Toast.makeText(context, R.string.success_taking_picture, Toast.LENGTH_SHORT)
                             .show();
                 }
@@ -142,7 +142,7 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
 
             deleteCall.enqueue(new ErrorLoggingCallback<Boolean>() {
                 @Override
-                public void onSuccessfulResponse(Response<Boolean> response, Retrofit retrofit) {
+                public void onSuccessfulResponse(Call<Boolean> call, Response<Boolean> response) {
                     Toast.makeText(context, R.string.discard_image, Toast.LENGTH_SHORT)
                             .show();
                 }
@@ -170,9 +170,9 @@ public class CapturedImageFragment extends DialogFragment implements ImageContai
         microApi.analyseImage(image.getId(), new Analysis(AnalysisType.BLOOD__RED_CELL_COUNT))
                 .enqueue(new ErrorLoggingCallback<Analysis>() {
                     @Override
-                    public void onSuccessfulResponse(Response<Analysis> response, Retrofit retrofit) {
-
+                    public void onSuccessfulResponse(Call<Analysis> call, Response<Analysis> response) {
                         analysisResultListener.setAnalysis(response.body());
+
                     }
                 });
     }

@@ -1,22 +1,30 @@
-package com.gang.micro;
+package com.gang.micro.application;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context;
 import android.util.Log;
 
+import com.gang.micro.api.NetworkModule;
+import com.gang.micro.dagger.SessionComponent;
+import com.gang.micro.dagger.SessionModule;
 import com.gang.micro.gallery.local.LocalGalleryAdapter;
 import com.gang.micro.microscope.Microscope;
+
+import javax.inject.Inject;
 
 
 public class MicroApplication extends Application {
 
     private Microscope currentMicroscope;
 
+    private ApplicationComponent mApplicationComponent;
+    private SessionComponent mSessionComponent;
+
     //LocalGalleryAdapter
     LocalGalleryAdapter localGalleryAdapter;
 
-    SharedPreferences sharedPreferences;
+    @Inject
+    Preferences mPreferences;
 
     private boolean changes;
 
@@ -27,20 +35,31 @@ public class MicroApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //LeakCanary.install(this);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        setupDaggerGraph();
     }
 
-    public Microscope getCurrentMicroscope() {
-        return currentMicroscope;
+    public static MicroApplication get(Context context) {
+        return (MicroApplication) context.getApplicationContext();
     }
 
-    public void setCurrentMicroscope(Microscope currentMicroscope) {
-        this.currentMicroscope = currentMicroscope;
+    private void setupDaggerGraph() {
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+        mApplicationComponent.inject(this);
     }
 
-    public boolean getChanges() {
-        return changes;
+    public SessionComponent createSessionComponent(SessionModule sessionModule, NetworkModule networkModule) {
+        mSessionComponent = mApplicationComponent.plus(new SessionModule(), new NetworkModule());
+        return mSessionComponent;
+    }
+
+    public void releaseSessionComponent() {
+        mSessionComponent = null;
+    }
+
+    public static ApplicationComponent getAppComponent(Application app) {
+        return ((MicroApplication) app).mApplicationComponent;
     }
 
     public void setChanges(boolean changes) {
@@ -56,7 +75,7 @@ public class MicroApplication extends Application {
             return currentMicroscope.getStreamingPort();
         }
 
-        return sharedPreferences.getString("streaming_port", "8080");
+        return mPreferences.getStreamingPort();
     }
 
     public String getWebApplicationPort() {
@@ -64,15 +83,15 @@ public class MicroApplication extends Application {
             return currentMicroscope.getWebApplicationPort();
         }
 
-        return sharedPreferences.getString("webapp_port", "5000");
+        return mPreferences.getWebApplicationPort();
     }
 
     public String getFolderName() {
-        return sharedPreferences.getString("folder", "action=stream");
+        return mPreferences.getFolderName();
     }
 
     public String getServiceName() {
-        return sharedPreferences.getString("service_name", "micro");
+        return mPreferences.getServiceName();
     }
 
     public String getServerIp() {
@@ -84,7 +103,7 @@ public class MicroApplication extends Application {
     }
 
     public String getProtocol() {
-        return sharedPreferences.getString("protocol", "http");
+        return mPreferences.getProtocol();
     }
 
     public LocalGalleryAdapter getLocalGalleryAdapter() {

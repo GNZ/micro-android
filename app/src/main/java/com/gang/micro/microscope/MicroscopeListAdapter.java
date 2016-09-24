@@ -2,6 +2,7 @@ package com.gang.micro.microscope;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.constansts.ApplicationConsts;
+import com.gang.micro.dagger.ForActivity;
 import com.gang.micro.microscope.events.FoundMicroscopeEvent;
 import com.gang.micro.nsd.NSDCoordinator;
 import com.gang.micro.nsd.events.StartNSDDiscoveryEvent;
@@ -19,6 +22,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,10 +37,10 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     private MicroscopesFragment fragment;
     private NSDCoordinator nsdCoordinator;
 
-    public MicroscopeListAdapter(Context context, MicroscopesFragment fragment) {
+    @Inject
+    public MicroscopeListAdapter(@ForActivity Context context, MicroscopesFragment fragment) {
         this.context = context;
         this.fragment = fragment;
-
         EventBus.getDefault().register(this);
 
         dataset = new ArrayList<>();
@@ -76,8 +81,8 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     private void loadMockMicroscope() {
-        Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
-        microscope.setWebApplicationPort("80");
+        Microscope microscope = new Microscope(ApplicationConsts.MOCK_MICROSCOPE_NAME, ApplicationConsts.MOCK_MICROSCOPE_URL);
+        microscope.setWebApplicationPort(ApplicationConsts.MOCK_MICROSCOPE_PORT);
 
         addAll(microscope);
     }
