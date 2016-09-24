@@ -2,7 +2,7 @@ package com.gang.micro.microscope;
 
 import android.content.Context;
 
-import com.gang.micro.StartActivityComponent;
+import com.gang.micro.start.StartActivityComponent;
 import com.gang.micro.dagger.BaseFragmentComponent;
 import com.gang.micro.dagger.ForActivity;
 import com.gang.micro.dagger.FragmentModule;

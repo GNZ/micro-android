@@ -1,7 +1,7 @@
-package com.gang.micro.application;
+package com.gang.micro.api;
 
 import com.gang.micro.BuildConfig;
-import com.gang.micro.api.MicroApiSpecification;
+import com.gang.micro.application.MicroApplication;
 import com.gang.micro.constansts.ApplicationConsts;
 
 import java.util.concurrent.TimeUnit;

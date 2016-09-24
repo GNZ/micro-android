@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.stream;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.gang.micro.R;
 import com.gang.micro.application.MicroApplication;
 import com.gang.micro.gallery.remote.RemoteGalleryActivity;
-import com.gang.micro.mjpeg.MjpegView;
+import com.gang.micro.image.CapturedImageFragment;
+import com.gang.micro.stream.mjpeg.MjpegView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

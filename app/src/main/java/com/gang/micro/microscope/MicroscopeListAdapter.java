@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
+import com.gang.micro.constansts.ApplicationConsts;
 import com.gang.micro.dagger.ForActivity;
 import com.gang.micro.microscope.events.FoundMicroscopeEvent;
 import com.gang.micro.nsd.NSDCoordinator;
@@ -40,7 +41,6 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     public MicroscopeListAdapter(@ForActivity Context context, MicroscopesFragment fragment) {
         this.context = context;
         this.fragment = fragment;
-
         EventBus.getDefault().register(this);
 
         dataset = new ArrayList<>();
@@ -81,8 +81,8 @@ public class MicroscopeListAdapter extends RecyclerView.Adapter<MicroscopeListAd
     }
 
     private void loadMockMicroscope() {
-        Microscope microscope = new Microscope("Test microscope", "microuns.herokuapp.com");
-        microscope.setWebApplicationPort("80");
+        Microscope microscope = new Microscope(ApplicationConsts.MOCK_MICROSCOPE_NAME, ApplicationConsts.MOCK_MICROSCOPE_URL);
+        microscope.setWebApplicationPort(ApplicationConsts.MOCK_MICROSCOPE_PORT);
 
         addAll(microscope);
     }

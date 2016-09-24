@@ -1,10 +1,12 @@
 package com.gang.micro.application;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context;
 import android.util.Log;
 
+import com.gang.micro.api.NetworkModule;
+import com.gang.micro.dagger.SessionComponent;
+import com.gang.micro.dagger.SessionModule;
 import com.gang.micro.gallery.local.LocalGalleryAdapter;
 import com.gang.micro.microscope.Microscope;
 
@@ -16,6 +18,7 @@ public class MicroApplication extends Application {
     private Microscope currentMicroscope;
 
     private ApplicationComponent mApplicationComponent;
+    private SessionComponent mSessionComponent;
 
     //LocalGalleryAdapter
     LocalGalleryAdapter localGalleryAdapter;
@@ -35,11 +38,24 @@ public class MicroApplication extends Application {
         setupDaggerGraph();
     }
 
+    public static MicroApplication get(Context context) {
+        return (MicroApplication) context.getApplicationContext();
+    }
+
     private void setupDaggerGraph() {
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
         mApplicationComponent.inject(this);
+    }
+
+    public SessionComponent createSessionComponent(SessionModule sessionModule, NetworkModule networkModule) {
+        mSessionComponent = mApplicationComponent.plus(new SessionModule(), new NetworkModule());
+        return mSessionComponent;
+    }
+
+    public void releaseSessionComponent() {
+        mSessionComponent = null;
     }
 
     public static ApplicationComponent getAppComponent(Application app) {

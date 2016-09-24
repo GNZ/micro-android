@@ -3,7 +3,6 @@ package com.gang.micro.microscope;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gang.micro.R;
-import com.gang.micro.StartActivityComponent;
+import com.gang.micro.start.StartActivityComponent;
 import com.gang.micro.dagger.BaseActivityComponent;
 import com.gang.micro.dagger.BaseFragment;
 import com.gang.micro.dagger.FragmentModule;
@@ -52,6 +51,9 @@ public class MicroscopesFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Bind adapter to click listener
+        microscopeListItemClickListener.bindAdapter(microscopeListAdapter);
 
         // Create layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

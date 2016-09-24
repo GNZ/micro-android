@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.start;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gang.micro.R;
 import com.gang.micro.application.MicroApplication;
 import com.gang.micro.dagger.ActivityModule;
 import com.gang.micro.dagger.BaseActivity;
@@ -61,10 +61,9 @@ public class StartActivity extends BaseActivity {
     @NonNull
     @Override
     protected BaseActivityComponent createActivityComponent() {
-        final StartActivityComponent startActivityComponent = DaggerStartActivityComponent
-                .builder()
-                .applicationComponent(MicroApplication.getAppComponent(getApplication()))
-                .build();
+        final StartActivityComponent startActivityComponent = MicroApplication.get(this)
+                .getAppComponent(MicroApplication.get(this))
+                .plus(new StartActivityModule(this), new ActivityModule(this));
         startActivityComponent.inject(this);
         return startActivityComponent;
     }

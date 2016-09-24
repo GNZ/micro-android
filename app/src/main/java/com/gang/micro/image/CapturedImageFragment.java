@@ -1,4 +1,4 @@
-package com.gang.micro;
+package com.gang.micro.image;
 
 
 import android.app.DialogFragment;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gang.micro.R;
 import com.gang.micro.api.MicroApi;
 import com.gang.micro.api.MicroApiSpecification;
 import com.gang.micro.image.Image;
